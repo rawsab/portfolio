@@ -46,8 +46,18 @@ export const experiences: Experience[] = [
     icon: "/icons/cyp_icon.png", // You can replace this with the actual Theta icon
     iconAlt: "Cypienta",
     description:
-      "Redesigned the web-app with a Svelte migration and performance optimizations, reducing load times by over 40%.",
+      "Redesigned web-app with a Svelte migration and performance optimizations, reducing load times by over 40%.",
     link: "https://www.cypienta.com/",
   },
+  // {
+  //   period: "MAY — AUG 2021",
+  //   role: "Research Assistant",
+  //   company: "RIT",
+  //   icon: "/icons/rit_icon.png", // You can replace this with the actual Theta icon
+  //   iconAlt: "RIT",
+  //   description:
+  //     "TBA.",
+  //   link: "https://www.rit.edu/",
+  // },
 ];
 

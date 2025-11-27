@@ -7,14 +7,18 @@ import Image from "next/image";
 export function HeroSection() {
   const [showToast, setShowToast] = useState(false);
 
+  const copyEmail = () => {
+    navigator.clipboard.writeText("rsaid@uwaterloo.ca");
+    setShowToast(true);
+    setTimeout(() => {
+      setShowToast(false);
+    }, 2000);
+  };
+
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       if (e.key.toLowerCase() === "c" && !e.ctrlKey && !e.metaKey && !e.altKey) {
-        navigator.clipboard.writeText("rsaid@uwaterloo.ca");
-        setShowToast(true);
-        setTimeout(() => {
-          setShowToast(false);
-        }, 2000);
+        copyEmail();
       }
     };
 
@@ -190,12 +194,24 @@ export function HeroSection() {
           </p>
 
           {/* Email Copy Section */}
-          <div className="hidden md:flex items-center gap-2 mt-2 mb-6">
-            <span className="text-sm text-zinc-500">Press</span>
-            <kbd className="px-2 py-1 text-xs font-semibold text-zinc-300 bg-zinc-900 border border-zinc-800 rounded">
+          <div 
+            className="hidden md:flex items-center gap-2 mt-2 mb-6 cursor-pointer group"
+            onClick={copyEmail}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                copyEmail();
+              }
+            }}
+            aria-label="Copy email to clipboard"
+          >
+            <span className="text-sm text-zinc-500 group-hover:text-zinc-400 transition-colors">Press</span>
+            <kbd className="px-2 py-1 text-xs font-normal font-mono text-zinc-300 bg-zinc-900 border border-zinc-800 rounded group-hover:bg-zinc-800 group-hover:border-zinc-700 transition-colors">
               C
             </kbd>
-            <span className="text-sm text-zinc-500">to copy my email</span>
+            <span className="text-sm text-zinc-500 group-hover:text-zinc-400 transition-colors">to copy my email</span>
           </div>
         </div>
     </div>

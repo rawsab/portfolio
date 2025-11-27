@@ -231,7 +231,7 @@ export function CursorFollower() {
       {/* Text */}
       <span
         ref={textRef}
-        className="text-xs font-medium text-white"
+        className="text-xs font-medium font-mono text-white"
         style={{
           opacity: 0,
           transition: "opacity 0.2s ease-out",
