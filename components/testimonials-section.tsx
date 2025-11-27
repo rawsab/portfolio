@@ -68,7 +68,7 @@ export function TestimonialsSection() {
   }
 
   return (
-    <section className="py-6">
+    <section className="pt-6 pb-12">
       <div className="max-w-2xl mx-auto w-full px-8 space-y-6">
         <div>
           <h2 className="text-xs font-medium font-mono text-[#686868] uppercase tracking-wider pb-0 -mb-2 -mt-2">
