@@ -95,11 +95,11 @@ export function HeroSection() {
       </div>
 
       {/* Main Content */}
-      <div className="px-8 py-10 max-w-2xl mx-auto w-full">
+      <div className="px-8 pt-10 pb-0 max-w-2xl mx-auto w-full">
         <div className="w-full flex flex-col space-y-6">
           {/* Profile Picture Container */}
           <div className="relative inline-block mb-2">
-            <div className="w-15.5 h-15.5 rounded-xl overflow-visible relative">
+            <div className="w-15.5 h-15.5 rounded-xl overflow-visible relative" data-cursor-pfp="true">
               <Image
                 src="/pfp1.jpeg"
                 alt="Profile picture"
@@ -190,7 +190,7 @@ export function HeroSection() {
           </p>
 
           {/* Email Copy Section */}
-          <div className="flex items-center gap-2 mt-4">
+          <div className="hidden md:flex items-center gap-2 mt-2 mb-6">
             <span className="text-sm text-zinc-500">Press</span>
             <kbd className="px-2 py-1 text-xs font-semibold text-zinc-300 bg-zinc-900 border border-zinc-800 rounded">
               C

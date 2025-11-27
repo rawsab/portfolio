@@ -169,11 +169,11 @@ export function TestimonialsSection() {
                     <div className="text-sm text-zinc-300 font-medium">
                       {currentTestimonial.author.name}
                     </div>
-                    <div className="-mt-1">
-                      <span className="text-sm text-zinc-500">
+                    <div className="mt-1">
+                      <div className="text-sm text-zinc-500 leading-tight">
                         {currentTestimonial.author.title} at{" "}
                         <span className="text-zinc-500">{currentTestimonial.author.company}</span>
-                      </span>
+                      </div>
                     </div>
                   </div>
                 </div>

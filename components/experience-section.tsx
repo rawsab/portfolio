@@ -25,10 +25,10 @@ export function ExperienceSection() {
       const containerRect = container.getBoundingClientRect();
       const elementRect = element.getBoundingClientRect();
       setHighlightPos({
-        top: elementRect.top - containerRect.top - 12,
+        top: elementRect.top - containerRect.top - 8,
         left: elementRect.left - containerRect.left - 12,
         width: elementRect.width + 24,
-        height: elementRect.height + 24,
+        height: elementRect.height + 12,
       });
     }
   };
@@ -56,7 +56,7 @@ export function ExperienceSection() {
   };
 
   return (
-    <section className="py-6">
+    <section className="pt-6 pb-2">
       <div className="max-w-2xl mx-auto w-full px-8 space-y-6">
         <div className="space-y-2">
           <h2 className="text-xs font-medium font-mono text-[#686868] uppercase tracking-wider pb-1">
@@ -78,10 +78,10 @@ export function ExperienceSection() {
               onMouseLeave={handleMouseLeave}
               className="flex flex-col gap-4 sm:flex-row sm:gap-8 relative z-10"
             >
-              <div className="text-sm font-mono tracking-tight text-zinc-500 sm:w-32 shrink-0 mt-1">
+              <div className="text-sm font-mono tracking-tight text-zinc-500 sm:w-32 shrink-0 mt-1 -mb-2">
                 {exp.period}
               </div>
-              <div className="flex-1 space-y-2">
+              <div className="flex-1 space-y-2 mb-2">
                 <div className="text-base text-white">
                   {exp.role} at{" "}
                   <a
