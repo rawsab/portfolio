@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowUpRight } from "lucide-react";
 import { testimonials } from "@/data/testimonials";
 
 export function TestimonialsSection() {
@@ -68,7 +68,7 @@ export function TestimonialsSection() {
   }
 
   return (
-    <section className="pt-6 pb-12">
+    <section className="pt-6 pb-10">
       <div className="max-w-2xl mx-auto w-full px-8 space-y-6">
         <div>
           <h2 className="text-xs font-medium font-mono text-[#686868] uppercase tracking-wider pb-0 -mb-2 -mt-2">
@@ -196,6 +196,19 @@ export function TestimonialsSection() {
               aria-label={`Go to testimonial ${index + 1}`}
             />
           ))}
+        </div>
+
+        {/* Archived Portfolio Link */}
+        <div className="pt-6 flex justify-center">
+          <a
+            href="http://archive.rawsab.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-1.5 text-sm text-zinc-500 hover:text-white hover:underline transition-all duration-200"
+          >
+            View my archived portfolio (with case studies + project details).
+            <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          </a>
         </div>
       </div>
     </section>
