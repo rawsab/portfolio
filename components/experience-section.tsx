@@ -115,10 +115,15 @@ export function ExperienceSection() {
                 <motion.div
                   key={hoveredIndex}
                   className="absolute rounded-lg bg-zinc-800/20 z-0"
-                  initial={{ opacity: 0, scaleY: 0 }}
+                  initial={{
+                    opacity: 0,
+                    top: highlightPos.top,
+                    left: highlightPos.left,
+                    width: highlightPos.width,
+                    height: highlightPos.height,
+                  }}
                   animate={{
                     opacity: 1,
-                    scaleY: 1,
                     top: highlightPos.top,
                     left: highlightPos.left,
                     width: highlightPos.width,
@@ -126,20 +131,27 @@ export function ExperienceSection() {
                   }}
                   exit={{
                     opacity: 0,
-                    scaleY: 0,
-                    transition: {
+                  }}
+                  transition={{
+                    opacity: {
                       duration: 0.2,
                       ease: "easeInOut",
                     },
-                  }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 300,
-                    damping: 30,
+                    top: {
+                      duration: 0,
+                    },
+                    left: {
+                      duration: 0,
+                    },
+                    width: {
+                      duration: 0,
+                    },
+                    height: {
+                      duration: 0,
+                    },
                   }}
                   style={{
-                    transformOrigin: "center",
-                    willChange: "transform, opacity",
+                    willChange: "opacity",
                   }}
                   layout={false}
                 />

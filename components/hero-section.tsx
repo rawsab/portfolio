@@ -160,6 +160,22 @@ export function HeroSection() {
             </a>
             . I&apos;ve worked across early-stage startups and scaling products, most recently at{" "}
             <a
+              href="https://www.palitronica.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline cursor-pointer group"
+            >
+              <Image
+                src="/icons/pal_icon.png"
+                alt="Palitronica"
+                width={16}
+                height={16}
+                className="inline h-4.5 w-4.5 translate-y-0.5 ml-1 mr-1.5 align-baseline"
+              />
+              <span className="text-white group-hover:underline">Palitronica (YC W22)</span>
+            </a>
+            {" and "}
+            <a
               href="https://node-app.com/"
               target="_blank"
               rel="noopener noreferrer"
@@ -174,7 +190,8 @@ export function HeroSection() {
               />
               <span className="text-white group-hover:underline">Node App</span>
             </a>
-            {" "} and {" "}
+            .
+            {/* {" "} and {" "}
             <a
               href="https://dandelionnet.com/"
               target="_blank"
@@ -190,12 +207,12 @@ export function HeroSection() {
               />
               <span className="text-white group-hover:underline">dandelion</span>
               .
-            </a>
+            </a> */}
           </p>
 
           {/* Email Copy Section */}
           <div 
-            className="hidden md:flex items-center gap-2 mt-2 mb-6 cursor-pointer group"
+            className="flex items-center gap-2 mt-2 mb-6 cursor-pointer group"
             onClick={copyEmail}
             role="button"
             tabIndex={0}
@@ -207,11 +224,21 @@ export function HeroSection() {
             }}
             aria-label="Copy email to clipboard"
           >
-            <span className="text-sm text-zinc-500 group-hover:text-zinc-400 transition-colors">Press</span>
-            <kbd className="px-2 py-1 text-xs font-normal font-mono text-zinc-300 bg-zinc-900 border border-zinc-800 rounded group-hover:bg-zinc-800 group-hover:border-zinc-700 transition-colors">
+            {/* Mobile/Tablet version */}
+            <span className="text-sm text-zinc-500 group-hover:text-zinc-400 transition-colors md:hidden">
+              Click here or press{" "}
+              <kbd className="px-2 py-1 mx-1 text-xs font-normal font-mono text-zinc-300 bg-zinc-900 border border-zinc-800 rounded group-hover:bg-zinc-800 group-hover:border-zinc-700 transition-colors">
+                C
+              </kbd>
+              {" "}to copy my email
+            </span>
+            
+            {/* Desktop version */}
+            <span className="text-sm text-zinc-500 group-hover:text-zinc-400 transition-colors hidden md:inline">Press</span>
+            <kbd className="hidden md:inline px-2 py-1 text-xs font-normal font-mono text-zinc-300 bg-zinc-900 border border-zinc-800 rounded group-hover:bg-zinc-800 group-hover:border-zinc-700 transition-colors">
               C
             </kbd>
-            <span className="text-sm text-zinc-500 group-hover:text-zinc-400 transition-colors">to copy my email</span>
+            <span className="text-sm text-zinc-500 group-hover:text-zinc-400 transition-colors hidden md:inline">to copy my email</span>
           </div>
         </div>
     </div>

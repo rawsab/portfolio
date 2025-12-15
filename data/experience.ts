@@ -10,6 +10,16 @@ export interface Experience {
 
 export const experiences: Experience[] = [
   {
+    period: "JAN — APR 2026",
+    role: "ML Engineer Intern",
+    company: "Palitronica (YC W22)",
+    icon: "/icons/pal_icon.png", // You can replace this with the actual Wait icon
+    iconAlt: "Palitronica",
+    description:
+      "Incoming (Winter 2026)",
+    link: "https://www.palitronica.com/",
+  },
+  {
     period: "MAY — AUG 2025",
     role: "Software Engineer Intern",
     company: "Node App",
