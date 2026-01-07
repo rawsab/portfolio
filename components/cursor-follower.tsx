@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function CursorFollower() {
+  const [isMobile, setIsMobile] = useState(true); // Start as true to avoid flash on mobile
   const circleRef = useRef<HTMLDivElement>(null);
   const dotRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLSpanElement>(null);
@@ -16,8 +17,29 @@ export function CursorFollower() {
   const timeOutsideRadiusRef = useRef(0);
   const lastFrameTimeRef = useRef(0);
 
+  // Check if device is mobile on mount
+  useEffect(() => {
+    const checkMobile = () => {
+      // Check for touch capability and screen width
+      const hasTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+      const isSmallScreen = window.innerWidth < 768;
+      return hasTouch && isSmallScreen;
+    };
+
+    setIsMobile(checkMobile());
+
+    // Also check on resize
+    const handleResize = () => {
+      setIsMobile(checkMobile());
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   // Pre-measure pill width on mount to avoid snap on first hover
   useEffect(() => {
+    if (isMobile) return;
     const circle = circleRef.current;
     const text = textRef.current;
     if (!circle || !text || pillWidthRef.current !== null) return;
@@ -51,9 +73,10 @@ export function CursorFollower() {
       circle.style.paddingRight = originalPaddingRight;
       circle.style.visibility = originalVisibility;
     });
-  }, []);
+  }, [isMobile]);
 
   useEffect(() => {
+    if (isMobile) return;
     const circle = circleRef.current;
     if (!circle) return;
 
@@ -196,7 +219,12 @@ export function CursorFollower() {
         cancelAnimationFrame(rafIdRef.current);
       }
     };
-  }, []);
+  }, [isMobile]);
+
+  // Don't render on mobile devices
+  if (isMobile) {
+    return null;
+  }
 
   return (
     <div
