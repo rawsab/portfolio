@@ -113,7 +113,7 @@ export function TechnologiesSection() {
             TECHNOLOGIES
           </h2>
           <p className="text-base text-[#8F8F8F] leading-normal -mb-2">
-          I&apos;ve worked across a modern and versatile tech stack, using these technologies to build scalable, production-ready systems:
+          I&apos;ve worked across a modern and versatile tech stack, using these technologies to build scalable, production-ready systems and personal projects:
           </p>
         </div>
         <div className="space-y-2">
