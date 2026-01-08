@@ -1,0 +1,96 @@
+---
+title: "Questporter"
+description: "Questporter is a lightweight scheduling utility that exports class schedules from Quest to any calendar app in seconds, using a simple copy-and-paste workflow while ensuring privacy through fully client-side generation."
+shortDescription: "Export University of Waterloo class schedules from Quest to any calendar app in seconds, simply by copy-and-pasting."
+timeline: "July 2025"
+role: "Full Stack Developer"
+year: "2025"
+technologies: ["TypeScript", "Next.js", "Tailwind CSS", "Shadcn UI", "Vercel"]
+featured: true
+order: 30
+heroImage: "/cards/questporter_card.png"
+glowScale: "scale-110"
+---
+
+# Overview
+
+Questporter is a utility built for University of Waterloo students to export Quest class schedules into **any major calendar application.** By focusing on simplicity and approachability, it eliminates the need for complex extensions or technical know-how: students can simply copy, paste, and generate a calendar file that works anywhere. Designed with **newer and non-technical students** in mind, Questporter makes managing schedules fast, intuitive, and stress-free.
+
+Try [Questporter](https://questporter.rawsab.com/) out for yourself, or view the [source code](https://github.com/rawsab/quest-schedule-exporter).
+
+## Software Architecture
+
+Questporter builds on the open-source project [Trinovantes/Quest-Schedule-Exporter](https://github.com/Trinovantes/Quest-Schedule-Exporter), which originally handled schedule-to-iCalendar conversion in JavaScript. The backend logic was ported to TypeScript for stronger type safety and easier maintainability. All generation happens **fully client-side in the browser**, ensuring that student data never leaves their machine.
+
+### Technology Stack
+
+- **Frontend:** TypeScript, Next.js, Tailwind CSS, Shadcn UI
+- **Infrastructure:** Vercel (static hosting + deployment)
+- **Data Handling:** iCalendar file generation (client-side only)
+
+### Data Flow
+
+<ImageWithCaption 
+  src="/case-studies/questporter/QuestporterDataFlow.png" 
+  alt="Questporter Data Flow Diagram"
+  caption="Data flow from raw input text (pasted from Quest) to generated iCalendar file."
+/>
+
+### Key Enhancements
+
+Questporter improves on the [tool by Trinovantes](https://github.com/Trinovantes/Quest-Schedule-Exporter) by adding **timezone support**, ensuring that classes always appear at their correct local time no matter where the calendar is viewed. Moreover, the calendar generation logic was **migrated to TypeScript**, making the codebase safer, more reliable, and easier to maintain compared to the original JavaScript version.
+
+## Design Case Study
+
+### User Experience Goals
+
+The main priority was to design a tool that any student could use within seconds, without needing to understand technical details. **Questporter’s design had three key goals:**
+
+1. **Approachability:** Simple instructions and step-by-step icons to reduces intimidation.
+2. **Clarity:** A obvious copy–paste workflow with placeholders and examples.
+3. **Simplicity:** No clutter or unnecessary features, making it lightweight for once-a-term use.
+
+To meet these goals, **a straightforward flow was used**: the user copies schedule from Quest, pastes it into the input box, and generates a downloadable iCalendar file. For added clarity and personalization, **users can optionally use placeholders** like `@code`, `@location`, or `@prof` to adjust how events appear. 
+
+Finally, with just a single click, the tool automatically downloads an **.ics file** to the user's device that works seamlessly with Google Calendar, Apple Calendar, Outlook, and other apps, making the entire process **quick, intuitive, and non-technical.**
+
+### UI Features
+
+<FeatureGrid>
+  <FeatureCard icon="Palette" title="Dark, Modern Theme">
+    Chosen to reduce eye strain and align with user preferences for professional, yet friendly apps
+  </FeatureCard>
+  <FeatureCard icon="Info" title="Instructional Icons">
+    Large, visual step-by-step icons that eliminate the need to read lengthy instructions
+  </FeatureCard>
+  <FeatureCard icon="AtSign" title="Placeholders System">
+    Clear placeholders let students personalize descriptions without touching raw data
+  </FeatureCard>
+  <FeatureCard icon="LayoutDashboard" title="Minimalist Layout">
+    Distractions are removed to make it clear that only three simple steps are needed
+  </FeatureCard>
+</FeatureGrid>
+
+### Key Screens
+
+<ImageWithCaption 
+  src="/case-studies/questporter/QuestporterScreens.png" 
+  alt="Questporter Key Screens"
+  caption="Questporter design in dark and light mode."
+  className="rounded-lg"
+/>
+
+
+## Future Considerations
+
+In the future, Questporter could allow students to save presets for their preferred placeholder configurations each term, making re-exports faster and more consistent. It could also support **direct syncing** with calendar providers such as Google Calendar or Outlook, removing the extra step of downloading and importing `.ics` files manually. 
+
+Moreover, a **calendar preview mode** would give students a general idea of how their schedule will appear once imported, while an **instant preview system** could update the display in real time as placeholders or descriptions are adjusted, creating a responsive, fast, and confidence-building experience for users.
+
+---
+
+<div className="mt-8">
+  <span className="text-center text-md text-[var(--foreground)]/50">
+    [Try Questporter](https://questporter.rawsab.com/) &nbsp;|&nbsp; [GitHub Repo](https://github.com/rawsab/quest-schedule-exporter)
+  </span>
+</div>

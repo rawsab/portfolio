@@ -1,0 +1,103 @@
+---
+title: "Patchly"
+description: "Patchly is an AI-powered vulnerability scanner that analyzes GitHub repositories in real time, eliminating manual cloning while detecting insecure dependencies and providing context-aware fixes through an interactive dashboard."
+shortDescription: "AI-powered vulnerability scanner with real-time CVE detection and intelligent fix suggestions. Zero setup, no guesswork."
+timeline: "June 2025"
+year: "2025"
+technologies: ["Python", "FastAPI", "OpenAI API", "Next.js", "Tailwind CSS", "Vercel", "Render"]
+featured: true
+order: 10
+heroImage: "/cards/patchly_card.png"
+glowScale: "scale-125"
+---
+
+# Overview
+
+Patchly was built over a weekend as a full-stack experiment in modern DevSecOps workflows, combining **dependency scanning,** **real-time CVE detection,** and **LLM-assisted patch generation** into a single streamlined tool. The goal wasn’t just to flag vulnerabilities, but to make security approachable for students, early developers, and open-source contributors by pairing detection with guided, context-aware fixes inside a simple interactive dashboard.
+
+
+## Software Architecture
+
+Patchly integrates multiple dependency scanning technologies, such as `pip-audit` (Python), `npm audit` (Node.js), OWASP Dependency-Check (Java), and OSV-Scanner (Go, Rust, C++, and more) for optimized environment-based vulnerability detection. Findings are aggregated by a FastAPI backend, enriched with GPT-4 generated fixes, and presented in a responsive Next.js dashboard. This architecture ensures scans are fast, environment-aware, and actionable.
+
+
+### Technology Stack
+
+- **Backend:** Python, FastAPI
+- **Frontend:** Next.js, React, TailwindCSS
+- **AI Layer:** GPT-4 via OpenAI API
+- **Infrastructure:** Vercel (frontend), Render (backend APIs)
+
+### Data Flow
+
+<ImageWithCaption 
+  src="/case-studies/patchly/PatchlyDataFlow.png" 
+  alt="Patchly Data Flow Diagram"
+  caption="Data flow from repository input to vulnerability detection and AI-powered fixes."
+/>
+
+### Features
+
+<FeatureGrid>
+  <FeatureCard icon="Sparkles" title="AI-Powered Security">
+    GPT-4 powered contextual security patches and workarounds
+  </FeatureCard>
+  <FeatureCard icon="BrushCleaning" title="Integrated Repo Workflow">
+    Automated repository cloning, environment setup, and cleanup
+  </FeatureCard>
+  <FeatureCard icon="Server" title="Optimized API Layer">
+    Rate limiting, caching, CORS-safe API routing, and secure data handling
+  </FeatureCard>
+  <FeatureCard icon="ArrowDownNarrowWide" title="Interactive Dashboard">
+    Intuitive frontend with multi-level filters, CVE descriptions, and severity tags
+  </FeatureCard>
+</FeatureGrid>
+
+
+## Design Case Study
+
+Patchly was designed with **zero friction**, making the scanning process as simple as pasting a GitHub URL. The interface emphasizes clarity at a glance, presenting vulnerabilities with concise descriptions and severity tags for easy triage. Instead of stopping at alerts, Patchly provides guided fixes powered by AI, giving developers actionable next steps. 
+
+Most importantly, the **design focused on approachability** for students and early developers, intentionally prioritizing lightweight usability over advanced enterprise-level scanning features to match the needs of the intended target users. For example, a team at a hackathon can quickly use Patchly to ensure their MVP is free from critical vulnerabilities before shipping, **without needing deep security expertise.**
+
+
+### Key Screens
+
+<ImageWithCaption 
+  src="/case-studies/patchly/PatchlyScreens.png" 
+  alt="Patchly Key Screens"
+  caption="Landing page and scan results dashboard design."
+  className="rounded-lg"
+/>
+
+
+### Design Philosophy
+
+Patchly’s design embraces a **dark, modern theme** with clean typography and consistent branding, chosen to reflect the seriousness of security while keeping the interface approachable and visually engaging. Color-coded severity tags make it easy not only to triage vulnerabilities at a glance but also to get a general sense of **how severe the overall risk profile** of a project is. 
+
+Inline action buttons provide quick access to AI-generated patches without overwhelming the user, while tooltips and placeholder microcopy guide first-time users through the workflow. This combination creates a balance; for novices, the interface reduces intimidation by hiding setup complexity, while for experienced developers, quick scanning and filtering streamline the process. In both cases, **Patchly transforms what is often a static, text-heavy security report into an interactive, intuitive experience.**
+
+
+
+## Results
+
+Patchly **achieved 95% detection coverage** on known vulnerable repositories and was praised by students and early developers as fast, intuitive, and less intimidating than enterprise scanners. Beyond its technical value, Patchly also served as an accessible entry point for learning core security concepts.
+
+> “I used Patchly to scan a repo full of known issues, and it helped me see how CVEs are flagged and what the fixes might look like. It felt way more practical than just reading about them online.”
+>
+> **– Second year CS student at the University of Waterloo**
+
+
+## Future Considerations
+
+Patchly was designed for students, hackers, and early-stage developers. In the future, the tool could be expanded to support private repositories and enterprise-level workflows while still retaining its accessible design. GPT-4 patch suggestions could be improved through confidence scoring and validation in sandboxed test builds, increasing trust in the recommendations. 
+
+Integration with GitHub Actions would extend Patchly into CI/CD pipelines, providing continuous security scanning in real-world development environments. There is also strong potential to evolve Patchly into a learning platform by offering guided modules that teach developers about secure coding practices alongside automated vulnerability scanning.
+
+---
+
+<div className="mt-8">
+  <span className="text-center text-md text-[var(--foreground)]/50">
+    [Patchly](https://patchly.rawsab.com/) &nbsp;|&nbsp; [Demo Video](https://youtu.be/69KOlBW8sSY?si=t5Q_EbUsR-EZ1EVp) &nbsp;|&nbsp; [GitHub Repo](https://github.com/rawsab/patchly) 
+  </span>
+</div>

@@ -1,0 +1,116 @@
+---
+title: "DeenBoard"
+description: "A Muslim-centric homepage with prayer times, calendar sync, and daily widgets. This Chrome extension replaces your new tab page with a beautiful dashboard to meet all your Islamic needs, with useful widgets to improve your productivity."
+shortDescription: "A Muslim-centric Chrome extension to add prayer times, calendar sync, and daily widgets to your new tab."
+timeline: "May 2025"
+role: "Full Stack Developer"
+year: "2025"
+technologies: ["React", "OAuth 2.0", "Chrome Extensions API", "Aladhan API"]
+featured: true
+order: 50
+heroImage: "/cards/deenboard_card.png"
+glowScale: "scale-102"
+---
+
+# Overview
+
+[DeenBoard](https://chromewebstore.google.com/detail/llebjeodihhgoiocodiimhbcgcnodanl?utm_source=item-share-cb) is a **homepage dashboard Chrome extension** designed for Muslims seeking to integrate faith and productivity into a single, minimal interface. It brings together essential spiritual tools such as the Hijri date and Qibla direction tracker, prayer times with countdowns, and daily Qur’an verses and Hadith, alongside productivity features like a to-do list, calendar events, and task reminders. 
+
+With customizable accent colors and a clean layout, DeenBoard provides busy Muslims with a spiritual companion that **supports mindfulness and productivity throughout the day.**
+
+## Software Architecture
+
+DeenBoard was developed as a Chrome extension using **React, Webpack, TailwindCSS, and OAuth2** for secure Google Calendar integration. Prayer times are powered by the Aladhan API, configurable by madhab, while Qur’an verses and Hadiths are stored locally in `.min.js` files for instant retrieval, ensuring reliability and zero loading delays. The architecture prioritizes speed, privacy, and seamless integration with daily workflows.
+
+### Technology Stack
+
+- **Frontend:** React, Webpack, TailwindCSS
+- **APIs:** Aladhan API, Chrome Extensions API
+- **Integration:** OAuth2 + Google Calendar
+
+### Features
+
+<FeatureGrid>
+  <FeatureCard icon="Compass" title="Hijri Date & Qibla Tracker">
+    Displays the Islamic date and provides the Qibla bearing relative to the user’s location
+  </FeatureCard>
+  <FeatureCard icon="Clock" title="Prayer Times & Countdown">
+    Madhab-adjustable timings with a live countdown to the next prayer
+  </FeatureCard>
+  <FeatureCard icon="BookOpen" title="Daily Qur’an & Hadith">
+    Randomized verses and narrations stored locally for instant and offline reminders
+  </FeatureCard>
+  <FeatureCard icon="CalendarDays" title="To-Do List & Calendar">
+    Task manager with Google Calendar integration for upcoming events and monthly overviews
+  </FeatureCard>
+  <FeatureCard icon="Paintbrush" title="Customizable Appearance">
+    Gradient slider to personalize dashboard accents with calm, modern colors
+  </FeatureCard>
+   <FeatureCard icon="Bolt" title="Optimized Caching">
+    Smart caching ensures faster load times and offline access to core features
+  </FeatureCard>
+</FeatureGrid>
+
+## Design Case Study
+
+DeenBoard’s design philosophy centered on **calmness and simplicity**, reflecting the spiritual essence of its purpose while maintaining modern productivity standards. The goal was to create a dashboard that does not overwhelm the user, instead offering a serene and focused space where **faith and daily responsibilities naturally intersect.**
+
+### Key Components
+
+DeenBoard uses **Wix Madefor Display** for English text and **Cairo** for Arabic. The modern, simple, and geometric typography reinforces the product’s dual focus on spirituality and productivity.
+
+<ImageWithCaption 
+  src="/case-studies/deenboard/DeenboardTypo.png" 
+  alt="Wix Madefor Display and Cairo Fonts"
+  caption="Chosen typefaces and typography concept for DeenBoard."
+/>
+
+The dashboard employs a **Bento box–style grid** to neatly organize widgets into balanced sections. This approach ensures clarity, reduces cognitive load, and makes the interface feel both structured and approachable.
+
+<ImageWithCaption 
+  src="/case-studies/deenboard/DeenboardGrid.png" 
+  alt="DeenBoard Grid"
+  caption="Bento box-style grid to showcase widgets."
+  className="rounded-xl"
+/>
+
+Tools like the to-do list and Google Calendar feed are built directly into the dashboard, allowing tasks and events to sit alongside spiritual reminders. This design choice makes DeenBoard a **holistic daily companion** rather than just a static religious utility.
+
+Users can adjust accent colors with a gradient slider, which also influences the **Vanta.js** cloudy background, creating a cohesive, dynamic theme. This personalization keeps the dashboard **visually fresh while maintaining its calm and minimal identity.**
+
+
+### Why It Works
+
+For busy Muslims, Deenboard provides a spiritual companion that integrates faith into workflow without requiring extra effort or switching between apps. Its simple, minimal design prevents distraction, while the customizable accents help users feel a sense of ownership over their dashboard. By combining reminders of faith with productivity tools, **Deenboard builds a habit-forming experience that is both spiritually grounding and practically useful.**
+
+
+## Results
+
+Deenboard was successfully launched on the [Chrome Web Store](https://chromewebstore.google.com/detail/llebjeodihhgoiocodiimhbcgcnodanl?utm_source=item-share-cb), where it has been adopted by users seeking a practical yet spiritual daily dashboard. Feedback praised its intuitive design, speed, and lack of clutter, noting that the integration of Qur’an and Hadith reminders into a productivity-focused interface made it **stand out among other dashboard extensions.**
+
+> "Great design and seamless user experience. The blend of islamic and student/work centric features makes for a very useful dashboard."
+>
+> **– Ayaan Iqbal, engineering student at the University of Waterloo**
+
+## Future Considerations
+
+Looking ahead, Deenboard could add:
+
+- **Widget Rearrangement:** Allow users to reorder and resize widgets with drag-and-drop functionalities for a personalized layout
+- **Enhanced Calendar Integration:** Support two-way syncing with Google Calendar, allowing users to create and edit events
+- **Dark Mode:** Introduce a dark theme for users who prefer a night-friendly design
+- **More Customization:** Additional styling controls for backgrounds and typography
+
+---
+
+<ImageWithCaption 
+  src="/case-studies/deenboard/DeenboardPromo.png" 
+  alt="DeenBoard Promotional Screenshots"
+  caption=""
+/>
+
+<div className="mt-8">
+  <span className="text-center text-md text-[var(--foreground)]/50">
+    [Chrome Web Store](https://chromewebstore.google.com/detail/llebjeodihhgoiocodiimhbcgcnodanl?utm_source=item-share-cb) &nbsp;|&nbsp; [GitHub Repo](https://github.com/rawsab/deenboard) 
+  </span>
+</div>

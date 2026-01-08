@@ -1,0 +1,137 @@
+---
+title: "Revett"
+description: "Revett is a platform to intelligently monitor, detect, and resolve exploitable vulnerabilities and exposures within a codebase with the help of automated cybersecurity analysis techniques and cutting-edge artificial intelligence."
+shortDescription: "Platform for intelligent monitoring, detection, and resolution of codebase vulnerabilities using artificial intelligence."
+timeline: "November 2024"
+role: "Graphic Designer"
+year: "2024"
+technologies: ["Figma", "Sketch", "Cybersecurity", "AI/ML"]
+featured: true
+order: 60
+heroImage: "/cards/revett_card.png"
+---
+
+# Overview
+
+Revett is a concept project exploring the **intersection of cybersecurity and AI**, designed as a forward-looking platform for vulnerability management. The goal was not to build a production-ready security tool, but to prototype a user experience for how AI-assisted vulnerability detection, remediation, and reporting might look if reimagined with a strong emphasis on **clarity, accessibility, and trust.**
+
+Inspired by _revetments_, physical fortifications used for protection, Revett was envisioned as a defensive layer for software projects, intelligently shielding codebases against vulnerabilities while keeping the developer experience **approachable and intuitive.**
+
+
+## Technical Concept
+
+Although Revett was primarily a design-first exploration, it was framed around realistic cyber-security workflows to ground the concept. The prototype envisioned the following features:
+
+<FeatureGrid>
+  <FeatureCard icon="RefreshCcw" title="Continuous Code Scanning">
+    Integrated with CI/CD pipelines to automatically scan codebases during each build
+  </FeatureCard>
+  <FeatureCard icon="Brain" title="AI-Powered Detection">
+    Identifies both known CVEs and emerging patterns of vulnerabilities using advanced AI
+  </FeatureCard>
+  <FeatureCard icon="Wrench" title="Automated Fix Generation">
+    Proposes pull requests and remediation options by generating patches for detected issues
+  </FeatureCard>
+  <FeatureCard icon="Database" title="CVE Database Integration">
+    Connects to live CVE feeds to provide real-time updates and ensure data is always current
+  </FeatureCard>
+  <FeatureCard icon="AlertTriangle" title="Risk Assessment & Prioritization">
+    Uses CVSS scores and contextual project factors to highlight and rank vulnerabilities
+  </FeatureCard>
+  <FeatureCard icon="GitBranch" title="Seamless DevOps Integration">
+    Integrates with GitHub, GitLab, and Jira to create tickets and manage workflows directly
+  </FeatureCard>
+</FeatureGrid>
+
+These technical underpinnings provided context, but the true focus of the project was on the UI design, visualizations, and workflows that could make such a system **intuitive and accessible.**
+
+## Design Case Study
+
+### User Experience Goals
+
+1. **Clarity in Complexity:** Security dashboards are often overwhelming, so Revett aims to make vulnerability data digestible with clean layouts and simple, visual insights.
+
+2. **Approachability:** Both dark and light themes were designed to feel modern and familiar to developers, lowering the barrier to entry for teams without deep security expertise.
+
+3. **Trust & Transparency:** As AI-generated results can feel opaque, the UI emphasizes explanations, severity tags, and remediation guidance to build user confidence.
+
+### Key Components
+
+The vulnerability analytics dashboard was structured around several core components to make complex security data approachable. At the top, glanceable metric cards provide a snapshot of key data. A CVSS donut chart breaks down vulnerabilities by severity for instant risk assessment, while a commit-vs-vulnerability trend graph tracks changes in project health over time. 
+
+Below these dashboard components, a recent fixes panel surfaces AI-generated pull requests with inline explanations, helping developers understand and trust automated remediation.
+
+
+<ImageWithCaption 
+  src="/case-studies/revett/RevettComponents.png" 
+  alt="Revett UI Components"
+  caption="Revett features: recent scans, visualizations, and AI-generated fixes."
+/>
+
+
+The layout is anchored by two functional sidebars that provide **orientation and context**. On the right, recent scans are listed with metadata such as initiator (manual or automatic), assignee, scan and build statuses, as well as the number and severity of CVEs detected, allowing users to monitor progress without leaving the main view. 
+
+On the left, navigation is streamlined with quick access to scans, fixes, reports, integrations, a search bar, quick actions, and project switching. This clustering of navigation ensures that users can **efficiently move between workflows while maintaining a clear sense of project scope.**
+
+<ImageWithCaption 
+  src="/case-studies/revett/RevetteerDiagram.png" 
+  alt="Revetteer Inspiration Diagram"
+  caption="Inspiration behind the Revetteer mascot."
+/>
+
+To complement the dashboard, the concept introduced **Revetteer**, a pilot frog mascot that personifies the AI assistant behind automated fixes. Inspired by GitHub Copilot and the “ribbit” sound, Revetteer was designed to add personality and approachability without undermining professionalism, **balancing trust with usability in a traditionally intimidating domain.**
+
+### Branding & Identity
+
+<ImageWithCaption 
+  src="/case-studies/revett/RevettLogos.png" 
+  alt="Revett Logo Progression"
+  caption="The design process behind the Revett logo."
+/>
+
+Revett’s branding was designed to communicate both **strength and accessibility**. The logo uses layered rectangles to create a lowercase “r” in negative space, representing not only the brand’s identity but also the **concept of multiple protective layers** central to cybersecurity. 
+
+<ImageWithCaption 
+  src="/case-studies/revett/RevettTagline.png" 
+  alt="Revett Logo and Tagline"
+  caption="Revett branding with logo and tagline."
+  className="rounded-lg"
+/>
+
+The tagline _“Vulnerability management made intelligent”_ reinforces the platform’s focus on AI-assisted security and frames it as a forward-looking solution. Finally, the visual language combines strong typography, severity-based color coding, and layered UI components to evoke the idea of defensive fortification while maintaining clarity and usability. Together, these elements create **a consistent identity that balances trust, professionalism, and approachability.**
+
+### Final Mockups
+
+<ImageWithCaption 
+  src="/case-studies/revett/MockupDark.png" 
+  alt="Revett Mockup Dark"
+  caption="Revett dashboard mockup in dark mode."
+  className="rounded-lg"
+/>
+
+<ImageWithCaption 
+  src="/case-studies/revett/MockupLight.png" 
+  alt="Revett Mockup Light"
+  caption="Revett dashboard mockup in light mode."
+  className="rounded-lg"
+/>
+
+## Results
+
+Revett successfully demonstrated how AI-assisted vulnerability management could be reimagined through design-first thinking. The prototype showed how traditionally dense workflows, which include CVE triage, risk assessment, and fix management, could be simplified into an intuitive experience **without sacrificing technical depth.**
+
+Feedback highlighted that the dark/light duality improved accessibility and that the visual severity breakdowns offered a much clearer picture of project health compared to typical text-heavy security dashboards.
+
+## Future Considerations
+
+Looking ahead, Revett could expand the educational role of the assistant, turning Revetteer into a guide that not only suggests fixes but also helps developers understand vulnerabilities as they work. Reporting and compliance features could be broadened to support enterprise standards such as **SOC2 and ISO**, while collaborative UX patterns like **approval workflows and role-based access** could refine how teams coordinate and manage security. 
+
+Another forward-looking direction would be the **integration of AI agents** that actively participate in the development workflow. For example, automatically suggesting comments on pull requests to highlight insecure practices or validating that AI-generated patches follow best practices. These agent-like behaviors would extend Revett’s role from a passive dashboard into an **active collaborator in secure software development.**
+
+---
+
+<div className="mt-8">
+  <span className="text-center text-md text-[var(--foreground)]/50">
+    [View Revett on Dribbble](https://dribbble.com/shots/25773697-Revett-Vulnerability-detection-made-intelligent?utm_source=Clipboard_Shot&utm_campaign=rawsab&utm_content=Revett%20%7C%20Vulnerability%20detection%20made%20intelligent.&utm_medium=Social_Share&utm_source=Clipboard_Shot&utm_campaign=rawsab&utm_content=Revett%20%7C%20Vulnerability%20detection%20made%20intelligent.&utm_medium=Social_Share)
+  </span>
+</div>
