@@ -7,6 +7,7 @@ import matter from 'gray-matter';
 import { notFound } from 'next/navigation';
 import { Footer } from '@/components/footer';
 import MDXContentWrapper from '@/components/mdx-content-wrapper';
+import { CursorFollower } from '@/components/cursor-follower';
 import { projects } from '@/data/projects';
 
 // Function to extract headers from MDX content
@@ -392,6 +393,7 @@ export default async function CaseStudy({ params }: CaseStudyProps) {
       </main>
       
       <Footer />
+      <CursorFollower />
     </div>
   );
 }

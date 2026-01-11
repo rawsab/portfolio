@@ -1,6 +1,7 @@
 import { HeroSection } from "@/components/hero-section";
 import { ExperienceSection } from "@/components/experience-section";
 import { ProjectsSection } from "@/components/projects-section";
+import { CaseStudiesSection } from "@/components/case-studies-section";
 import { TechnologiesSection } from "@/components/technologies-section";
 import { TestimonialsSection } from "@/components/testimonials-section";
 import { BottomBlurOverlay } from "@/components/bottom-blur-overlay";
@@ -13,6 +14,7 @@ export default function Home() {
       <HeroSection />
       <ExperienceSection />
       <ProjectsSection />
+      <CaseStudiesSection />
       <TechnologiesSection />
       <TestimonialsSection />
       <Footer />
