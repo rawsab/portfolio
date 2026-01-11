@@ -41,7 +41,7 @@ export const experiences: Experience[] = [
   },
   {
     period: "JAN — APR 2024",
-    role: "Security Engineer Intern",
+    role: "Software Engineer Intern",
     company: "BlackBerry",
     icon: "/icons/bb_icon.png",
     iconAlt: "BlackBerry",
