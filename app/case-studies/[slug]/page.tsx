@@ -9,6 +9,8 @@ import { Footer } from '@/components/footer';
 import MDXContentWrapper from '@/components/mdx-content-wrapper';
 import { CursorFollower } from '@/components/cursor-follower';
 import { projects } from '@/data/projects';
+import { FadeInSection } from '@/components/fade-in-section';
+import { ScrollToTop } from '@/components/scroll-to-top';
 
 // Function to extract headers from MDX content
 function extractHeaders(content: string) {
@@ -186,8 +188,10 @@ export default async function CaseStudy({ params }: CaseStudyProps) {
   
   return (
     <div className="min-h-screen bg-[#0d0d0d] text-zinc-300">
+      <ScrollToTop />
       {/* Top Bar - matching main site */}
-      <div className="flex items-center justify-between px-8 pt-6 pb-4 border-b border-zinc-800/50 max-w-2xl mx-auto w-full">
+      <FadeInSection delay={0}>
+        <div className="flex items-center justify-between px-8 pt-6 pb-4 border-b border-zinc-800/50 max-w-2xl mx-auto w-full">
         <Link href="/" className="text-sm text-zinc-500 font-mono hover:text-zinc-300 transition-colors">
           @rawsab
         </Link>
@@ -257,12 +261,14 @@ export default async function CaseStudy({ params }: CaseStudyProps) {
           </a>
         </div>
       </div>
+      </FadeInSection>
 
       <main className="max-w-2xl mx-auto px-8 py-8">
         {/* Hero Section */}
         <div className="mb-10">
           {/* Breadcrumbs and GitHub Link */}
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+          <FadeInSection delay={0.05}>
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
             <div className="flex items-center justify-center md:justify-start gap-2 text-xs text-zinc-500 mb-2 md:mb-0">
               <Link href="/" className="text-zinc-500 hover:text-zinc-300 transition-all duration-300 font-mono">HOME</Link>
               <span>&nbsp;›&nbsp;</span>
@@ -294,9 +300,11 @@ export default async function CaseStudy({ params }: CaseStudyProps) {
               </a>
             )}
           </div>
+          </FadeInSection>
           
           {/* Title and Date */}
-          <div>
+          <FadeInSection delay={0.1}>
+            <div>
             <h1 className="text-xl font-semibold text-white mb-1 text-center tracking-tight">
               {data.title}
             </h1>
@@ -304,9 +312,11 @@ export default async function CaseStudy({ params }: CaseStudyProps) {
               {data.year}
             </p>
           </div>
+          </FadeInSection>
           
           {/* Hero Image */}
           {data.heroImage && (
+            <FadeInSection delay={0.15}>
             <div 
               className="w-full rounded-sm mb-9 relative" 
               style={{ aspectRatio: '12/7' }}
@@ -329,10 +339,12 @@ export default async function CaseStudy({ params }: CaseStudyProps) {
                 />
               </div>
             </div>
+            </FadeInSection>
           )}
           
           {/* Timeline and Overview Row */}
-          <div>
+          <FadeInSection delay={0.2}>
+            <div>
             <div className="flex flex-col md:flex-row gap-6 mb-6">
               <div className="md:w-auto md:pr-2">
                 <h3 className="text-xs font-semibold font-mono text-zinc-500 uppercase tracking-tight mb-2">
@@ -348,9 +360,11 @@ export default async function CaseStudy({ params }: CaseStudyProps) {
               </div>
             </div>
           </div>
+          </FadeInSection>
           
           {/* Technologies */}
-          <div>
+          <FadeInSection delay={0.25}>
+            <div>
             <div className="mb-0">
               <h3 className="text-xs font-semibold font-mono text-zinc-500 uppercase tracking-tight mb-4">
                 Technologies
@@ -367,10 +381,12 @@ export default async function CaseStudy({ params }: CaseStudyProps) {
               </div>
             </div>
           </div>
+          </FadeInSection>
         </div>
         
         {/* Table of Contents */}
         {headers.length > 0 && (
+          <FadeInSection delay={0.3}>
           <div className="mb-8 p-6 bg-zinc-900/30 rounded-lg border border-zinc-800/50">
             <h3 className="text-sm font-semibold font-mono text-zinc-500 uppercase tracking-tight mb-4">
               Table of Contents
@@ -384,15 +400,20 @@ export default async function CaseStudy({ params }: CaseStudyProps) {
               })()}
             </nav>
           </div>
+          </FadeInSection>
         )}
         
         {/* MDX Content */}
-        <article className="prose prose-lg max-w-none">
-          <MDXContentWrapper source={mdxSource} />
-        </article>
+        <FadeInSection delay={0.35}>
+          <article className="prose prose-lg max-w-none">
+            <MDXContentWrapper source={mdxSource} />
+          </article>
+        </FadeInSection>
       </main>
       
-      <Footer />
+      <FadeInSection delay={0.4}>
+        <Footer />
+      </FadeInSection>
       <CursorFollower />
     </div>
   );

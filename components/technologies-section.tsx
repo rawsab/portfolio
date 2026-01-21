@@ -31,7 +31,7 @@ function TechnologyGrid({
               height={32}
               className="object-contain w-full h-full"
               style={
-                tech.name === "Flask" || tech.name === "Scikit-learn" || tech.name === "AWS"
+                tech.name === "Flask" || tech.name === "Scikit-learn" || tech.name === "AWS" || tech.name === "MLFlow"
                   ? {
                       filter: "brightness(0) invert(1)",
                     }
