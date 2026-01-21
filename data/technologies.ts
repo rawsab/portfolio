@@ -142,6 +142,11 @@ export const tools: Technology[] = [
     alt: "GCP",
   },
   {
+    name: "Cursor",
+    src: "https://static.cdnlogo.com/logos/c/23/cursor.svg",
+    alt: "Cursor",
+  },
+  {
     name: "Figma",
     src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg",
     alt: "Figma",
@@ -173,6 +178,11 @@ export const libraries: Technology[] = [
     name: "Scikit-learn",
     src: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/scikitlearn.svg",
     alt: "Scikit-learn",
+  },
+  {
+    name: "MLFlow",
+    src: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/mlflow.svg",
+    alt: "MLFlow",
   },
   // {
   //   name: "Matplotlib",

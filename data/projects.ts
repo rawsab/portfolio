@@ -2,7 +2,7 @@ export const projects = [
     {
       name: 'Questporter - UWaterloo Schedule Exporter',
       description: 'Export University of Waterloo class schedules from Quest to any calendar app in seconds.',
-      link: 'https://rawsab.com/case-studies/questporter/',
+      link: '/case-studies/questporter/',
       date: 'JUL 2025',
       featured: false,
     },
@@ -16,14 +16,14 @@ export const projects = [
     {
       name: 'Patchly - AI-Powered Vulnerability Scanner',
       description: 'AI-powered vulnerability scanner for 5+ ecosystems. Includes real-time CVE detection and intelligent fix suggestions and workarounds.',
-      link: 'https://rawsab.com/case-studies/patchly/',
+      link: '/case-studies/patchly/',
       date: 'AUG 2025',
       featured: true,
     },
     {
       name: 'DeenBoard - Chrome New Tab Dashboard',
       description: 'A Muslim-centric homepage with prayer times, calendar sync, and daily widgets.',
-      link: 'https://rawsab.com/case-studies/deenboard/',
+      link: '/case-studies/deenboard/',
       date: 'JUN 2025',
       featured: true,
     },
@@ -46,7 +46,7 @@ export const projects = [
       name: 'Revett - Intelligent Vulnerability Management',
       description:
         'Design-first vulnerability management suite with continuous scanning, CVE triage, risk prioritization, and automated PRs via an AI agent.',
-      link: 'https://rawsab.com/case-studies/revett/',
+      link: '/case-studies/revett/',
       date: 'NOV 2024',
       featured: false,
     },
