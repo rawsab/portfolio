@@ -49,4 +49,5 @@ export const experienceData = [
     tools: 'Python, Django, Svelte, Cytoscape.js, SOC/SIEM',
     link: 'https://cypienta.com',
   },
+  // TODO: fix descriptions
 ];
