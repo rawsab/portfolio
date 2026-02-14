@@ -12,6 +12,17 @@ export interface Testimonial {
 export const testimonials: Testimonial[] = [
   {
     quote:
+      "Throughout his time at Node App, there wasn't a single technical challenge he couldn't overcome. Whether he was implementing complex systems or making sense of data-heavy problems, he consistently developed effective solutions and executed them independently.",
+    author: {
+      name: "Mackenzie Dérival",
+      title: "Co-Founder",
+      company: "Node App",
+      profileImage: "/testimonial_img/mackenzie.jpg",
+      companyIcon: "/icons/node_icon.png",
+    },
+  },
+  {
+    quote:
       "Rawsab made significant contributions to our product security automation pipeline, integrating it with our Release Management process. He was proactive and met or exceeded all expectations and deadlines. Overall, I thoroughly enjoyed working with Rawsab!",
     author: {
       name: "Jordan Pryde",

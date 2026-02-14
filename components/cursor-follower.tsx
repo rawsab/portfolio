@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from "react";
 export function CursorFollower() {
   const [isMobile, setIsMobile] = useState(true); // Start as true to avoid flash on mobile
   const circleRef = useRef<HTMLDivElement>(null);
+  const pillBgRef = useRef<HTMLDivElement>(null);
+  const contentWrapperRef = useRef<HTMLDivElement>(null);
   const dotRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLSpanElement>(null);
   const positionRef = useRef({ x: 0, y: 0 });
@@ -12,7 +14,10 @@ export function CursorFollower() {
   const isPointerRef = useRef(false);
   const isHoveringPfpRef = useRef(false);
   const wasHoveringPfpRef = useRef(false);
+  const isHoveringCaseStudyRef = useRef(false);
+  const wasHoveringCaseStudyRef = useRef(false);
   const pillWidthRef = useRef<number | null>(null);
+  const pillWidthCaseStudyRef = useRef<number | null>(null);
   const rafIdRef = useRef<number | null>(null);
   const timeOutsideRadiusRef = useRef(0);
   const lastFrameTimeRef = useRef(0);
@@ -37,35 +42,58 @@ export function CursorFollower() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Pre-measure pill width on mount to avoid snap on first hover
+  // Pre-measure pill widths on mount to avoid snap on first hover
   useEffect(() => {
     if (isMobile) return;
     const circle = circleRef.current;
     const text = textRef.current;
+    const dot = dotRef.current;
+    const contentWrapper = contentWrapperRef.current;
     if (!circle || !text || pillWidthRef.current !== null) return;
 
     // Use requestAnimationFrame to ensure DOM is ready
     requestAnimationFrame(() => {
       if (!circle || !text || pillWidthRef.current !== null) return;
-      
-      // Measure pill width once on mount
+
       const originalWidth = circle.style.width;
       const originalHeight = circle.style.height;
       const originalPadding = circle.style.paddingLeft;
       const originalPaddingRight = circle.style.paddingRight;
       const originalBorderRadius = circle.style.borderRadius;
       const originalVisibility = circle.style.visibility;
-      
-      circle.style.width = "auto";
-      circle.style.height = "25px";
-      circle.style.borderRadius = "9999px";
-      circle.style.paddingLeft = "12px";
-      circle.style.paddingRight = "12px";
-      circle.style.visibility = "hidden";
-      
-      pillWidthRef.current = circle.offsetWidth;
-      
-      // Reset styles
+
+      const measurePill = () => {
+        circle.style.width = "auto";
+        circle.style.height = "25px";
+        circle.style.borderRadius = "9999px";
+        circle.style.paddingLeft = "12px";
+        circle.style.paddingRight = "12px";
+        circle.style.visibility = "hidden";
+        return circle.offsetWidth;
+      };
+
+      // Measure "AVAILABLE FOR WORK" pill (with dot)
+      pillWidthRef.current = measurePill();
+
+      // Measure "CASE STUDY" pill
+      const originalText = text.textContent;
+      text.textContent = "CASE STUDY";
+      if (dot) {
+        dot.style.width = "0";
+        dot.style.minWidth = "0";
+        dot.style.overflow = "hidden";
+      }
+      if (contentWrapper) contentWrapper.style.gap = "0";
+      pillWidthCaseStudyRef.current = measurePill();
+      text.textContent = originalText;
+      if (dot) {
+        dot.style.width = "";
+        dot.style.minWidth = "";
+        dot.style.overflow = "";
+      }
+      if (contentWrapper) contentWrapper.style.gap = "";
+
+      // Reset circle styles
       circle.style.width = originalWidth;
       circle.style.height = originalHeight;
       circle.style.borderRadius = originalBorderRadius;
@@ -120,53 +148,102 @@ export function CursorFollower() {
       circle.style.left = `${positionRef.current.x}px`;
       circle.style.top = `${positionRef.current.y}px`;
 
-      // Update blur based on pointer state
-      circle.style.filter = isPointerRef.current ? "blur(8px)" : "blur(0px)";
+      // Update blur based on pointer state (only when circle — pill stays sharp)
+      const showPillForBlur = isHoveringPfpRef.current || isHoveringCaseStudyRef.current;
+      circle.style.filter = !showPillForBlur && isPointerRef.current ? "blur(8px)" : "blur(0px)";
 
       // Update pill state - only measure on state change
       const dot = dotRef.current;
       const text = textRef.current;
-      const isHovering = isHoveringPfpRef.current;
-      const wasHovering = wasHoveringPfpRef.current;
-      
-      // Width should already be measured on mount, but fallback if needed
-      if (isHovering && !wasHovering && text && pillWidthRef.current === null) {
-        // Fallback measurement if pre-measurement didn't work
+      const isHoveringPfp = isHoveringPfpRef.current;
+      const wasHoveringPfp = wasHoveringPfpRef.current;
+      const isHoveringCaseStudy = isHoveringCaseStudyRef.current;
+      const wasHoveringCaseStudy = wasHoveringCaseStudyRef.current;
+      const showPill = isHoveringPfp || isHoveringCaseStudy;
+
+      // Width fallback if pre-measurement didn't run
+      if (showPill && text && (pillWidthRef.current === null || pillWidthCaseStudyRef.current === null)) {
         const originalWidth = circle.style.width;
         const originalHeight = circle.style.height;
         const originalPadding = circle.style.paddingLeft;
         const originalBorderRadius = circle.style.borderRadius;
         const originalVisibility = circle.style.visibility;
-        
+        const originalText = text.textContent;
+
         circle.style.width = "auto";
         circle.style.height = "25px";
         circle.style.borderRadius = "9999px";
         circle.style.paddingLeft = "12px";
         circle.style.paddingRight = "12px";
         circle.style.visibility = "hidden";
-        pillWidthRef.current = circle.offsetWidth;
-        
-        // Reset for smooth transition
+        if (pillWidthRef.current === null) {
+          text.textContent = "AVAILABLE FOR WORK";
+          pillWidthRef.current = circle.offsetWidth;
+        }
+        if (pillWidthCaseStudyRef.current === null) {
+          text.textContent = "CASE STUDY";
+          if (dot) {
+            dot.style.width = "0";
+            dot.style.minWidth = "0";
+            dot.style.overflow = "hidden";
+          }
+          if (contentWrapperRef.current) contentWrapperRef.current.style.gap = "0";
+          pillWidthCaseStudyRef.current = circle.offsetWidth;
+          text.textContent = originalText;
+          if (dot) {
+            dot.style.width = "";
+            dot.style.minWidth = "";
+            dot.style.overflow = "";
+          }
+          if (contentWrapperRef.current) contentWrapperRef.current.style.gap = "";
+        }
+
         circle.style.width = originalWidth;
         circle.style.height = originalHeight;
         circle.style.borderRadius = originalBorderRadius;
         circle.style.paddingLeft = originalPadding;
         circle.style.visibility = originalVisibility;
       }
-      
-      if (isHovering) {
-        // Transform to pill
-        circle.style.width = pillWidthRef.current !== null ? `${pillWidthRef.current + 16}px` : "auto";
+
+      const pillBg = pillBgRef.current;
+      if (showPill) {
+        // Transform to pill: size/position on circle, background on separate layer so text stays on top
+        const isCaseStudy = isHoveringCaseStudy;
+        const pillWidth = isCaseStudy
+          ? (pillWidthCaseStudyRef.current !== null ? pillWidthCaseStudyRef.current + 16 : undefined)
+          : (pillWidthRef.current !== null ? pillWidthRef.current + 16 : undefined);
+        circle.style.width = pillWidth !== undefined ? `${pillWidth}px` : "auto";
         circle.style.height = "25px";
         circle.style.borderRadius = "9999px";
         circle.style.paddingLeft = "12px";
         circle.style.paddingRight = "12px";
-        circle.style.mixBlendMode = "normal"; // Remove blend mode for pill
-        circle.style.backgroundColor = "rgba(60, 60, 60, 0.8)"; // Dark background for text visibility
-        circle.style.backdropFilter = "blur(10px)"; // Add backdrop blur
-        circle.style.setProperty("-webkit-backdrop-filter", "blur(10px)"); // Safari support
-        if (dot) dot.style.opacity = "1";
-        if (text) text.style.opacity = "1";
+        circle.style.mixBlendMode = "normal";
+        circle.style.backgroundColor = "rgba(60, 60, 60, 0.8)";
+        circle.style.backdropFilter = "blur(10px)";
+        circle.style.setProperty("-webkit-backdrop-filter", "blur(10px)");
+        circle.style.overflow = "visible";
+        if (pillBg) pillBg.style.display = "none";
+        if (text) {
+          text.textContent = isCaseStudy ? "CASE STUDY" : "AVAILABLE FOR WORK";
+          text.style.opacity = "1";
+          text.style.visibility = "visible";
+          text.style.color = "white";
+        }
+        const contentWrapper = contentWrapperRef.current;
+        if (dot) {
+          if (isCaseStudy) {
+            dot.style.opacity = "0";
+            dot.style.width = "0";
+            dot.style.minWidth = "0";
+            dot.style.overflow = "hidden";
+          } else {
+            dot.style.opacity = "1";
+            dot.style.width = "";
+            dot.style.minWidth = "";
+            dot.style.overflow = "";
+          }
+        }
+        if (contentWrapper) contentWrapper.style.gap = isCaseStudy ? "0" : "";
       } else {
         // Transform back to circle
         circle.style.width = "16px";
@@ -174,16 +251,28 @@ export function CursorFollower() {
         circle.style.borderRadius = "50%";
         circle.style.paddingLeft = "0px";
         circle.style.paddingRight = "0px";
-        circle.style.mixBlendMode = "difference"; // Restore blend mode for circle
-        circle.style.backgroundColor = "rgba(255, 255, 255, 0.2)"; // Restore original background
-        circle.style.backdropFilter = "none"; // Remove backdrop blur
-        circle.style.setProperty("-webkit-backdrop-filter", "none"); // Remove Safari backdrop blur
-        circle.style.boxShadow = "none"; // Remove shadow
-        if (dot) dot.style.opacity = "0";
-        if (text) text.style.opacity = "0";
+        circle.style.mixBlendMode = "difference";
+        circle.style.backgroundColor = "rgba(255, 255, 255, 0.2)";
+        circle.style.backdropFilter = "none";
+        circle.style.setProperty("-webkit-backdrop-filter", "none");
+        circle.style.boxShadow = "none";
+        circle.style.overflow = "hidden";
+        if (pillBg) pillBg.style.display = "none";
+        if (dot) {
+          dot.style.opacity = "0";
+          dot.style.width = "";
+          dot.style.minWidth = "";
+          dot.style.overflow = "";
+        }
+        if (contentWrapperRef.current) contentWrapperRef.current.style.gap = "";
+        if (text) {
+          text.textContent = "AVAILABLE FOR WORK";
+          text.style.opacity = "0";
+        }
       }
-      
-      wasHoveringPfpRef.current = isHovering;
+
+      wasHoveringPfpRef.current = isHoveringPfp;
+      wasHoveringCaseStudyRef.current = isHoveringCaseStudy;
 
       rafIdRef.current = requestAnimationFrame(animate);
     };
@@ -201,9 +290,13 @@ export function CursorFollower() {
         // Check if hovering over profile picture
         const pfpElement = element.closest('[data-cursor-pfp="true"]');
         isHoveringPfpRef.current = !!pfpElement;
+        // Check if hovering over case study link (Patchly, Deenboard, Questporter, Revett)
+        const caseStudyElement = element.closest('[data-cursor-case-study="true"]');
+        isHoveringCaseStudyRef.current = !!caseStudyElement;
       } else {
         isPointerRef.current = false;
         isHoveringPfpRef.current = false;
+        isHoveringCaseStudyRef.current = false;
       }
     };
 
@@ -247,26 +340,41 @@ export function CursorFollower() {
         overflow: "hidden",
       }}
     >
-      {/* Green dot */}
+      {/* Pill background layer (behind text when expanded) */}
       <div
-        ref={dotRef}
-        className="w-2 h-2 rounded-full bg-[#18BF5F] shrink-0"
+        ref={pillBgRef}
+        className="absolute inset-0 rounded-[inherit] pointer-events-none"
         style={{
-          opacity: 0,
-          transition: "opacity 0.2s ease-out",
+          display: "none",
+          borderRadius: "inherit",
         }}
+        aria-hidden
       />
-      {/* Text */}
-      <span
-        ref={textRef}
-        className="text-xs font-medium font-mono text-white"
-        style={{
-          opacity: 0,
-          transition: "opacity 0.2s ease-out",
-        }}
+      <div
+        ref={contentWrapperRef}
+        className="relative z-10 flex items-center justify-center gap-2"
       >
-        AVAILABLE FOR WORK
-      </span>
+        {/* Green dot */}
+        <div
+          ref={dotRef}
+          className="w-2 h-2 rounded-full bg-[#18BF5F] shrink-0"
+          style={{
+            opacity: 0,
+            transition: "opacity 0.2s ease-out",
+          }}
+        />
+        {/* Text */}
+        <span
+          ref={textRef}
+          className="relative z-10 text-xs font-medium font-mono text-white"
+          style={{
+            opacity: 0,
+            transition: "opacity 0.2s ease-out",
+          }}
+        >
+          AVAILABLE FOR WORK
+        </span>
+      </div>
     </div>
   );
 }

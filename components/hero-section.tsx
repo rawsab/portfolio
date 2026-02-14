@@ -191,23 +191,25 @@ export function HeroSection() {
               <span className="text-white group-hover:underline">Node App</span>
             </a>
             .
-            {/* {" "} and {" "}
+            <br />
+            <br />
+            Currently working on{" "}
             <a
-              href="https://dandelionnet.com/"
+              href="https://linkedin.com/company/keystoneapp"
               target="_blank"
               rel="noopener noreferrer"
               className="inline cursor-pointer group"
             >
               <Image
-                src="/icons/ddln_icon.png"
-                alt="University of Waterloo"
+                src="/icons/ks_icon.png"
+                alt="Keystone App"
                 width={16}
                 height={16}
                 className="inline h-4.5 w-4.5 translate-y-0.5 ml-1 mr-1.5 align-baseline"
               />
-              <span className="text-white group-hover:underline">dandelion</span>
-              .
-            </a> */}
+              <span className="text-white group-hover:underline">Keystone</span>
+            </a>
+            .
           </p>
 
           {/* Email Copy Section */}

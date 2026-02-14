@@ -130,6 +130,9 @@ export function ProjectsSection() {
                 onMouseEnter={() => handleMouseEnter(index)}
                 onMouseLeave={handleMouseLeave}
                 className="block"
+                {...(project.link.startsWith("/case-studies/")
+                  ? { "data-cursor-case-study": "true" }
+                  : {})}
               >
                 <div className="flex items-center justify-between py-2 cursor-pointer group gap-4">
                   <div className="flex items-center gap-2 min-w-0 flex-1">
@@ -207,6 +210,9 @@ export function ProjectsSection() {
                         onMouseEnter={() => handleMouseEnter(actualIndex)}
                         onMouseLeave={handleMouseLeave}
                         className="block"
+                        {...(project.link.startsWith("/case-studies/")
+                          ? { "data-cursor-case-study": "true" }
+                          : {})}
                       >
                         <div className="flex items-center justify-between py-2 cursor-pointer group gap-4">
                           <div className="flex items-center gap-2 min-w-0 flex-1">
