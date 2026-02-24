@@ -10,6 +10,16 @@ export interface Experience {
 
 export const experiences: Experience[] = [
   {
+    period: "JUN — AUG 2026",
+    role: "Software Engineer Intern",
+    company: "HubSpot",
+    icon: "/icons/hubspot_icon.png",
+    iconAlt: "HubSpot",
+    description:
+      "Incoming Summer 2026",
+    link: "https://www.hubspot.com/",
+  },
+  {
     period: "JAN — APR 2026",
     role: "ML Engineer Intern",
     company: "Palitronica (YC W22)",
