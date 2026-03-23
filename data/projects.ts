@@ -1,4 +1,13 @@
-export const projects = [
+export interface Project {
+  name: string;
+  description: string;
+  link: string;
+  date?: string;
+  featured?: boolean;
+  forceOrder?: number;
+}
+
+export const projects: Project[] = [
     {
       name: 'Questporter - UWaterloo Schedule Exporter',
       description: 'Export University of Waterloo class schedules from Quest to any calendar app in seconds.',
@@ -14,11 +23,12 @@ export const projects = [
       date: 'AUG 2025',
     },
     {
-      name: 'Patchly - AI-Powered Vulnerability Scanner',
+      name: 'Patchly - AI Vulnerability Remediation Tool',
       description: 'AI-powered vulnerability scanner for 5+ ecosystems. Includes real-time CVE detection and intelligent fix suggestions and workarounds.',
       link: '/case-studies/patchly/',
       date: 'AUG 2025',
       featured: true,
+      forceOrder: -1,
     },
     {
       name: 'DeenBoard - Chrome New Tab Dashboard',
@@ -33,6 +43,7 @@ export const projects = [
       link: 'https://github.com/rawsab/CNSim',
       date: 'DEC 2024',
       featured: true,
+      forceOrder: 9,
     },
     {
       name: 'EduRAG - LLM-Based Contextual Tutor',
@@ -67,12 +78,13 @@ export const projects = [
       featured: false,
     },
     {
-      name: 'Phishing Detection - BiLSTM-Based NLP Model',
+      name: 'RNN-Based Phishing Detection - BiLSTM NLP Model',
       description:
         'A binary classification model that leverages Bidirectional LSTM and NLP techniques to detect phishing URLs.',
       link: 'https://github.com/rawsab/BiLSTM-Phishing-Detector',
       date: 'AUG 2024',
       featured: true,
+      forceOrder: 10,
     },
     {
       name: 'Rent-a-Car - P2P Car Rental Platform',

@@ -20,16 +20,32 @@ export function ProjectsSection() {
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  // Sort projects: featured first, then by date (most recent first)
+  // Sort projects: featured first, then forceOrder, then date
   const sortedProjects = useMemo(() => {
     return [...projects].sort((a, b) => {
-      // Featured projects come first (default to false if undefined)
+      // Featured projects always come first.
       const aFeatured = a.featured ?? false;
       const bFeatured = b.featured ?? false;
       if (aFeatured && !bFeatured) return -1;
       if (!aFeatured && bFeatured) return 1;
-      
-      // If both have same featured status, sort by date
+
+      // forceOrder only reorders items within the same featured group.
+      const aForceOrder = a.forceOrder;
+      const bForceOrder = b.forceOrder;
+      const aHasForceOrder = typeof aForceOrder === "number";
+      const bHasForceOrder = typeof bForceOrder === "number";
+      const aBand = !aHasForceOrder ? 0 : aForceOrder > 0 ? 1 : aForceOrder < 0 ? -1 : 0;
+      const bBand = !bHasForceOrder ? 0 : bForceOrder > 0 ? 1 : bForceOrder < 0 ? -1 : 0;
+
+      if (aBand !== bBand) {
+        return bBand - aBand;
+      }
+
+      if (aHasForceOrder && bHasForceOrder && aForceOrder !== bForceOrder) {
+        return bForceOrder - aForceOrder;
+      }
+
+      // If still tied, sort by date (most recent first).
       // Parse date strings (format: "MON YYYY")
       const parseDate = (dateStr: string) => {
         if (!dateStr) return new Date(0);

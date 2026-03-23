@@ -197,19 +197,6 @@ export function TestimonialsSection() {
             />
           ))}
         </div>
-
-        {/* Archived Portfolio Link */}
-        <div className="pt-6 flex justify-center text-center px-4">
-          <a
-            href="http://archive.rawsab.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group inline text-sm text-zinc-500 hover:text-white hover:underline transition-all duration-200"
-          >
-            View my archived portfolio (with case studies + project details).
-            <ArrowUpRight className="w-4 h-4 inline-block ml-1.5 translate-y-[3px] align-baseline transition-transform duration-200 group-hover:-translate-y-[1px] group-hover:translate-x-0.5" />
-          </a>
-        </div>
       </div>
     </section>
   );
