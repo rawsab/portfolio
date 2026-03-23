@@ -124,6 +124,6 @@
   }
   body {
     @apply text-foreground;
-    background-color: #0d0d0d;
+    background-color: #000000;
   }
 }
