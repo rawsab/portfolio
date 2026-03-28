@@ -26,7 +26,7 @@ export const experiences: Experience[] = [
     icon: "/icons/pal_icon.png",
     iconAlt: "Palitronica",
     description:
-      "Building a model orchestration framework for RF anomaly detection, enabling configurable training and inference at scale.",
+      "Engineered a model orchestration framework for RF anomaly detection, enabling configurable training and inference at scale.",
     link: "https://www.palitronica.com/",
   },
   {
@@ -36,7 +36,7 @@ export const experiences: Experience[] = [
     icon: "/icons/node_icon.png",
     iconAlt: "Node App",
     description:
-      "Engineered a real-time analytics and RAG pipeline, powering 200+ marketing teams and reducing manual processing by over 80%.",
+      "Built a growth optimization agent for marketing teams, combining OCR pipelines, retrieval systems, and natural language querying.",
     link: "https://node-app.com/",
   },
   {
@@ -46,7 +46,7 @@ export const experiences: Experience[] = [
     icon: "/icons/ddln_icon.png",
     iconAlt: "Dandelion Networks",
     description:
-      "Developed a distributed syncing and consensus simulation system for 1000+ nodes to uncover exploitable sync behaviors.",
+      "Implemented distributed coordination systems for a blockchain network, including state sync, transactions, and event delivery.",
     link: "https://dandelionnet.com/",
   },
   {
@@ -56,17 +56,17 @@ export const experiences: Experience[] = [
     icon: "/icons/bb_icon.png",
     iconAlt: "BlackBerry",
     description:
-      "Built an automated artifact scanner for 5+ enterprise products, detecting and blocking critical vulnerabilities pre-release.",
+      "Developed internal security tooling for dependency scanning, CVE validation, and pre-release checks for enterprise products.",
     link: "https://www.blackberry.com/",
   },
   {
     period: "MAY — AUG 2023",
-    role: "Software Developer Intern",
+    role: "Software Engineer Intern",
     company: "Cypienta",
     icon: "/icons/cyp_icon.png",
     iconAlt: "Cypienta",
     description:
-      "Redesigned web-app with a Svelte migration and performance optimizations, reducing load times by over 40%.",
+      "Engineered scalable cybersecurity data pipelines for ingestion, alert processing, and threat intelligence automation.",
     link: "https://www.cypienta.com/",
   },
   // {
