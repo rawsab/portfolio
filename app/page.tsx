@@ -9,11 +9,13 @@ import { Footer } from "@/components/footer";
 import { CursorFollower } from "@/components/cursor-follower";
 import { FadeInSection } from "@/components/fade-in-section";
 import { ScrollToTop } from "@/components/scroll-to-top";
+import { SiteHeader } from "@/components/site-header";
 
 export default function Home() {
   return (
     <>
       <ScrollToTop />
+      <SiteHeader />
       <FadeInSection delay={0}>
         <HeroSection />
       </FadeInSection>
