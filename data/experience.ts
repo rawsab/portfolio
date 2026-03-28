@@ -56,7 +56,7 @@ export const experiences: Experience[] = [
     icon: "/icons/bb_icon.png",
     iconAlt: "BlackBerry",
     description:
-      "Developed internal security tooling for dependency scanning, CVE validation, and pre-release checks for enterprise products.",
+      "Developed internal security tooling for dependency scanning, CVE validation, and pre-release checking for enterprise products.",
     link: "https://www.blackberry.com/",
   },
   {
