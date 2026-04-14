@@ -2,7 +2,6 @@
 
 <p align="center">
   View my personal website at <a href="https://rawsab.com/">rawsab.com</a>. <br>
-  If you're interested in <b>case studies</b> on my personal projects, you can find them at my <a href="https://archive.rawsab.com/case-studies/">archived site</a>.
 </p>
 
 
