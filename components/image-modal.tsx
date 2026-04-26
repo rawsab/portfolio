@@ -77,7 +77,7 @@ export default function ImageModal({ isOpen, onClose, src, alt, caption }: Image
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 10 }}
                 transition={{ delay: 0.1 }}
-                className="mt-4 text-center text-white/80 text-sm max-w-2xl"
+                className="mt-4 text-center text-white/80 text-sm max-w-site"
               >
                 {caption}
               </motion.div>

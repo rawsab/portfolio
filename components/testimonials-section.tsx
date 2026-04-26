@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { testimonials } from "@/data/testimonials";
 
 export function TestimonialsSection() {
@@ -11,6 +11,7 @@ export function TestimonialsSection() {
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredSide, setHoveredSide] = useState<"left" | "right" | null>(null);
   const [direction, setDirection] = useState<"forward" | "backward">("forward");
+  const [selectedTestimonialIndex, setSelectedTestimonialIndex] = useState<number | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const goToNext = useCallback(() => {
@@ -42,8 +43,31 @@ export function TestimonialsSection() {
     }
   }, []);
 
+  const goToNextInModal = useCallback(() => {
+    setDirection("forward");
+    setCurrentIndex((prev) => {
+      const nextIndex = (prev + 1) % testimonials.length;
+      setSelectedTestimonialIndex(nextIndex);
+      return nextIndex;
+    });
+  }, []);
+
+  const goToPreviousInModal = useCallback(() => {
+    setDirection("backward");
+    setCurrentIndex((prev) => {
+      const previousIndex = (prev - 1 + testimonials.length) % testimonials.length;
+      setSelectedTestimonialIndex(previousIndex);
+      return previousIndex;
+    });
+  }, []);
+
+  const currentTestimonial = testimonials[currentIndex];
+  const selectedTestimonial =
+    selectedTestimonialIndex !== null ? testimonials[selectedTestimonialIndex] : null;
+  const isModalOpen = selectedTestimonial !== null;
+
   useEffect(() => {
-    if (!isHovered && testimonials.length > 0) {
+    if (!isHovered && !isModalOpen && testimonials.length > 0) {
       intervalRef.current = setInterval(() => {
         goToNext();
       }, 5000); // Auto-advance every 5 seconds
@@ -59,9 +83,25 @@ export function TestimonialsSection() {
         clearInterval(intervalRef.current);
       }
     };
-  }, [isHovered, goToNext]);
+  }, [isHovered, isModalOpen, goToNext]);
 
-  const currentTestimonial = testimonials[currentIndex];
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setSelectedTestimonialIndex(null);
+      }
+    };
+
+    if (isModalOpen) {
+      document.body.style.overflow = "hidden";
+      document.addEventListener("keydown", handleEscape);
+    }
+
+    return () => {
+      document.body.style.overflow = "unset";
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [isModalOpen]);
 
   if (testimonials.length === 0) {
     return null;
@@ -69,7 +109,7 @@ export function TestimonialsSection() {
 
   return (
     <section className="pt-6 pb-10">
-      <div className="max-w-2xl mx-auto w-full px-8 space-y-6">
+      <div className="max-w-site mx-auto w-full px-8 space-y-6">
         <div>
           <h2 className="text-xs font-medium font-mono text-[#686868] uppercase tracking-wider pb-0 -mb-2 -mt-2">
             RECOMMENDATIONS
@@ -139,9 +179,10 @@ export function TestimonialsSection() {
                   x: 0,
                 }}
                 transition={{ duration: 0.2, ease: "easeOut" }}
-                className="space-y-4 px-6"
+                className="space-y-4 px-6 cursor-pointer"
+                onClick={() => setSelectedTestimonialIndex(currentIndex)}
               >
-                <p className="text-[0.95rem] text-zinc-400 leading-relaxed mt-0">
+                <p className="text-[0.95rem] text-zinc-400 leading-relaxed mt-0 line-clamp-3">
                   {currentTestimonial.quote}
                 </p>
                 <div className="flex items-center gap-3 pt-2">
@@ -198,6 +239,123 @@ export function TestimonialsSection() {
           ))}
         </div>
       </div>
+
+      <AnimatePresence>
+        {isModalOpen && selectedTestimonial && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 px-4"
+            onClick={() => setSelectedTestimonialIndex(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.96, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.96, opacity: 0 }}
+              transition={{ type: "spring", damping: 28, stiffness: 320 }}
+              className="relative w-full max-w-2xl rounded-xl border border-zinc-800 bg-zinc-900 p-6 md:p-7"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <button
+                onClick={goToPreviousInModal}
+                className="absolute -left-10 top-1/2 -translate-y-1/2 cursor-pointer text-zinc-400 transition-colors hover:text-zinc-300 md:-left-12"
+                aria-label="Previous recommendation"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+
+              <button
+                onClick={goToNextInModal}
+                className="absolute -right-10 top-1/2 -translate-y-1/2 cursor-pointer text-zinc-400 transition-colors hover:text-zinc-300 md:-right-12"
+                aria-label="Next recommendation"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+
+              <button
+                onClick={() => setSelectedTestimonialIndex(null)}
+                className="absolute right-4 top-4 text-zinc-400 transition-colors hover:text-zinc-200 hover:cursor-pointer"
+                aria-label="Close testimonial modal"
+              >
+                <X className="h-5 w-5" />
+              </button>
+
+              <AnimatePresence mode="wait" custom={direction}>
+                <motion.div
+                  key={selectedTestimonialIndex}
+                  custom={direction}
+                  initial={{
+                    opacity: 0,
+                    x: direction === "forward" ? 24 : -24,
+                  }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{
+                    opacity: 0,
+                    x: direction === "forward" ? -12 : 12,
+                  }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  className="space-y-5"
+                >
+                  <div className="flex items-center gap-3 border-b border-zinc-800 pb-4">
+                    <div className="flex items-center gap-4">
+                      <div className="relative">
+                        <Image
+                          src={selectedTestimonial.author.profileImage}
+                          alt={selectedTestimonial.author.name}
+                          width={48}
+                          height={48}
+                          className="h-10 w-10 rounded-full object-cover"
+                        />
+                        {selectedTestimonial.author.companyIcon && (
+                          <div className="absolute bottom-0 right-0 translate-x-1/2 translate-y-1">
+                            <Image
+                              src={selectedTestimonial.author.companyIcon}
+                              alt={selectedTestimonial.author.company}
+                              width={18}
+                              height={18}
+                              className="h-5 w-5 rounded-md border-2 border-zinc-900"
+                            />
+                          </div>
+                        )}
+                      </div>
+
+                      <div>
+                        {selectedTestimonial.author.linkedin ? (
+                          <a
+                            href={selectedTestimonial.author.linkedin}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group inline-flex items-center gap-1 text-sm font-medium text-zinc-300 transition-colors hover:text-white hover:underline underline-offset-2"
+                            aria-label={`${selectedTestimonial.author.name} LinkedIn profile`}
+                          >
+                            <span>{selectedTestimonial.author.name}</span>
+                            <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                          </a>
+                        ) : (
+                          <div className="text-sm font-medium text-zinc-300">
+                            {selectedTestimonial.author.name}
+                          </div>
+                        )}
+                        <div className="text-sm text-zinc-500">
+                          {selectedTestimonial.author.title} at{" "}
+                          <span className="text-zinc-500">{selectedTestimonial.author.company}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="max-h-[45vh] overflow-y-auto pr-2 md:max-h-[50vh]">
+                    <p className="pr-6 text-[0.95rem] leading-relaxed whitespace-pre-line text-zinc-400">
+                      {selectedTestimonial.quote}
+                    </p>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

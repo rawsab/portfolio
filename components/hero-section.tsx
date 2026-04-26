@@ -29,7 +29,7 @@ export function HeroSection() {
   return (
     <section className="text-zinc-300">
       {/* Main Content */}
-      <div className="px-8 pt-10 pb-0 max-w-2xl mx-auto w-full">
+      <div className="px-8 pt-10 pb-0 max-w-site mx-auto w-full">
         <div className="w-full flex flex-col space-y-6">
           {/* Profile Picture Container */}
           <div className="relative inline-block mb-2">

@@ -192,7 +192,7 @@ export default async function CaseStudy({ params }: CaseStudyProps) {
       <ScrollToTop />
       <SiteHeader brandHref="/" />
 
-      <main className="max-w-2xl mx-auto px-8 py-8">
+      <main className="max-w-site mx-auto px-8 py-8">
         {/* Hero Section */}
         <div className="mb-10">
           {/* Breadcrumbs and GitHub Link */}

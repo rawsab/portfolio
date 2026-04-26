@@ -107,7 +107,7 @@ export function TechnologiesSection() {
 
   return (
     <section className="pt-0 pb-6">
-      <div className="max-w-2xl mx-auto w-full px-8 space-y-6">
+      <div className="max-w-site mx-auto w-full px-8 space-y-6">
         <div className="space-y-2">
           <h2 className="text-xs font-medium font-mono text-[#686868] uppercase tracking-wider pb-1">
             TECHNOLOGIES
