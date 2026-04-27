@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { testimonials } from "@/data/testimonials";
+import { Divider } from "./divider";
 
 export function TestimonialsSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -110,11 +111,7 @@ export function TestimonialsSection() {
   return (
     <section className="pt-6 pb-10">
       <div className="max-w-site mx-auto w-full px-8 space-y-6">
-        <div>
-          <h2 className="text-xs font-medium font-mono text-[#686868] uppercase tracking-wider pb-0 -mb-2 -mt-2">
-            RECOMMENDATIONS
-          </h2>
-        </div>
+      <Divider label="recommendations" className="mb-8" />
 
         <div className="relative">
           <div
@@ -182,7 +179,7 @@ export function TestimonialsSection() {
                 className="space-y-4 px-6 cursor-pointer"
                 onClick={() => setSelectedTestimonialIndex(currentIndex)}
               >
-                <p className="text-[0.95rem] text-zinc-400 leading-relaxed mt-0 line-clamp-3">
+                      <p className="text-[0.95rem] text-zinc-400 leading-relaxed mt-0 line-clamp-5 md:line-clamp-3">
                   {currentTestimonial.quote}
                 </p>
                 <div className="flex items-center gap-3 pt-2">

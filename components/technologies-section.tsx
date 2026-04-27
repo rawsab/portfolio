@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Code, Box, Wrench, ChartSpline, ChevronRight } from "lucide-react";
 import { languages, frameworks, tools, libraries } from "@/data/technologies";
+import { Divider } from "./divider";
 
 function TechnologyGrid({
   technologies,
@@ -108,10 +109,8 @@ export function TechnologiesSection() {
   return (
     <section className="pt-0 pb-6">
       <div className="max-w-site mx-auto w-full px-8 space-y-6">
+      <Divider label="technologies" className="mb-8" />
         <div className="space-y-2">
-          <h2 className="text-xs font-medium font-mono text-[#686868] uppercase tracking-wider pb-1">
-            TECHNOLOGIES
-          </h2>
           <p className="text-base text-[#8F8F8F] leading-normal -mb-2">
           I&apos;ve worked across a modern and versatile tech stack, using these technologies to build scalable, production-ready systems and personal projects:
           </p>

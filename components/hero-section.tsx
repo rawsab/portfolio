@@ -29,47 +29,108 @@ export function HeroSection() {
   return (
     <section className="text-zinc-300">
       {/* Main Content */}
-      <div className="px-8 pt-10 pb-0 max-w-site mx-auto w-full">
+      <div className="px-8 pt-6 pb-6 max-w-site mx-auto w-full">
         <div className="w-full flex flex-col space-y-6">
-          {/* Profile Picture Container */}
-          <div className="relative inline-block mb-2">
-            <div className="w-15.5 h-15.5 rounded-xl overflow-visible relative" data-cursor-pfp="true">
-              <Image
-                src="/pfp1.jpeg"
-                alt="Profile picture"
-                width={64}
-                height={64}
-                className="w-full h-full rounded-lg object-cover"
-              />
-              {/* Online Status Dot */}
-              <div className="absolute bottom-1.5 right-0 w-5 h-5 bg-[#18BF5F] rounded-full border-3 border-[#0D0D0D] translate-x-1/2 translate-y-1/2"></div>
-            </div>
-          </div>
-
-          {/* Name with Verified Badge */}
-          <div className="flex flex-col mt-4">
-            <div className="flex items-center gap-2">
-              <h1 className="text-lg font-semibold text-white">Rawsab Said</h1>
-              {/* Verification Badge */}
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="shrink-0"
+          <div
+            className="relative inline-flex flex-col gap-4 mb-8 -mx-2 rounded-2xl p-4 border border-[#1A1A1A] overflow-hidden hover:border-[#2A2A2A] transition-all duration-300"
+            style={{
+              backgroundImage: "url('/backdrop.png')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
+            <div className="absolute inset-0 bg-black/60 pointer-events-none" />
+            <div className="absolute top-4 right-4 z-20 pointer-events-auto flex items-center gap-3">
+              {/* X (Twitter) */}
+              <a
+                href="https://x.com/r4wsab"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center cursor-pointer"
+                aria-label="X (Twitter)"
               >
-                <path
-                  d="M21.6,9.84A4.57,4.57,0,0,1,21.18,9,4,4,0,0,1,21,8.07a4.21,4.21,0,0,0-.64-2.16,4.25,4.25,0,0,0-1.87-1.28,4.77,4.77,0,0,1-.85-.43A5.11,5.11,0,0,1,17,3.54a4.2,4.2,0,0,0-1.8-1.4A4.22,4.22,0,0,0,13,2.21a4.24,4.24,0,0,1-1.94,0,4.22,4.22,0,0,0-2.24-.07A4.2,4.2,0,0,0,7,3.54a5.11,5.11,0,0,1-.66.66,4.77,4.77,0,0,1-.85.43A4.25,4.25,0,0,0,3.61,5.91,4.21,4.21,0,0,0,3,8.07,4,4,0,0,1,2.82,9a4.57,4.57,0,0,1-.42.82A4.3,4.3,0,0,0,1.63,12a4.3,4.3,0,0,0,.77,2.16,4,4,0,0,1,.42.82,4.11,4.11,0,0,1,.15.95,4.19,4.19,0,0,0,.64,2.16,4.25,4.25,0,0,0,1.87,1.28,4.77,4.77,0,0,1,.85.43,5.11,5.11,0,0,1,.66.66,4.12,4.12,0,0,0,1.8,1.4,3,3,0,0,0,.87.13A6.66,6.66,0,0,0,11,21.81a4,4,0,0,1,1.94,0,4.33,4.33,0,0,0,2.24.06,4.12,4.12,0,0,0,1.8-1.4,5.11,5.11,0,0,1,.66-.66,4.77,4.77,0,0,1,.85-.43,4.25,4.25,0,0,0,1.87-1.28A4.19,4.19,0,0,0,21,15.94a4.11,4.11,0,0,1,.15-.95,4.57,4.57,0,0,1,.42-.82A4.3,4.3,0,0,0,22.37,12,4.3,4.3,0,0,0,21.6,9.84Zm-4.89.87-5,5a1,1,0,0,1-1.42,0l-3-3a1,1,0,1,1,1.42-1.42L11,13.59l4.29-4.3a1,1,0,0,1,1.42,1.42Z"
-                  fill="#1EB8F9"
+                <Image
+                  src="/icons/x-twitter.svg"
+                  alt="X (Twitter)"
+                  width={18}
+                  height={18}
+                  className="opacity-50 hover:opacity-100 transition-opacity"
                 />
-                {/* tick icon svg */}
-              </svg>
+              </a>
+              {/* Dribbble */}
+              <a
+                href="https://dribbble.com/rawsab"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center cursor-pointer"
+                aria-label="Dribbble"
+              >
+                <Image
+                  src="/icons/dribbble.svg"
+                  alt="Dribbble"
+                  width={18}
+                  height={18}
+                  className="opacity-50 hover:opacity-100 transition-opacity"
+                />
+              </a>
+              {/* LinkedIn */}
+              <a
+                href="https://www.linkedin.com/in/rawsabsaid/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center cursor-pointer"
+                aria-label="LinkedIn"
+              >
+                <Image
+                  src="/icons/linkedin.svg"
+                  alt="LinkedIn"
+                  width={18}
+                  height={18}
+                  className="opacity-50 hover:opacity-100 transition-opacity"
+                />
+              </a>
             </div>
-            {/* Title */}
-            <p className="text-base text-[#8F8F8F]">Software Engineer</p>
-          </div>
 
+            {/* Profile Picture Container */}
+            <div className="relative inline-block z-10">
+              <div className="w-15.5 h-15.5 rounded-xl overflow-visible relative" data-cursor-pfp="true">
+                <Image
+                  src="/pfp1.jpeg"
+                  alt="Profile picture"
+                  width={64}
+                  height={64}
+                  className="w-full h-full rounded-lg object-cover"
+                />
+                {/* Online Status Dot */}
+                <div className="absolute bottom-1.5 right-0 w-5 h-5 bg-[#18BF5F] rounded-full border-3 border-[#0D0D0D] translate-x-1/2 translate-y-1/2"></div>
+              </div>
+            </div>
+
+            {/* Name with Verified Badge */}
+            <div className="flex flex-col z-10">
+              <div className="flex items-center gap-2">
+                <h1 className="text-lg font-semibold text-white">Rawsab Said</h1>
+                {/* Verification Badge */}
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="shrink-0"
+                >
+                  <path
+                    d="M21.6,9.84A4.57,4.57,0,0,1,21.18,9,4,4,0,0,1,21,8.07a4.21,4.21,0,0,0-.64-2.16,4.25,4.25,0,0,0-1.87-1.28,4.77,4.77,0,0,1-.85-.43A5.11,5.11,0,0,1,17,3.54a4.2,4.2,0,0,0-1.8-1.4A4.22,4.22,0,0,0,13,2.21a4.24,4.24,0,0,1-1.94,0,4.22,4.22,0,0,0-2.24-.07A4.2,4.2,0,0,0,7,3.54a5.11,5.11,0,0,1-.66.66,4.77,4.77,0,0,1-.85.43A4.25,4.25,0,0,0,3.61,5.91,4.21,4.21,0,0,0,3,8.07,4,4,0,0,1,2.82,9a4.57,4.57,0,0,1-.42.82A4.3,4.3,0,0,0,1.63,12a4.3,4.3,0,0,0,.77,2.16,4,4,0,0,1,.42.82,4.11,4.11,0,0,1,.15.95,4.19,4.19,0,0,0,.64,2.16,4.25,4.25,0,0,0,1.87,1.28,4.77,4.77,0,0,1,.85.43,5.11,5.11,0,0,1,.66.66,4.12,4.12,0,0,0,1.8,1.4,3,3,0,0,0,.87.13A6.66,6.66,0,0,0,11,21.81a4,4,0,0,1,1.94,0,4.33,4.33,0,0,0,2.24.06,4.12,4.12,0,0,0,1.8-1.4,5.11,5.11,0,0,1,.66-.66,4.77,4.77,0,0,1,.85-.43,4.25,4.25,0,0,0,1.87-1.28A4.19,4.19,0,0,0,21,15.94a4.11,4.11,0,0,1,.15-.95,4.57,4.57,0,0,1,.42-.82A4.3,4.3,0,0,0,22.37,12,4.3,4.3,0,0,0,21.6,9.84Zm-4.89.87-5,5a1,1,0,0,1-1.42,0l-3-3a1,1,0,1,1,1.42-1.42L11,13.59l4.29-4.3a1,1,0,0,1,1.42,1.42Z"
+                    fill="#1EB8F9"
+                  />
+                  {/* tick icon svg */}
+                </svg>
+              </div>
+              {/* Title */}
+              <p className="text-base text-[#8F8F8F]">Software Engineer</p>
+            </div>
+          </div>
+          
           {/* Bio */}
           <p className="text-base text-[#8F8F8F] max-w-xl leading-normal">
             Hey! I&apos;m Rawsab, a Software Engineering student at the{" "}
@@ -144,7 +205,7 @@ export function HeroSection() {
 
           {/* Email Copy Section */}
           <div 
-            className="flex items-center gap-2 mt-2 mb-6 cursor-pointer group"
+            className="flex items-center gap-2 mt-2 mb-2 cursor-pointer group"
             onClick={copyEmail}
             role="button"
             tabIndex={0}

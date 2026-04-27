@@ -4,6 +4,7 @@ import Image from "next/image";
 import { experiences } from "@/data/experience";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Divider } from "./divider";
 
 interface HighlightPosition {
   top: number;
@@ -56,12 +57,10 @@ export function ExperienceSection() {
   };
 
   return (
-    <section className="pt-6 pb-2">
+    <section className="pt-6 pb-0">
       <div className="max-w-site mx-auto w-full px-8 space-y-6">
+      <Divider label="experience" className="mb-8" />
         <div className="space-y-2">
-          <h2 className="text-xs font-medium font-mono text-[#686868] uppercase tracking-wider pb-1">
-            EXPERIENCE
-          </h2>
           <p className="text-base text-[#8F8F8F] leading-normal">
             Throughout my past internships, I&apos;ve worked on secure backend systems, real-time data flows, and AI-integrated features. Here&apos;s a brief overview:
           </p>

@@ -4,6 +4,7 @@ import { projects } from "@/data/projects";
 import { useState, useMemo, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Calendar, Star, ChevronDown, ChevronUp } from "lucide-react";
+import { Divider } from "./divider";
 
 interface HighlightPosition {
   top: number;
@@ -120,10 +121,8 @@ export function ProjectsSection() {
   return (
     <section className="pt-6 pb-4">
       <div className="max-w-site mx-auto w-full px-8 space-y-6">
+      <Divider label="projects" className="mb-0" />
         <div className="space-y-2">
-          <h2 className="text-xs font-medium font-mono text-[#686868] uppercase tracking-wider pb-2 -mb-6">
-            PROJECTS
-          </h2>
           {/* <p className="text-base text-[#8F8F8F] leading-normal">
             Here are some of the personal projects I&apos;ve worked on. Hover over a project to see more details, and click to view the source code.
           </p> */}
@@ -156,7 +155,7 @@ export function ProjectsSection() {
                       <Star className="w-4 h-4 text-zinc-600 fill-zinc-600 shrink-0" />
                     )}
                     <span
-                      className={`text-base text-white transition-all ${
+                      className={`block min-w-0 truncate text-base text-white transition-all ${
                         hoveredIndex === index ? "underline" : ""
                       }`}
                     >
@@ -313,7 +312,7 @@ export function ProjectsSection() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -4 }}
                         transition={{ duration: 0.15 }}
-                        className="absolute top-6 text-xs text-zinc-500 whitespace-nowrap pointer-events-none"
+                        className="absolute top-6 text-xs text-zinc-500 whitespace-nowrap shadow-xl shadow-black/90 pointer-events-none"
                       >
                         {isExpanded ? (
                           "Show less"
