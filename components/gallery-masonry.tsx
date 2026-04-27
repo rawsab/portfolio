@@ -34,7 +34,7 @@ export function GalleryMasonry({ imagePaths }: GalleryMasonryProps) {
 
   return (
     <>
-      <div className="columns-1 sm:columns-2 lg:columns-3 gap-4">
+      <div className="columns-3 gap-3 sm:gap-4">
         {imagePaths.map((src) => (
           <button
             key={src}
