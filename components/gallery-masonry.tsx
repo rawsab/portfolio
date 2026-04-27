@@ -66,7 +66,7 @@ export function GalleryMasonry({ imagePaths }: GalleryMasonryProps) {
             <div className="relative w-full">
               {!loadedImages[src] && (
                 <div
-                  className="absolute inset-0 animate-pulse rounded-md bg-zinc-800/50"
+                  className="aspect-[4/5] w-full animate-pulse rounded-md bg-zinc-800/50"
                   aria-hidden="true"
                 />
               )}
@@ -79,7 +79,7 @@ export function GalleryMasonry({ imagePaths }: GalleryMasonryProps) {
                 draggable={false}
                 onLoad={() => markImageLoaded(src)}
                 onError={() => markImageLoaded(src)}
-                className={`block h-auto min-h-40 w-full transition-opacity duration-300 ${loadedImages[src] ? "opacity-100" : "opacity-0"}`}
+                className={`block h-auto w-full transition-opacity duration-300 ${loadedImages[src] ? "opacity-100" : "opacity-0 absolute inset-0"}`}
               />
             </div>
           </button>
