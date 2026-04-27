@@ -8,12 +8,21 @@ import { testimonials } from "@/data/testimonials";
 import { Divider } from "./divider";
 
 export function TestimonialsSection() {
+  const MODAL_EXIT_MS = 50;
+  const MODAL_RESIZE_MS = 250;
+  const MODAL_ENTER_MS = 200;
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredSide, setHoveredSide] = useState<"left" | "right" | null>(null);
   const [direction, setDirection] = useState<"forward" | "backward">("forward");
   const [selectedTestimonialIndex, setSelectedTestimonialIndex] = useState<number | null>(null);
+  const [isModalContentVisible, setIsModalContentVisible] = useState(true);
+  const [isModalTransitioning, setIsModalTransitioning] = useState(false);
+  const [modalContentHeight, setModalContentHeight] = useState<number | "auto">("auto");
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const modalContentRef = useRef<HTMLDivElement | null>(null);
+  const modalTimeoutsRef = useRef<number[]>([]);
 
   const goToNext = useCallback(() => {
     setDirection("forward");
@@ -44,23 +53,81 @@ export function TestimonialsSection() {
     }
   }, []);
 
-  const goToNextInModal = useCallback(() => {
-    setDirection("forward");
-    setCurrentIndex((prev) => {
-      const nextIndex = (prev + 1) % testimonials.length;
-      setSelectedTestimonialIndex(nextIndex);
-      return nextIndex;
-    });
+  const clearModalTimeouts = useCallback(() => {
+    modalTimeoutsRef.current.forEach((timeoutId) => window.clearTimeout(timeoutId));
+    modalTimeoutsRef.current = [];
   }, []);
 
+  const closeModal = useCallback(() => {
+    clearModalTimeouts();
+    setIsModalTransitioning(false);
+    setIsModalContentVisible(true);
+    setModalContentHeight("auto");
+    setSelectedTestimonialIndex(null);
+  }, [clearModalTimeouts]);
+
+  const transitionModalToIndex = useCallback(
+    (nextIndex: number, nextDirection: "forward" | "backward") => {
+      if (selectedTestimonialIndex === null || isModalTransitioning) {
+        return;
+      }
+
+      setDirection(nextDirection);
+      setCurrentIndex(nextIndex);
+      setIsModalTransitioning(true);
+
+      const currentHeight = modalContentRef.current?.offsetHeight;
+      setModalContentHeight(typeof currentHeight === "number" ? currentHeight : "auto");
+      setIsModalContentVisible(false);
+      clearModalTimeouts();
+
+      const switchTimeout = window.setTimeout(() => {
+        setSelectedTestimonialIndex(nextIndex);
+
+        requestAnimationFrame(() => {
+          const nextHeight = modalContentRef.current?.offsetHeight;
+          setModalContentHeight(typeof nextHeight === "number" ? nextHeight : "auto");
+        });
+      }, MODAL_EXIT_MS);
+
+      const revealTimeout = window.setTimeout(() => {
+        setIsModalContentVisible(true);
+      }, MODAL_EXIT_MS + MODAL_RESIZE_MS);
+
+      const completeTimeout = window.setTimeout(() => {
+        setModalContentHeight("auto");
+        setIsModalTransitioning(false);
+      }, MODAL_EXIT_MS + MODAL_RESIZE_MS + MODAL_ENTER_MS);
+
+      modalTimeoutsRef.current.push(switchTimeout, revealTimeout, completeTimeout);
+    },
+    [
+      MODAL_ENTER_MS,
+      MODAL_EXIT_MS,
+      MODAL_RESIZE_MS,
+      clearModalTimeouts,
+      isModalTransitioning,
+      selectedTestimonialIndex,
+    ],
+  );
+
+  const goToNextInModal = useCallback(() => {
+    if (selectedTestimonialIndex === null) {
+      return;
+    }
+
+    const nextIndex = (selectedTestimonialIndex + 1) % testimonials.length;
+    transitionModalToIndex(nextIndex, "forward");
+  }, [selectedTestimonialIndex, transitionModalToIndex]);
+
   const goToPreviousInModal = useCallback(() => {
-    setDirection("backward");
-    setCurrentIndex((prev) => {
-      const previousIndex = (prev - 1 + testimonials.length) % testimonials.length;
-      setSelectedTestimonialIndex(previousIndex);
-      return previousIndex;
-    });
-  }, []);
+    if (selectedTestimonialIndex === null) {
+      return;
+    }
+
+    const previousIndex = (selectedTestimonialIndex - 1 + testimonials.length) % testimonials.length;
+    transitionModalToIndex(previousIndex, "backward");
+  }, [selectedTestimonialIndex, transitionModalToIndex]);
 
   const currentTestimonial = testimonials[currentIndex];
   const selectedTestimonial =
@@ -89,7 +156,7 @@ export function TestimonialsSection() {
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        setSelectedTestimonialIndex(null);
+        closeModal();
       }
     };
 
@@ -102,7 +169,13 @@ export function TestimonialsSection() {
       document.body.style.overflow = "unset";
       document.removeEventListener("keydown", handleEscape);
     };
-  }, [isModalOpen]);
+  }, [closeModal, isModalOpen]);
+
+  useEffect(() => {
+    return () => {
+      clearModalTimeouts();
+    };
+  }, [clearModalTimeouts]);
 
   if (testimonials.length === 0) {
     return null;
@@ -177,6 +250,7 @@ export function TestimonialsSection() {
                 }}
                 transition={{ duration: 0.2, ease: "easeOut" }}
                 className="space-y-4 px-6 cursor-pointer"
+                data-cursor-read-more="true"
                 onClick={() => setSelectedTestimonialIndex(currentIndex)}
               >
                       <p className="text-[0.95rem] text-zinc-400 leading-relaxed mt-0 line-clamp-5 md:line-clamp-3">
@@ -244,13 +318,15 @@ export function TestimonialsSection() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 px-4"
-            onClick={() => setSelectedTestimonialIndex(null)}
+            onClick={closeModal}
           >
             <motion.div
               initial={{ scale: 0.96, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.96, opacity: 0 }}
               transition={{ type: "spring", damping: 28, stiffness: 320 }}
+              layout
+              layoutDependency={selectedTestimonialIndex}
               className="relative w-full max-w-2xl rounded-xl border border-zinc-800 bg-zinc-900 p-6 md:p-7"
               onClick={(event) => event.stopPropagation()}
             >
@@ -271,27 +347,29 @@ export function TestimonialsSection() {
               </button>
 
               <button
-                onClick={() => setSelectedTestimonialIndex(null)}
+                onClick={closeModal}
                 className="absolute right-4 top-4 text-zinc-400 transition-colors hover:text-zinc-200 hover:cursor-pointer"
                 aria-label="Close testimonial modal"
               >
                 <X className="h-5 w-5" />
               </button>
 
-              <AnimatePresence mode="wait" custom={direction}>
+              <motion.div
+                animate={{ height: modalContentHeight }}
+                transition={{ height: { duration: MODAL_RESIZE_MS / 1000, ease: "easeInOut" } }}
+                className="overflow-hidden"
+              >
                 <motion.div
                   key={selectedTestimonialIndex}
+                  ref={modalContentRef}
                   custom={direction}
-                  initial={{
-                    opacity: 0,
-                    x: direction === "forward" ? 24 : -24,
+                  initial={false}
+                  animate={{
+                    opacity: isModalContentVisible ? 1 : 0,
                   }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{
-                    opacity: 0,
-                    x: direction === "forward" ? -12 : 12,
+                  transition={{
+                    opacity: { duration: MODAL_ENTER_MS / 1000, ease: "easeOut" },
                   }}
-                  transition={{ duration: 0.2, ease: "easeOut" }}
                   className="space-y-5"
                 >
                   <div className="flex items-center gap-3 border-b border-zinc-800 pb-4">
@@ -348,7 +426,7 @@ export function TestimonialsSection() {
                     </p>
                   </div>
                 </motion.div>
-              </AnimatePresence>
+              </motion.div>
             </motion.div>
           </motion.div>
         )}

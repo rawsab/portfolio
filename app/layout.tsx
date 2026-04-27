@@ -90,30 +90,26 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        {/* Theme initialization script - runs before page renders */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var theme = localStorage.getItem('theme');
-                  if (theme === 'light') {
-                    document.documentElement.classList.remove('dark');
-                  } else {
-                    // Default to dark mode if no preference or preference is dark
-                    document.documentElement.classList.add('dark');
-                  }
-                } catch (e) {
-                  // If localStorage is not available, default to dark mode
+      <body className={`${inter.variable} ${geistMono.variable} font-sans antialiased`}>
+        {/* Theme initialization script - runs before hydration */}
+        <Script id="theme-init" strategy="beforeInteractive">
+          {`
+            (function() {
+              try {
+                var theme = localStorage.getItem('theme');
+                if (theme === 'light') {
+                  document.documentElement.classList.remove('dark');
+                } else {
+                  // Default to dark mode if no preference or preference is dark
                   document.documentElement.classList.add('dark');
                 }
-              })();
-            `,
-          }}
-        />
-      </head>
-      <body className={`${inter.variable} ${geistMono.variable} font-sans antialiased`}>
+              } catch (e) {
+                // If localStorage is not available, default to dark mode
+                document.documentElement.classList.add('dark');
+              }
+            })();
+          `}
+        </Script>
         {/* Google Analytics */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-7JQDLM7YY5"

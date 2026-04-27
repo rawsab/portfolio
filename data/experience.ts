@@ -10,7 +10,7 @@ export interface Experience {
 
 export const experiences: Experience[] = [
   {
-    period: "JUN — AUG 2026",
+    period: "JUN—AUG 2026",
     role: "Software Engineer Intern",
     company: "HubSpot",
     icon: "/icons/hubspot_icon.png",
@@ -20,9 +20,9 @@ export const experiences: Experience[] = [
     link: "https://www.hubspot.com/",
   },
   {
-    period: "JAN — APR 2026",
+    period: "JAN-APR 2026",
     role: "ML Engineer Intern",
-    company: "Palitronica (YC W22)",
+    company: "Palitronica Inc.",
     icon: "/icons/pal_icon.png",
     iconAlt: "Palitronica",
     description:
@@ -30,7 +30,7 @@ export const experiences: Experience[] = [
     link: "https://www.palitronica.com/",
   },
   {
-    period: "MAY — AUG 2025",
+    period: "MAY-AUG 2025",
     role: "Software Engineer Intern",
     company: "Node App",
     icon: "/icons/node_icon.png",
@@ -40,7 +40,7 @@ export const experiences: Experience[] = [
     link: "https://node-app.com/",
   },
   {
-    period: "SEP — DEC 2024",
+    period: "SEP-DEC 2024",
     role: "Software Engineer Intern",
     company: "dandelion",
     icon: "/icons/ddln_icon.png",
@@ -50,7 +50,7 @@ export const experiences: Experience[] = [
     link: "https://dandelionnet.com/",
   },
   {
-    period: "JAN — APR 2024",
+    period: "JAN-APR 2024",
     role: "Software Engineer Intern",
     company: "BlackBerry",
     icon: "/icons/bb_icon.png",
@@ -60,7 +60,7 @@ export const experiences: Experience[] = [
     link: "https://www.blackberry.com/",
   },
   {
-    period: "MAY — AUG 2023",
+    period: "MAY-AUG 2023",
     role: "Software Engineer Intern",
     company: "Cypienta",
     icon: "/icons/cyp_icon.png",
@@ -70,7 +70,7 @@ export const experiences: Experience[] = [
     link: "https://www.cypienta.com/",
   },
   // {
-  //   period: "MAY — AUG 2021",
+  //   period: "MAY-AUG 2021",
   //   role: "Research Assistant",
   //   company: "RIT",
   //   icon: "/icons/rit_icon.png",

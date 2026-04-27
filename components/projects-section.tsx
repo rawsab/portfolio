@@ -330,12 +330,12 @@ export function ProjectsSection() {
           )}
 
           {/* Highlight overlay */}
-          <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 pointer-events-none hidden sm:block">
             <AnimatePresence>
               {hoveredIndex !== null && highlightPos && (
                 <motion.div
                   key={hoveredIndex}
-                  className="absolute rounded-lg bg-zinc-800/20 z-0"
+                  className="absolute rounded-lg bg-zinc-800/30 z-0"
                   initial={{
                     opacity: 0,
                     top: highlightPos.top,

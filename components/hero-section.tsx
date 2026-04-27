@@ -32,7 +32,7 @@ export function HeroSection() {
       <div className="px-8 pt-6 pb-6 max-w-site mx-auto w-full">
         <div className="w-full flex flex-col space-y-6">
           <div
-            className="relative inline-flex flex-col gap-4 mb-8 -mx-2 rounded-2xl p-4 border border-[#1A1A1A] overflow-hidden hover:border-[#2A2A2A] transition-all duration-300"
+            className="relative inline-flex flex-col gap-4 mb-8 -mx-2 rounded-2xl p-4 border border-[#1A1A1A] overflow-hidden hover:border-[#2A2A2A] hover:scale-102 transition-all duration-300"
             style={{
               backgroundImage: "url('/backdrop.png')",
               backgroundSize: "cover",

@@ -77,11 +77,11 @@ export function ExperienceSection() {
               onMouseLeave={handleMouseLeave}
               className="flex flex-col gap-4 sm:flex-row sm:gap-8 relative z-10"
             >
-              <div className="text-sm font-mono tracking-tight text-zinc-500 sm:w-32 shrink-0 mt-1 -mb-2">
+              <div className="text-sm font-mono tracking-tight text-zinc-600 sm:w-28 shrink-0 mt-1 -mb-2">
                 {exp.period}
               </div>
               <div className="flex-1 space-y-2 mb-2">
-                <div className="text-base text-white">
+                <div className="text-base text-zinc-300">
                   {exp.role} at{" "}
                   <a
                     href={exp.link}
@@ -108,12 +108,12 @@ export function ExperienceSection() {
             </div>
           ))}
 
-          <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 pointer-events-none hidden sm:block">
             <AnimatePresence>
               {hoveredIndex !== null && highlightPos && (
                 <motion.div
                   key={hoveredIndex}
-                  className="absolute rounded-lg bg-zinc-800/20 z-0"
+                  className="absolute rounded-lg bg-zinc-800/30 z-0"
                   initial={{
                     opacity: 0,
                     top: highlightPos.top,
