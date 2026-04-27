@@ -47,7 +47,7 @@ export const experiences: Experience[] = [
     iconAlt: "Dandelion Networks",
     description:
       "Implemented distributed coordination systems for a blockchain network, including state sync, transactions, and event delivery.",
-    link: "https://dandelionnet.com/",
+    link: "https://x.com/ddln_tech",
   },
   {
     period: "JAN-APR 2024",
