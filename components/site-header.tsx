@@ -2,28 +2,38 @@ import Link from "next/link";
 import Image from "next/image";
 
 type SiteHeaderProps = {
-  /** When set, the @rawsab label links here (e.g. `/` on inner pages). */
+  /** When set, the home label links here (e.g. `/` on inner pages). */
   brandHref?: string;
 };
 
 export function SiteHeader({ brandHref }: SiteHeaderProps = {}) {
-  const brandClassName = "text-sm text-white/50 font-mono";
-  const brand = brandHref ? (
+  const navClassName = "text-sm text-white/50";
+  const homeItem = brandHref ? (
     <Link
       href={brandHref}
-      className={`${brandClassName} hover:text-white/90 transition-colors`}
+      className={`${navClassName} hover:text-white/90 transition-colors`}
     >
-      @rawsab
+      home
     </Link>
   ) : (
-    <div className={brandClassName}>@rawsab</div>
+    <a href="#" className={`${navClassName} hover:text-white/90 transition-colors`}>
+      home
+    </a>
   );
 
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-100 w-full bg-black/50 backdrop-blur-xl backdrop-saturate-150">
         <div className="flex items-center justify-between px-8 pt-6 pb-4 border-b border-zinc-800/50 max-w-site mx-auto w-full">
-          {brand}
+          <nav className="flex items-center gap-4" aria-label="Main navigation">
+            {homeItem}
+            <Link href="/blog" className={`${navClassName} hover:text-white/90 transition-colors`}>
+              blog
+            </Link>
+            <Link href="/gallery" className={`${navClassName} hover:text-white/90 transition-colors`}>
+              gallery
+            </Link>
+          </nav>
           <div className="flex items-center gap-3">
             <a
               href="https://se-webring.xyz"
