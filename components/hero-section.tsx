@@ -140,16 +140,32 @@ export function HeroSection() {
               rel="noopener noreferrer"
               className="inline cursor-pointer group"
             >
-              {/* <Image
+              <Image
                 src="/icons/uw_icon.png"
                 alt="University of Waterloo"
                 width={16}
                 height={16}
                 className="inline h-4.5 w-4.5 translate-y-0.5 ml-1 mr-1.5 align-baseline"
-              /> */}
+              />
               <span className="text-white group-hover:underline">University of Waterloo</span>
             </a>
             . I&apos;ve worked across early-stage startups and scaling products, most recently at{" "}
+            <a
+              href="https://www.hubspot.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline cursor-pointer group"
+            >
+              <Image
+                src="/icons/hubspot_icon.png"
+                alt="HubSpot"
+                width={16}
+                height={16}
+                className="inline h-4.5 w-4.5 translate-y-0.5 ml-1 mr-1.5 align-baseline"
+              />
+              <span className="text-white group-hover:underline">HubSpot</span>
+            </a>
+            {" and "}
             <a
               href="https://www.palitronica.com/"
               target="_blank"
@@ -165,25 +181,9 @@ export function HeroSection() {
               />
               <span className="text-white group-hover:underline">Palitronica (YC W22)</span>
             </a>
-            {" and "}
-            <a
-              href="https://node-app.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline cursor-pointer group"
-            >
-              <Image
-                src="/icons/node_icon.png"
-                alt="Node App"
-                width={16}
-                height={16}
-                className="inline h-4.5 w-4.5 translate-y-0.5 ml-1 mr-1.5 align-baseline"
-              />
-              <span className="text-white group-hover:underline">Node App</span>
-            </a>
             .
             <br />
-            <br />
+            {/* <br />
             Currently working on{" "}
             <a
               href="https://linkedin.com/company/keystoneapp"
@@ -200,7 +200,7 @@ export function HeroSection() {
               />
               <span className="text-white group-hover:underline">Keystone</span>
             </a>
-            .
+            . */}
           </p>
 
           {/* Email Copy Section */}

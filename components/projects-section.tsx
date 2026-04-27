@@ -119,7 +119,7 @@ export function ProjectsSection() {
   };
 
   return (
-    <section className="pt-6 pb-4">
+    <section className="pt-2 pb-4">
       <div className="max-w-site mx-auto w-full px-8 space-y-6">
       <Divider label="projects" className="mb-0" />
         <div className="space-y-2">
@@ -318,7 +318,7 @@ export function ProjectsSection() {
                           "Show less"
                         ) : (
                           <>
-                            Show <span className="text-white">{remainingCount}</span> more
+                            Show <span className="text-zinc-300">{remainingCount}</span> more
                           </>
                         )}
                       </motion.span>
