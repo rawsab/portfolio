@@ -10,6 +10,22 @@ type GalleryMasonryProps = {
 
 export function GalleryMasonry({ imagePaths }: GalleryMasonryProps) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
+  const [isModalImageLoading, setIsModalImageLoading] = useState(false);
+
+  const markImageLoaded = (src: string) => {
+    setLoadedImages((prev) => (prev[src] ? prev : { ...prev, [src]: true }));
+  };
+  const handleGridImageRef = (src: string) => (img: HTMLImageElement | null) => {
+    if (img?.complete) {
+      markImageLoaded(src);
+    }
+  };
+  const handleModalImageRef = (img: HTMLImageElement | null) => {
+    if (img?.complete) {
+      setIsModalImageLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (!selectedImage) return;
@@ -22,6 +38,10 @@ export function GalleryMasonry({ imagePaths }: GalleryMasonryProps) {
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
+  }, [selectedImage]);
+
+  useEffect(() => {
+    setIsModalImageLoading(Boolean(selectedImage));
   }, [selectedImage]);
 
   if (!imagePaths.length) {
@@ -43,8 +63,25 @@ export function GalleryMasonry({ imagePaths }: GalleryMasonryProps) {
             className="mb-4 block w-full break-inside-avoid overflow-hidden rounded-md border border-zinc-800/70 bg-zinc-950/40"
             aria-label="Open image"
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={src} alt="" loading="lazy" draggable={false} className="block h-auto w-full" />
+            <div className="relative w-full">
+              {!loadedImages[src] && (
+                <div
+                  className="absolute inset-0 animate-pulse rounded-md bg-zinc-800/50"
+                  aria-hidden="true"
+                />
+              )}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                ref={handleGridImageRef(src)}
+                src={src}
+                alt=""
+                loading="lazy"
+                draggable={false}
+                onLoad={() => markImageLoaded(src)}
+                onError={() => markImageLoaded(src)}
+                className={`block h-auto min-h-40 w-full transition-opacity duration-300 ${loadedImages[src] ? "opacity-100" : "opacity-0"}`}
+              />
+            </div>
           </button>
         ))}
       </div>
@@ -76,12 +113,25 @@ export function GalleryMasonry({ imagePaths }: GalleryMasonryProps) {
               >
                 <X className="h-5 w-5" />
               </button>
+              {isModalImageLoading && (
+                <div
+                  className="absolute inset-0 flex items-center justify-center rounded-md bg-zinc-800/60"
+                  aria-hidden="true"
+                >
+                  <div className="h-10 w-10 animate-spin rounded-full border-2 border-zinc-300/40 border-t-zinc-100" />
+                </div>
+              )}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
+                ref={handleModalImageRef}
                 src={selectedImage}
                 alt=""
                 draggable={false}
-                className="max-h-[90vh] max-w-[92vw] rounded-md object-contain"
+                onLoad={() => setIsModalImageLoading(false)}
+                onError={() => setIsModalImageLoading(false)}
+                className={`max-h-[90vh] max-w-[92vw] rounded-md object-contain transition-opacity duration-200 ${
+                  isModalImageLoading ? "opacity-0" : "opacity-100"
+                }`}
               />
             </motion.div>
           </motion.div>
