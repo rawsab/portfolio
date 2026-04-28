@@ -182,7 +182,7 @@ export function TestimonialsSection() {
   }
 
   return (
-    <section className="pt-6 pb-10">
+    <section id="recommendations" className="scroll-mt-24 pt-6 pb-10">
       <div className="max-w-site mx-auto w-full px-8 space-y-6">
       <Divider label="recommendations" className="mb-8" />
 

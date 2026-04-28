@@ -4,6 +4,7 @@ import { projects } from "@/data/projects";
 import { useState, useMemo, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Calendar, Star, ChevronDown, ChevronUp } from "lucide-react";
+import { isScrollJumpHoverLocked } from "@/lib/scroll-jump-lock";
 import { Divider } from "./divider";
 
 interface HighlightPosition {
@@ -84,6 +85,7 @@ export function ProjectsSection() {
   };
 
   const handleMouseEnter = (index: number) => {
+    if (isScrollJumpHoverLocked()) return;
     setHoveredIndex(index);
     requestAnimationFrame(() => {
       updateHighlightPosition(index);
@@ -119,7 +121,7 @@ export function ProjectsSection() {
   };
 
   return (
-    <section className="pt-2 pb-4">
+    <section id="projects" className="scroll-mt-24 pt-2 pb-4">
       <div className="max-w-site mx-auto w-full px-8 space-y-6">
       <Divider label="projects" className="mb-0" />
         <div className="space-y-2">
@@ -287,7 +289,9 @@ export function ProjectsSection() {
             <div className="relative py-2">
               <button
                 onClick={() => setIsExpanded(!isExpanded)}
-                onMouseEnter={() => setIsArrowHovered(true)}
+                onMouseEnter={() => {
+                  if (!isScrollJumpHoverLocked()) setIsArrowHovered(true);
+                }}
                 onMouseLeave={() => setIsArrowHovered(false)}
                 className="flex items-center justify-center w-full group cursor-pointer"
               >

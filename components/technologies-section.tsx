@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Code, Box, Wrench, ChartSpline, ChevronRight } from "lucide-react";
 import { languages, frameworks, tools, libraries } from "@/data/technologies";
+import { isScrollJumpHoverLocked } from "@/lib/scroll-jump-lock";
 import { Divider } from "./divider";
 
 function TechnologyGrid({
@@ -21,7 +22,10 @@ function TechnologyGrid({
         <div
           key={tech.name}
           className="relative flex items-center justify-center cursor-pointer"
-          onMouseEnter={() => setHoveredLogo(tech.name)}
+          onMouseEnter={() => {
+            if (isScrollJumpHoverLocked()) return;
+            setHoveredLogo(tech.name);
+          }}
           onMouseLeave={() => setHoveredLogo(null)}
         >
           <div className="flex items-center justify-center w-8 h-8 grayscale hover:grayscale-0 transition-all duration-300 opacity-60 hover:opacity-100">
@@ -107,7 +111,7 @@ export function TechnologiesSection() {
   const activeSection = isTouchDevice ? (clickedSection || hoveredSection) : hoveredSection;
 
   return (
-    <section className="pt-0 pb-6">
+    <section id="technologies" className="scroll-mt-24 pt-0 pb-6">
       <div className="max-w-site mx-auto w-full px-8 space-y-6">
       <Divider label="technologies" className="mb-8" />
         <div className="space-y-2">
@@ -122,7 +126,10 @@ export function TechnologiesSection() {
                 className={`flex items-center justify-between gap-4 text-md cursor-pointer transition-colors duration-200 py-1 ${
                   activeSection === section.id ? "text-white" : "text-zinc-300 hover:text-white"
                 }`}
-                onMouseEnter={() => setHoveredSection(section.id)}
+                onMouseEnter={() => {
+                  if (isScrollJumpHoverLocked()) return;
+                  setHoveredSection(section.id);
+                }}
                 onMouseLeave={() => setHoveredSection(null)}
                 onClick={() => handleSectionClick(section.id)}
               >
@@ -153,7 +160,10 @@ export function TechnologiesSection() {
                     exit={{ opacity: 0, height: 0 }}
                     transition={{ duration: 0.2, ease: "easeInOut" }}
                     className="overflow-hidden"
-                    onMouseEnter={() => setHoveredSection(section.id)}
+                    onMouseEnter={() => {
+                      if (isScrollJumpHoverLocked()) return;
+                      setHoveredSection(section.id);
+                    }}
                     onMouseLeave={() => setHoveredSection(null)}
                   >
                     <div className="pt-3">

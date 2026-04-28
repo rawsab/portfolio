@@ -1,13 +1,25 @@
 "use client";
 
-import { Check } from "lucide-react";
-import { useState, useEffect } from "react";
+import { Check, ChevronDown } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 
+import { AnimatePresence, motion } from "framer-motion";
+
 import Silk from "@/components/Silk";
+import { lockScrollJumpHover } from "@/lib/scroll-jump-lock";
+
+const JUMP_SECTIONS = [
+  { id: "experience", label: "EXPERIENCE" },
+  { id: "projects", label: "PROJECTS" },
+  { id: "technologies", label: "TECHNOLOGIES" },
+  { id: "recommendations", label: "RECOMMENDATIONS" },
+] as const;
 
 export function HeroSection() {
   const [showToast, setShowToast] = useState(false);
+  const [jumpToOpen, setJumpToOpen] = useState(false);
+  const jumpToRef = useRef<HTMLDivElement>(null);
 
   const copyEmail = () => {
     navigator.clipboard.writeText("rsaid@uwaterloo.ca");
@@ -28,12 +40,35 @@ export function HeroSection() {
     return () => window.removeEventListener("keydown", handleKeyPress);
   }, []);
 
+  useEffect(() => {
+    if (!jumpToOpen) return;
+    const onPointerDown = (e: PointerEvent) => {
+      if (jumpToRef.current && !jumpToRef.current.contains(e.target as Node)) {
+        setJumpToOpen(false);
+      }
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => document.removeEventListener("pointerdown", onPointerDown);
+  }, [jumpToOpen]);
+
+  useEffect(() => {
+    if (!jumpToOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setJumpToOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [jumpToOpen]);
+
   return (
     <section className="text-zinc-300">
       {/* Main Content */}
       <div className="px-8 pt-6 pb-6 max-w-site mx-auto w-full">
         <div className="w-full flex flex-col space-y-6">
-          <div className="relative inline-flex flex-col gap-4 mb-8 -mx-2 rounded-2xl p-4 border border-[#1A1A1A] overflow-hidden hover:border-[#2A2A2A] hover:scale-102 transition-all duration-300">
+          <div
+            className="relative inline-flex flex-col gap-4 mb-8 -mx-2 rounded-2xl p-4 border border-[#1A1A1A] overflow-hidden hover:border-[#2A2A2A] hover:scale-102 transition-all duration-300"
+            onMouseLeave={() => setJumpToOpen(false)}
+          >
             <div className="absolute inset-0 z-0 [&>canvas]:size-full">
               <Silk
                 speed={5}
@@ -132,6 +167,58 @@ export function HeroSection() {
               </div>
               {/* Title */}
               <p className="text-base text-[#8F8F8F]">Software Engineer</p>
+            </div>
+
+            <div ref={jumpToRef} className="absolute bottom-3 right-4 z-20 hidden sm:block">
+              <button
+                type="button"
+                aria-expanded={jumpToOpen}
+                aria-haspopup="menu"
+                aria-controls="hero-jump-to-menu"
+                id="hero-jump-to-trigger"
+                onClick={() => setJumpToOpen((o) => !o)}
+                className="flex cursor-pointer items-center gap-1 text-xs font-mono font-medium text-[#686868] transition-colors hover:text-white"
+              >
+                <span>JUMP TO</span>
+                <ChevronDown
+                  className={`size-3.5 shrink-0 transition-transform duration-200 ${jumpToOpen ? "rotate-180" : ""}`}
+                  aria-hidden
+                />
+              </button>
+              <AnimatePresence>
+                {jumpToOpen ? (
+                  <motion.ul
+                    id="hero-jump-to-menu"
+                    role="menu"
+                    aria-labelledby="hero-jump-to-trigger"
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 6 }}
+                    transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                    className="absolute bottom-full right-0 mb-1 min-w-44 origin-bottom-right rounded-lg border border-zinc-800 bg-zinc-950/95 py-1 shadow-[0_12px_40px_-4px_rgba(0,0,0,0.75),0_4px_16px_-2px_rgba(0,0,0,0.5)] backdrop-blur-sm"
+                  >
+                    {JUMP_SECTIONS.map(({ id, label }) => (
+                      <li key={id} role="none">
+                        <button
+                          type="button"
+                          role="menuitem"
+                          className="w-full cursor-pointer px-3 py-1.5 text-left text-xs font-medium font-mono text-[#686868] transition-colors hover:bg-zinc-800/80 hover:text-white"
+                          onClick={() => {
+                            lockScrollJumpHover();
+                            document.getElementById(id)?.scrollIntoView({
+                              behavior: "smooth",
+                              block: "start",
+                            });
+                            setJumpToOpen(false);
+                          }}
+                        >
+                          {label}
+                        </button>
+                      </li>
+                    ))}
+                  </motion.ul>
+                ) : null}
+              </AnimatePresence>
             </div>
           </div>
           

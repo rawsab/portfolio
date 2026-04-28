@@ -5,6 +5,7 @@ import { experiences } from "@/data/experience";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { isScrollJumpHoverLocked } from "@/lib/scroll-jump-lock";
 import { Divider } from "./divider";
 
 interface HighlightPosition {
@@ -40,6 +41,7 @@ export function ExperienceSection() {
   };
 
   const handleMouseEnter = (index: number) => {
+    if (isScrollJumpHoverLocked()) return;
     setHoveredIndex(index);
     // Use requestAnimationFrame to ensure DOM is updated
     requestAnimationFrame(() => {
@@ -83,7 +85,7 @@ export function ExperienceSection() {
   };
 
   return (
-    <section className="pt-6 pb-0">
+    <section id="experience" className="scroll-mt-24 pt-6 pb-0">
       <div className="max-w-site mx-auto w-full px-8 space-y-6">
       <Divider label="experience" className="mb-8" />
         <div className="space-y-2">
@@ -238,7 +240,9 @@ export function ExperienceSection() {
             <div className="relative py-2">
               <button
                 onClick={handleToggleExpanded}
-                onMouseEnter={() => setIsArrowHovered(true)}
+                onMouseEnter={() => {
+                  if (!isScrollJumpHoverLocked()) setIsArrowHovered(true);
+                }}
                 onMouseLeave={() => setIsArrowHovered(false)}
                 className="flex items-center justify-center w-full group cursor-pointer"
               >
