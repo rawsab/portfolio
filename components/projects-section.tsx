@@ -157,8 +157,8 @@ export function ProjectsSection() {
                       <Star className="w-4 h-4 text-zinc-600 fill-zinc-600 shrink-0" />
                     )}
                     <span
-                      className={`block min-w-0 truncate text-base text-white transition-all ${
-                        hoveredIndex === index ? "underline" : ""
+                      className={`block min-w-0 truncate text-base text-white bg-[linear-gradient(currentColor,currentColor)] bg-no-repeat bg-position-[0_100%] transition-[background-size] duration-250 ease-out ${
+                        hoveredIndex === index ? "bg-size-[100%_1px]" : "bg-size-[0%_1px]"
                       }`}
                     >
                       {project.name.includes(" - ") ? (
@@ -237,8 +237,8 @@ export function ProjectsSection() {
                               <Star className="w-4 h-4 text-zinc-600 fill-zinc-600 shrink-0" />
                             )}
                             <span
-                              className={`text-base text-white transition-all ${
-                                hoveredIndex === actualIndex ? "underline" : ""
+                              className={`text-base text-white bg-[linear-gradient(currentColor,currentColor)] bg-no-repeat bg-position-[0_100%] transition-[background-size] duration-250 ease-out ${
+                                hoveredIndex === actualIndex ? "bg-size-[100%_1px]" : "bg-size-[0%_1px]"
                               }`}
                             >
                               {project.name.includes(" - ") ? (

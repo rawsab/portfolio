@@ -238,7 +238,9 @@ export function HeroSection() {
                 height={16}
                 className="inline h-4.5 w-4.5 translate-y-0.5 ml-1 mr-1.5 align-baseline"
               />
-              <span className="text-white group-hover:underline">University of Waterloo</span>
+              <span className="text-white bg-[linear-gradient(currentColor,currentColor)] bg-no-repeat bg-position-[0_100%] bg-size-[0%_1px] transition-[background-size] duration-250 ease-out group-hover:bg-size-[100%_1px]">
+                University of Waterloo
+              </span>
             </a>
             . I&apos;ve worked across early-stage startups and scaling products, most recently at{" "}
             <a
@@ -254,7 +256,9 @@ export function HeroSection() {
                 height={16}
                 className="inline h-4.5 w-4.5 translate-y-0.5 ml-1 mr-1.5 align-baseline"
               />
-              <span className="text-white group-hover:underline">HubSpot</span>
+              <span className="text-white bg-[linear-gradient(currentColor,currentColor)] bg-no-repeat bg-position-[0_100%] bg-size-[0%_1px] transition-[background-size] duration-250 ease-out group-hover:bg-size-[100%_1px]">
+                HubSpot
+              </span>
             </a>
             {" and "}
             <a
@@ -270,7 +274,9 @@ export function HeroSection() {
                 height={16}
                 className="inline h-4.5 w-4.5 translate-y-0.5 ml-1 mr-1.5 align-baseline"
               />
-              <span className="text-white group-hover:underline">Palitronica (YC W22)</span>
+              <span className="text-white bg-[linear-gradient(currentColor,currentColor)] bg-no-repeat bg-position-[0_100%] bg-size-[0%_1px] transition-[background-size] duration-250 ease-out group-hover:bg-size-[100%_1px]">
+                Palitronica (YC W22)
+              </span>
             </a>
             .
             <br />

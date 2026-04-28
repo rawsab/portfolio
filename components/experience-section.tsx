@@ -124,7 +124,7 @@ export function ExperienceSection() {
                       height={16}
                       className="inline h-4.5 w-4.5 -translate-y-0.5 ml-1"
                     />
-                    <span className="text-white group-hover:underline">
+                    <span className="text-white bg-[linear-gradient(currentColor,currentColor)] bg-no-repeat bg-position-[0_100%] bg-size-[0%_1px] transition-[background-size] duration-250 ease-out group-hover:bg-size-[100%_1px]">
                       {exp.company}
                     </span>
                   </a>
@@ -198,7 +198,7 @@ export function ExperienceSection() {
                               height={16}
                               className="inline h-4.5 w-4.5 -translate-y-0.5 ml-1"
                             />
-                            <span className="text-white group-hover:underline">
+                            <span className="text-white bg-[linear-gradient(currentColor,currentColor)] bg-no-repeat bg-position-[0_100%] bg-size-[0%_1px] transition-[background-size] duration-250 ease-out group-hover:bg-size-[100%_1px]">
                               {exp.company}
                             </span>
                           </a>

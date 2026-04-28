@@ -401,10 +401,12 @@ export function TestimonialsSection() {
                             href={selectedTestimonial.author.linkedin}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="group inline-flex items-center gap-1 text-sm font-medium text-zinc-300 transition-colors hover:text-white hover:underline underline-offset-2"
+                            className="group inline-flex items-center gap-1 text-sm font-medium text-zinc-300 transition-colors hover:text-white"
                             aria-label={`${selectedTestimonial.author.name} LinkedIn profile`}
                           >
-                            <span>{selectedTestimonial.author.name}</span>
+                            <span className="bg-[linear-gradient(currentColor,currentColor)] bg-no-repeat bg-position-[0_100%] bg-size-[0%_1px] transition-[background-size] duration-250 ease-out group-hover:bg-size-[100%_1px]">
+                              {selectedTestimonial.author.name}
+                            </span>
                             <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                           </a>
                         ) : (
