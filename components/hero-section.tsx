@@ -4,6 +4,8 @@ import { Check } from "lucide-react";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 
+import Silk from "@/components/Silk";
+
 export function HeroSection() {
   const [showToast, setShowToast] = useState(false);
 
@@ -31,15 +33,17 @@ export function HeroSection() {
       {/* Main Content */}
       <div className="px-8 pt-6 pb-6 max-w-site mx-auto w-full">
         <div className="w-full flex flex-col space-y-6">
-          <div
-            className="relative inline-flex flex-col gap-4 mb-8 -mx-2 rounded-2xl p-4 border border-[#1A1A1A] overflow-hidden hover:border-[#2A2A2A] hover:scale-102 transition-all duration-300"
-            style={{
-              backgroundImage: "url('/backdrop.png')",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          >
-            <div className="absolute inset-0 bg-black/60 pointer-events-none" />
+          <div className="relative inline-flex flex-col gap-4 mb-8 -mx-2 rounded-2xl p-4 border border-[#1A1A1A] overflow-hidden hover:border-[#2A2A2A] hover:scale-102 transition-all duration-300">
+            <div className="absolute inset-0 z-0 [&>canvas]:size-full">
+              <Silk
+                speed={5}
+                scale={1}
+                color="#1e1e1e"
+                noiseIntensity={1.5}
+                rotation={0}
+              />
+            </div>
+            {/* <div className="absolute inset-0 z-1 bg-black/60 pointer-events-none" /> */}
             <div className="absolute top-4 right-4 z-20 pointer-events-auto flex items-center gap-3">
               {/* X (Twitter) */}
               <a
