@@ -17,9 +17,9 @@ export const experiences: Experience[] = [
     icon: "/icons/hubspot_icon.png",
     iconAlt: "HubSpot",
     description:
-      "Incoming Summer 2026",
+      "Currently working on Brand Identity product backend.",
     link: "https://www.hubspot.com/",
-    technologies: ["Java", "DropWizard", "Apache Kafka", "AWS SQS", "MySQL"],
+    technologies: ["Java", "DropWizard", "Apache Kafka", "AWS SQS", "MySQL", "AI Agents"],
   },
   {
     period: "JAN-APR 2026",
