@@ -4,10 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { RefreshCcw } from "lucide-react";
 
-import { GalleryMasonry } from "@/components/gallery-masonry";
+import { GalleryMasonry, type GalleryImage } from "@/components/gallery-masonry";
 
 type GalleryShuffleProps = {
-  imagePaths: string[];
+  images: GalleryImage[];
 };
 
 function shuffleArray<T>(items: T[]) {
@@ -21,15 +21,15 @@ function shuffleArray<T>(items: T[]) {
   return shuffled;
 }
 
-export function GalleryShuffle({ imagePaths }: GalleryShuffleProps) {
-  const [orderedPaths, setOrderedPaths] = useState(imagePaths);
+export function GalleryShuffle({ images }: GalleryShuffleProps) {
+  const [orderedImages, setOrderedImages] = useState(images);
   const [isShuffling, setIsShuffling] = useState(false);
   const [shuffleIteration, setShuffleIteration] = useState(0);
   const spinTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    setOrderedPaths(imagePaths);
-  }, [imagePaths]);
+    setOrderedImages(images);
+  }, [images]);
 
   useEffect(() => {
     return () => {
@@ -40,7 +40,7 @@ export function GalleryShuffle({ imagePaths }: GalleryShuffleProps) {
   }, []);
 
   const handleShuffle = () => {
-    setOrderedPaths((prev) => shuffleArray(prev));
+    setOrderedImages((prev) => shuffleArray(prev));
     setShuffleIteration((prev) => prev + 1);
     setIsShuffling(false);
 
@@ -78,7 +78,7 @@ export function GalleryShuffle({ imagePaths }: GalleryShuffleProps) {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
         >
-          <GalleryMasonry imagePaths={orderedPaths} />
+          <GalleryMasonry images={orderedImages} />
         </motion.div>
       </AnimatePresence>
     </div>

@@ -4,12 +4,17 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 
-type GalleryMasonryProps = {
-  imagePaths: string[];
+export type GalleryImage = {
+  src: string;
+  alt: string;
 };
 
-export function GalleryMasonry({ imagePaths }: GalleryMasonryProps) {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+type GalleryMasonryProps = {
+  images: GalleryImage[];
+};
+
+export function GalleryMasonry({ images }: GalleryMasonryProps) {
+  const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
   const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
   const [isModalImageLoading, setIsModalImageLoading] = useState(false);
 
@@ -44,7 +49,7 @@ export function GalleryMasonry({ imagePaths }: GalleryMasonryProps) {
     setIsModalImageLoading(Boolean(selectedImage));
   }, [selectedImage]);
 
-  if (!imagePaths.length) {
+  if (!images.length) {
     return (
       <p className="font-mono text-sm text-zinc-500">
         Drop photos into <code>public/gallery/photos</code> and they will appear here.
@@ -55,16 +60,16 @@ export function GalleryMasonry({ imagePaths }: GalleryMasonryProps) {
   return (
     <>
       <div className="columns-3 gap-3 sm:gap-4">
-        {imagePaths.map((src) => (
+        {images.map((image) => (
           <button
-            key={src}
+            key={image.src}
             type="button"
-            onClick={() => setSelectedImage(src)}
+            onClick={() => setSelectedImage(image)}
             className="mb-4 block w-full break-inside-avoid overflow-hidden rounded-md border border-zinc-800/70 bg-zinc-950/40"
-            aria-label="Open image"
+            aria-label={image.alt || "Open image"}
           >
             <div className="relative w-full">
-              {!loadedImages[src] && (
+              {!loadedImages[image.src] && (
                 <div
                   className="aspect-[4/5] w-full animate-pulse rounded-md bg-zinc-800/50"
                   aria-hidden="true"
@@ -72,14 +77,14 @@ export function GalleryMasonry({ imagePaths }: GalleryMasonryProps) {
               )}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                ref={handleGridImageRef(src)}
-                src={src}
-                alt=""
+                ref={handleGridImageRef(image.src)}
+                src={image.src}
+                alt={image.alt}
                 loading="lazy"
                 draggable={false}
-                onLoad={() => markImageLoaded(src)}
-                onError={() => markImageLoaded(src)}
-                className={`block h-auto w-full transition-opacity duration-300 ${loadedImages[src] ? "opacity-100" : "opacity-0 absolute inset-0"}`}
+                onLoad={() => markImageLoaded(image.src)}
+                onError={() => markImageLoaded(image.src)}
+                className={`block h-auto w-full transition-opacity duration-300 ${loadedImages[image.src] ? "opacity-100" : "opacity-0 absolute inset-0"}`}
               />
             </div>
           </button>
@@ -124,8 +129,8 @@ export function GalleryMasonry({ imagePaths }: GalleryMasonryProps) {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 ref={handleModalImageRef}
-                src={selectedImage}
-                alt=""
+                src={selectedImage.src}
+                alt={selectedImage.alt}
                 draggable={false}
                 onLoad={() => setIsModalImageLoading(false)}
                 onError={() => setIsModalImageLoading(false)}
