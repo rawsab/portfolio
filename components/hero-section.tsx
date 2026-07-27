@@ -11,8 +11,8 @@ import { lockScrollJumpHover } from "@/lib/scroll-jump-lock";
 
 const JUMP_SECTIONS = [
   { id: "experience", label: "EXPERIENCE" },
-  { id: "projects", label: "PROJECTS" },
-  { id: "technologies", label: "TECHNOLOGIES" },
+  // { id: "projects", label: "PROJECTS" },
+  // { id: "technologies", label: "TECHNOLOGIES" },
   { id: "recommendations", label: "RECOMMENDATIONS" },
 ] as const;
 
@@ -242,7 +242,7 @@ export function HeroSection() {
                 University of Waterloo
               </span>
             </a>
-            . I&apos;ve worked across early-stage startups and scaling products, most recently at{" "}
+            . I&apos;ve worked across enterprise products and early-stage startups, most recently at{" "}
             <a
               href="https://www.hubspot.com/"
               target="_blank"

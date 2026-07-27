@@ -247,19 +247,24 @@ export function ExperienceSection() {
                 className="flex items-center justify-center w-full group cursor-pointer"
               >
                 <div className="relative flex flex-col items-center">
-                  {isExpanded ? (
-                    <ChevronUp
-                      className={`w-5 h-5 transition-colors ${
-                        isArrowHovered ? "text-white" : "text-zinc-500"
-                      }`}
-                    />
-                  ) : (
-                    <ChevronDown
-                      className={`w-5 h-5 transition-colors ${
-                        isArrowHovered ? "text-white" : "text-zinc-500"
-                      }`}
-                    />
-                  )}
+                  <motion.div
+                    animate={{ y: isArrowHovered ? -10 : 0 }}
+                    transition={{ duration: 0.15, ease: "easeOut" }}
+                  >
+                    {isExpanded ? (
+                      <ChevronUp
+                        className={`w-5 h-5 transition-colors ${
+                          isArrowHovered ? "text-white" : "text-zinc-500"
+                        }`}
+                      />
+                    ) : (
+                      <ChevronDown
+                        className={`w-5 h-5 transition-colors ${
+                          isArrowHovered ? "text-white" : "text-zinc-500"
+                        }`}
+                      />
+                    )}
+                  </motion.div>
                   <AnimatePresence>
                     {isArrowHovered && (
                       <motion.span
@@ -267,7 +272,7 @@ export function ExperienceSection() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -4 }}
                         transition={{ duration: 0.15 }}
-                        className="absolute top-6 text-xs text-zinc-500 whitespace-nowrap shadow-xl shadow-black/90 pointer-events-none"
+                        className="absolute top-2.5 text-xs text-zinc-500 whitespace-nowrap shadow-xl shadow-black/90 pointer-events-none"
                       >
                         {isExpanded ? (
                           "Show less"

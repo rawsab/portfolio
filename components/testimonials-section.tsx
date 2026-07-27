@@ -13,33 +13,25 @@ export function TestimonialsSection() {
   const MODAL_ENTER_MS = 200;
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
   const [hoveredSide, setHoveredSide] = useState<"left" | "right" | null>(null);
   const [direction, setDirection] = useState<"forward" | "backward">("forward");
   const [selectedTestimonialIndex, setSelectedTestimonialIndex] = useState<number | null>(null);
   const [isModalContentVisible, setIsModalContentVisible] = useState(true);
   const [isModalTransitioning, setIsModalTransitioning] = useState(false);
   const [modalContentHeight, setModalContentHeight] = useState<number | "auto">("auto");
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const [showQuoteFade, setShowQuoteFade] = useState(false);
   const modalContentRef = useRef<HTMLDivElement | null>(null);
+  const quoteScrollRef = useRef<HTMLDivElement | null>(null);
   const modalTimeoutsRef = useRef<number[]>([]);
 
   const goToNext = useCallback(() => {
     setDirection("forward");
     setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-    // Reset auto-advance timer
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
   }, []);
 
   const goToPrevious = useCallback(() => {
     setDirection("backward");
     setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-    // Reset auto-advance timer
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
   }, []);
 
   const goToIndex = useCallback((index: number) => {
@@ -47,10 +39,6 @@ export function TestimonialsSection() {
       setDirection(index > prev ? "forward" : "backward");
       return index;
     });
-    // Reset auto-advance timer
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
   }, []);
 
   const clearModalTimeouts = useCallback(() => {
@@ -63,8 +51,21 @@ export function TestimonialsSection() {
     setIsModalTransitioning(false);
     setIsModalContentVisible(true);
     setModalContentHeight("auto");
+    setShowQuoteFade(false);
     setSelectedTestimonialIndex(null);
   }, [clearModalTimeouts]);
+
+  const updateQuoteFade = useCallback(() => {
+    const el = quoteScrollRef.current;
+    if (!el) {
+      setShowQuoteFade(false);
+      return;
+    }
+
+    const canScroll = el.scrollHeight > el.clientHeight + 1;
+    const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 2;
+    setShowQuoteFade(canScroll && !atBottom);
+  }, []);
 
   const transitionModalToIndex = useCallback(
     (nextIndex: number, nextDirection: "forward" | "backward") => {
@@ -135,25 +136,6 @@ export function TestimonialsSection() {
   const isModalOpen = selectedTestimonial !== null;
 
   useEffect(() => {
-    if (!isHovered && !isModalOpen && testimonials.length > 0) {
-      intervalRef.current = setInterval(() => {
-        goToNext();
-      }, 5000); // Auto-advance every 5 seconds
-    } else {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
-      }
-    }
-
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-    };
-  }, [isHovered, isModalOpen, goToNext]);
-
-  useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         closeModal();
@@ -172,6 +154,40 @@ export function TestimonialsSection() {
   }, [closeModal, isModalOpen]);
 
   useEffect(() => {
+    if (!isModalOpen || isModalTransitioning || !isModalContentVisible) {
+      return;
+    }
+
+    const el = quoteScrollRef.current;
+    if (!el) {
+      return;
+    }
+
+    updateQuoteFade();
+
+    const resizeObserver = new ResizeObserver(() => {
+      updateQuoteFade();
+    });
+    resizeObserver.observe(el);
+    if (el.firstElementChild) {
+      resizeObserver.observe(el.firstElementChild);
+    }
+
+    window.addEventListener("resize", updateQuoteFade);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", updateQuoteFade);
+    };
+  }, [
+    isModalContentVisible,
+    isModalOpen,
+    isModalTransitioning,
+    selectedTestimonialIndex,
+    updateQuoteFade,
+  ]);
+
+  useEffect(() => {
     return () => {
       clearModalTimeouts();
     };
@@ -182,18 +198,14 @@ export function TestimonialsSection() {
   }
 
   return (
-    <section id="recommendations" className="scroll-mt-24 pt-6 pb-10">
+    <section id="recommendations" className="scroll-mt-24 pt-0 pb-10">
       <div className="max-w-site mx-auto w-full px-8 space-y-6">
       <Divider label="recommendations" className="mb-8" />
 
         <div className="relative">
           <div
             className="bg-zinc-900 border border-zinc-800 rounded-lg p-4 space-y-4 relative overflow-hidden min-h-[120px]"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => {
-              setIsHovered(false);
-              setHoveredSide(null);
-            }}
+            onMouseLeave={() => setHoveredSide(null)}
           >
             {/* Left Clickable Area */}
             <button
@@ -422,10 +434,22 @@ export function TestimonialsSection() {
                     </div>
                   </div>
 
-                  <div className="max-h-[45vh] overflow-y-auto pr-2 md:max-h-[50vh]">
-                    <p className="pr-6 text-[0.95rem] leading-relaxed whitespace-pre-line text-zinc-400">
-                      {selectedTestimonial.quote}
-                    </p>
+                  <div className="relative">
+                    <div
+                      ref={quoteScrollRef}
+                      onScroll={updateQuoteFade}
+                      className="max-h-[45vh] overflow-y-auto pr-2 md:max-h-[50vh] [scrollbar-color:#52525b_#18181B] [&::-webkit-scrollbar-track]:bg-[#18181B]"
+                    >
+                      <p className="pr-6 text-[0.95rem] leading-relaxed whitespace-pre-line text-zinc-400">
+                        {selectedTestimonial.quote}
+                      </p>
+                    </div>
+                    {showQuoteFade && (
+                      <div
+                        aria-hidden
+                        className="pointer-events-none absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-[#18181B] to-transparent"
+                      />
+                    )}
                   </div>
                 </motion.div>
               </motion.div>
