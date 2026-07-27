@@ -232,7 +232,7 @@ export function HeroSection() {
               className="inline cursor-pointer group"
             >
               <Image
-                src="/icons/uw_icon.png"
+                src="/icons/uw_icon.webp"
                 alt="University of Waterloo"
                 width={16}
                 height={16}
@@ -250,7 +250,7 @@ export function HeroSection() {
               className="inline cursor-pointer group"
             >
               <Image
-                src="/icons/hubspot_icon.png"
+                src="/icons/hubspot_icon.webp"
                 alt="HubSpot"
                 width={16}
                 height={16}
@@ -268,7 +268,7 @@ export function HeroSection() {
               className="inline cursor-pointer group"
             >
               <Image
-                src="/icons/pal_icon.png"
+                src="/icons/pal_icon.webp"
                 alt="Palitronica"
                 width={16}
                 height={16}
@@ -289,7 +289,7 @@ export function HeroSection() {
               className="inline cursor-pointer group"
             >
               <Image
-                src="/icons/ks_icon.png"
+                src="/icons/ks_icon.webp"
                 alt="Keystone App"
                 width={16}
                 height={16}
