@@ -11,9 +11,9 @@ import { lockScrollJumpHover } from "@/lib/scroll-jump-lock";
 
 const JUMP_SECTIONS = [
   { id: "experience", label: "EXPERIENCE" },
-  { id: "projects", label: "PROJECTS" },
-  { id: "technologies", label: "TECHNOLOGIES" },
-  { id: "recommendations", label: "RECOMMENDATIONS" },
+  // { id: "projects", label: "PROJECTS" },
+  // { id: "technologies", label: "TECHNOLOGIES" },
+  // { id: "recommendations", label: "RECOMMENDATIONS" },
 ] as const;
 
 export function HeroSection() {

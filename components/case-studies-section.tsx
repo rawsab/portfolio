@@ -22,22 +22,22 @@ export function CaseStudiesSection() {
           }}
         />
         
-        {/* Left fade overlay - from viewport left to 672px left edge */}
+        {/* Left fade overlay - from viewport left to content edge */}
         <div 
           className="absolute top-0 bottom-0 pointer-events-none z-10"
           style={{
             left: 0,
-            width: 'max(0px, calc((100vw - 672px) / 2))',
+            width: 'max(0px, calc((100vw - var(--container-site)) / 2))',
             background: 'linear-gradient(to right, #0D0D0D, transparent)',
           }}
         />
         
-        {/* Right fade overlay - from 672px right edge to viewport right */}
+        {/* Right fade overlay - from content edge to viewport right */}
         <div 
           className="absolute top-0 bottom-0 pointer-events-none z-10"
           style={{
             right: 0,
-            width: 'max(0px, calc((100vw - 672px) / 2))',
+            width: 'max(0px, calc((100vw - var(--container-site)) / 2))',
             background: 'linear-gradient(to left, #0D0D0D, transparent)',
           }}
         />

@@ -116,7 +116,14 @@ interface CaseStudyProps {
   }>;
 }
 
+/** Flip to true when case studies should be public again. */
+const CASE_STUDIES_ENABLED = false;
+
 export async function generateStaticParams() {
+  if (!CASE_STUDIES_ENABLED) {
+    return [];
+  }
+
   const caseStudiesDir = path.join(process.cwd(), 'app/case-studies');
   
   // Check if directory exists, if not return empty paths
@@ -135,6 +142,13 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: CaseStudyProps): Promise<Metadata> {
+  if (!CASE_STUDIES_ENABLED) {
+    return {
+      title: 'Not Found',
+      robots: { index: false, follow: false },
+    };
+  }
+
   const { slug } = await params;
   const caseStudyPath = path.join(process.cwd(), 'app/case-studies', slug, 'index.mdx');
   
@@ -167,6 +181,10 @@ export async function generateMetadata({ params }: CaseStudyProps): Promise<Meta
 }
 
 export default async function CaseStudy({ params }: CaseStudyProps) {
+  if (!CASE_STUDIES_ENABLED) {
+    notFound();
+  }
+
   const { slug } = await params;
   const caseStudyPath = path.join(process.cwd(), 'app/case-studies', slug, 'index.mdx');
   

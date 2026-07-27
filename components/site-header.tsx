@@ -24,8 +24,9 @@ export function SiteHeader({ brandHref }: SiteHeaderProps = {}) {
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-100 w-full bg-black/50 backdrop-blur-xl backdrop-saturate-150">
-        <div className="flex items-center justify-between px-8 pt-6 pb-4 border-b border-zinc-800/50 max-w-site mx-auto w-full">
-          <nav className="flex items-center gap-4" aria-label="Main navigation">
+        <div className="grid grid-cols-3 items-center px-8 pt-6 pb-4 border-b border-zinc-800/50 max-w-site mx-auto w-full">
+          <div aria-hidden />
+          <nav className="flex items-center justify-center gap-4" aria-label="Main navigation">
             {homeItem}
             <Link href="/blog" className={`${navClassName} hover:text-white/90 transition-colors`}>
               blog
@@ -34,7 +35,7 @@ export function SiteHeader({ brandHref }: SiteHeaderProps = {}) {
               gallery
             </Link>
           </nav>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center justify-end gap-3">
             <a
               href="https://se-webring.xyz"
               target="_blank"
