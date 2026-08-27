@@ -19,7 +19,7 @@ export const experiences: Experience[] = [
     description:
       "Currently working on Brand Identity product backend.",
     link: "https://www.hubspot.com/",
-    technologies: ["Java", "DropWizard", "Apache Kafka", "AWS SQS", "MySQL", "AI Agents"],
+    technologies: ["Java", "DropWizard", "Apache Kafka", "AWS SQS", "MySQL", "MCP", "AI Agents"],
   },
   {
     period: "JAN-APR 2026",
