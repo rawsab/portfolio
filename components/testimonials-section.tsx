@@ -5,12 +5,14 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { testimonials } from "@/data/testimonials";
+import { cn } from "@/lib/utils";
 import { Divider } from "./divider";
 
 export function TestimonialsSection() {
   const MODAL_EXIT_MS = 50;
   const MODAL_RESIZE_MS = 250;
   const MODAL_ENTER_MS = 200;
+  const MODAL_FADE_MS = 300;
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [hoveredSide, setHoveredSide] = useState<"left" | "right" | null>(null);
@@ -19,9 +21,9 @@ export function TestimonialsSection() {
   const [isModalContentVisible, setIsModalContentVisible] = useState(true);
   const [isModalTransitioning, setIsModalTransitioning] = useState(false);
   const [modalContentHeight, setModalContentHeight] = useState<number | "auto">("auto");
-  const [showQuoteFade, setShowQuoteFade] = useState(false);
+  const [activeTestimonialIndex, setActiveTestimonialIndex] = useState<number | null>(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const modalContentRef = useRef<HTMLDivElement | null>(null);
-  const quoteScrollRef = useRef<HTMLDivElement | null>(null);
   const modalTimeoutsRef = useRef<number[]>([]);
 
   const goToNext = useCallback(() => {
@@ -51,21 +53,9 @@ export function TestimonialsSection() {
     setIsModalTransitioning(false);
     setIsModalContentVisible(true);
     setModalContentHeight("auto");
-    setShowQuoteFade(false);
+    setIsModalVisible(false);
     setSelectedTestimonialIndex(null);
   }, [clearModalTimeouts]);
-
-  const updateQuoteFade = useCallback(() => {
-    const el = quoteScrollRef.current;
-    if (!el) {
-      setShowQuoteFade(false);
-      return;
-    }
-
-    const canScroll = el.scrollHeight > el.clientHeight + 1;
-    const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 2;
-    setShowQuoteFade(canScroll && !atBottom);
-  }, []);
 
   const transitionModalToIndex = useCallback(
     (nextIndex: number, nextDirection: "forward" | "backward") => {
@@ -83,6 +73,7 @@ export function TestimonialsSection() {
       clearModalTimeouts();
 
       const switchTimeout = window.setTimeout(() => {
+        setActiveTestimonialIndex(nextIndex);
         setSelectedTestimonialIndex(nextIndex);
 
         requestAnimationFrame(() => {
@@ -130,10 +121,30 @@ export function TestimonialsSection() {
     transitionModalToIndex(previousIndex, "backward");
   }, [selectedTestimonialIndex, transitionModalToIndex]);
 
+  const openTestimonial = (index: number) => {
+    setActiveTestimonialIndex(index);
+    setSelectedTestimonialIndex(index);
+  };
+
   const currentTestimonial = testimonials[currentIndex];
-  const selectedTestimonial =
-    selectedTestimonialIndex !== null ? testimonials[selectedTestimonialIndex] : null;
-  const isModalOpen = selectedTestimonial !== null;
+  const modalTestimonial =
+    activeTestimonialIndex !== null ? testimonials[activeTestimonialIndex] : null;
+  const isModalMounted = modalTestimonial !== null && modalTestimonial !== undefined;
+
+  useEffect(() => {
+    if (selectedTestimonialIndex !== null) {
+      const frame = window.requestAnimationFrame(() => {
+        setIsModalVisible(true);
+      });
+      return () => window.cancelAnimationFrame(frame);
+    }
+
+    const unmountTimeout = window.setTimeout(() => {
+      setActiveTestimonialIndex(null);
+    }, MODAL_FADE_MS);
+
+    return () => window.clearTimeout(unmountTimeout);
+  }, [MODAL_FADE_MS, selectedTestimonialIndex]);
 
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
@@ -142,50 +153,27 @@ export function TestimonialsSection() {
       }
     };
 
-    if (isModalOpen) {
+    if (isModalMounted) {
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      const previousBodyOverflow = document.body.style.overflow;
+      const previousBodyPaddingRight = document.body.style.paddingRight;
       document.body.style.overflow = "hidden";
+      if (scrollbarWidth > 0) {
+        document.body.style.paddingRight = `${scrollbarWidth}px`;
+      }
       document.addEventListener("keydown", handleEscape);
+
+      return () => {
+        document.body.style.overflow = previousBodyOverflow;
+        document.body.style.paddingRight = previousBodyPaddingRight;
+        document.removeEventListener("keydown", handleEscape);
+      };
     }
 
     return () => {
-      document.body.style.overflow = "unset";
       document.removeEventListener("keydown", handleEscape);
     };
-  }, [closeModal, isModalOpen]);
-
-  useEffect(() => {
-    if (!isModalOpen || isModalTransitioning || !isModalContentVisible) {
-      return;
-    }
-
-    const el = quoteScrollRef.current;
-    if (!el) {
-      return;
-    }
-
-    updateQuoteFade();
-
-    const resizeObserver = new ResizeObserver(() => {
-      updateQuoteFade();
-    });
-    resizeObserver.observe(el);
-    if (el.firstElementChild) {
-      resizeObserver.observe(el.firstElementChild);
-    }
-
-    window.addEventListener("resize", updateQuoteFade);
-
-    return () => {
-      resizeObserver.disconnect();
-      window.removeEventListener("resize", updateQuoteFade);
-    };
-  }, [
-    isModalContentVisible,
-    isModalOpen,
-    isModalTransitioning,
-    selectedTestimonialIndex,
-    updateQuoteFade,
-  ]);
+  }, [closeModal, isModalMounted]);
 
   useEffect(() => {
     return () => {
@@ -202,9 +190,12 @@ export function TestimonialsSection() {
       <div className="max-w-site mx-auto w-full px-8 space-y-6">
       <Divider label="recommendations" className="mb-8" />
 
-        <div className="relative">
+        <div
+          className="relative"
+          onMouseLeave={() => setHoveredSide(null)}
+        >
           <div
-            className="bg-zinc-900 border border-zinc-800 rounded-lg p-4 space-y-4 relative overflow-hidden min-h-[120px]"
+            className="relative z-10 min-h-[120px] space-y-4 overflow-hidden rounded-lg border border-white/8 bg-zinc-800/30 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),inset_0_0_24px_rgba(255,255,255,0.05)] [backdrop-filter:blur(8px)_saturate(1.5)] [-webkit-backdrop-filter:blur(8px)_saturate(1.5)] transition-colors duration-200 hover:bg-[#3c3c3f]/30"
             onMouseLeave={() => setHoveredSide(null)}
           >
             {/* Left Clickable Area */}
@@ -263,7 +254,7 @@ export function TestimonialsSection() {
                 transition={{ duration: 0.2, ease: "easeOut" }}
                 className="space-y-4 px-6 cursor-pointer"
                 data-cursor-read-more="true"
-                onClick={() => setSelectedTestimonialIndex(currentIndex)}
+                onClick={() => openTestimonial(currentIndex)}
               >
                       <p className="text-[0.95rem] text-zinc-400 leading-relaxed mt-0 line-clamp-5 md:line-clamp-3">
                   {currentTestimonial.quote}
@@ -284,7 +275,7 @@ export function TestimonialsSection() {
                           alt={currentTestimonial.author.company}
                           width={16}
                           height={16}
-                          className="h-5 w-5 rounded-md border-3 border-zinc-900"
+                          className="h-5 w-5 rounded-md border-2 border-white/15"
                         />
                       </div>
                     )}
@@ -323,28 +314,31 @@ export function TestimonialsSection() {
         </div>
       </div>
 
-      <AnimatePresence>
-        {isModalOpen && selectedTestimonial && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 px-4"
+      {isModalMounted && modalTestimonial && (
+        <div className="fixed inset-0 z-50">
+          <div
+            className={cn(
+              "absolute inset-0 bg-black/65 transition-opacity duration-300 ease-out",
+              isModalVisible ? "opacity-100" : "opacity-0",
+            )}
             onClick={closeModal}
-          >
-            <motion.div
-              initial={{ scale: 0.96, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.96, opacity: 0 }}
-              transition={{ type: "spring", damping: 28, stiffness: 320 }}
-              layout
-              layoutDependency={selectedTestimonialIndex}
-              className="relative w-full max-w-2xl rounded-xl border border-zinc-800 bg-zinc-900 p-6 md:p-7"
+          />
+          <div className="pointer-events-none relative flex h-full items-center justify-center px-4">
+            <div
+              className={cn(
+                "pointer-events-auto relative w-full max-w-2xl rounded-xl border p-6 md:p-7 transition-[background-color,border-color,box-shadow,backdrop-filter,-webkit-backdrop-filter] duration-300 ease-out",
+                isModalVisible
+                  ? "border-white/8 bg-zinc-800/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),inset_0_0_24px_rgba(255,255,255,0.05),0_24px_50px_-20px_rgba(0,0,0,0.65)] [backdrop-filter:blur(8px)_saturate(1.5)] [-webkit-backdrop-filter:blur(8px)_saturate(1.5)]"
+                  : "border-white/0 bg-zinc-800/0 shadow-[inset_0_1px_0_rgba(255,255,255,0),inset_0_0_24px_rgba(255,255,255,0),0_24px_50px_-20px_rgba(0,0,0,0)] [backdrop-filter:blur(0px)_saturate(1)] [-webkit-backdrop-filter:blur(0px)_saturate(1)]",
+              )}
               onClick={(event) => event.stopPropagation()}
             >
               <button
                 onClick={goToPreviousInModal}
-                className="absolute -left-10 top-1/2 -translate-y-1/2 cursor-pointer text-zinc-400 transition-colors hover:text-zinc-300 md:-left-12"
+                className={cn(
+                  "absolute -left-10 top-1/2 -translate-y-1/2 cursor-pointer text-zinc-400 transition-opacity duration-300 ease-out hover:text-zinc-300 md:-left-12",
+                  isModalVisible ? "opacity-100" : "opacity-0",
+                )}
                 aria-label="Previous recommendation"
               >
                 <ChevronLeft className="h-5 w-5" />
@@ -352,7 +346,10 @@ export function TestimonialsSection() {
 
               <button
                 onClick={goToNextInModal}
-                className="absolute -right-10 top-1/2 -translate-y-1/2 cursor-pointer text-zinc-400 transition-colors hover:text-zinc-300 md:-right-12"
+                className={cn(
+                  "absolute -right-10 top-1/2 -translate-y-1/2 cursor-pointer text-zinc-400 transition-opacity duration-300 ease-out hover:text-zinc-300 md:-right-12",
+                  isModalVisible ? "opacity-100" : "opacity-0",
+                )}
                 aria-label="Next recommendation"
               >
                 <ChevronRight className="h-5 w-5" />
@@ -360,19 +357,26 @@ export function TestimonialsSection() {
 
               <button
                 onClick={closeModal}
-                className="absolute right-4 top-4 text-zinc-400 transition-colors hover:text-zinc-200 hover:cursor-pointer"
+                className={cn(
+                  "absolute right-4 top-4 text-zinc-500 transition-opacity duration-300 ease-out hover:text-zinc-200 hover:cursor-pointer",
+                  isModalVisible ? "opacity-100" : "opacity-0",
+                )}
                 aria-label="Close testimonial modal"
               >
                 <X className="h-5 w-5" />
               </button>
 
               <motion.div
+                initial={false}
                 animate={{ height: modalContentHeight }}
                 transition={{ height: { duration: MODAL_RESIZE_MS / 1000, ease: "easeInOut" } }}
-                className="overflow-hidden"
+                className={cn(
+                  "overflow-hidden transition-opacity duration-300 ease-out",
+                  isModalVisible ? "opacity-100" : "opacity-0",
+                )}
               >
                 <motion.div
-                  key={selectedTestimonialIndex}
+                  key={activeTestimonialIndex}
                   ref={modalContentRef}
                   custom={direction}
                   initial={false}
@@ -384,79 +388,69 @@ export function TestimonialsSection() {
                   }}
                   className="space-y-5"
                 >
-                  <div className="flex items-center gap-3 border-b border-zinc-800 pb-4">
+                  <div className="flex items-center gap-3 border-b border-white/10 pb-4">
                     <div className="flex items-center gap-4">
                       <div className="relative">
                         <Image
-                          src={selectedTestimonial.author.profileImage}
-                          alt={selectedTestimonial.author.name}
+                          src={modalTestimonial.author.profileImage}
+                          alt={modalTestimonial.author.name}
                           width={48}
                           height={48}
                           className="h-10 w-10 rounded-full object-cover"
                         />
-                        {selectedTestimonial.author.companyIcon && (
+                        {modalTestimonial.author.companyIcon && (
                           <div className="absolute bottom-0 right-0 translate-x-1/2 translate-y-1">
                             <Image
-                              src={selectedTestimonial.author.companyIcon}
-                              alt={selectedTestimonial.author.company}
+                              src={modalTestimonial.author.companyIcon}
+                              alt={modalTestimonial.author.company}
                               width={18}
                               height={18}
-                              className="h-5 w-5 rounded-md border-2 border-zinc-900"
+                              className="h-5 w-5 rounded-md border-2 border-white/15"
                             />
                           </div>
                         )}
                       </div>
 
                       <div>
-                        {selectedTestimonial.author.linkedin ? (
+                        {modalTestimonial.author.linkedin ? (
                           <a
-                            href={selectedTestimonial.author.linkedin}
+                            href={modalTestimonial.author.linkedin}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="group inline-flex items-center gap-1 text-sm font-medium text-zinc-300 transition-colors hover:text-white"
-                            aria-label={`${selectedTestimonial.author.name} LinkedIn profile`}
+                            aria-label={`${modalTestimonial.author.name} LinkedIn profile`}
                           >
                             <span className="bg-[linear-gradient(currentColor,currentColor)] bg-no-repeat bg-position-[0_100%] bg-size-[0%_1px] transition-[background-size] duration-250 ease-out group-hover:bg-size-[100%_1px]">
-                              {selectedTestimonial.author.name}
+                              {modalTestimonial.author.name}
                             </span>
                             <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                           </a>
                         ) : (
                           <div className="text-sm font-medium text-zinc-300">
-                            {selectedTestimonial.author.name}
+                            {modalTestimonial.author.name}
                           </div>
                         )}
                         <div className="text-sm text-zinc-500">
-                          {selectedTestimonial.author.title} at{" "}
-                          <span className="text-zinc-500">{selectedTestimonial.author.company}</span>
+                          {modalTestimonial.author.title} at{" "}
+                          <span className="text-zinc-500">{modalTestimonial.author.company}</span>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <div className="relative">
-                    <div
-                      ref={quoteScrollRef}
-                      onScroll={updateQuoteFade}
-                      className="max-h-[45vh] overflow-y-auto pr-2 md:max-h-[50vh] [scrollbar-color:#52525b_#18181B] [&::-webkit-scrollbar-track]:bg-[#18181B]"
-                    >
-                      <p className="pr-6 text-[0.95rem] leading-relaxed whitespace-pre-line text-zinc-400">
-                        {selectedTestimonial.quote}
-                      </p>
-                    </div>
-                    {showQuoteFade && (
-                      <div
-                        aria-hidden
-                        className="pointer-events-none absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-[#18181B] to-transparent"
-                      />
-                    )}
+                  <div
+                    className="max-h-[45vh] overflow-y-auto pr-2 md:max-h-[50vh] [scrollbar-color:#52525b_transparent] [&::-webkit-scrollbar-track]:bg-transparent"
+                  >
+                    <p className="pr-6 text-[0.95rem] leading-relaxed whitespace-pre-line text-zinc-400">
+                      {modalTestimonial.quote}
+                    </p>
                   </div>
-                </motion.div>
               </motion.div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

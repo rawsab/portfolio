@@ -6,16 +6,13 @@ import { CaseStudiesSection } from "@/components/case-studies-section";
 import { TestimonialsSection } from "@/components/testimonials-section";
 import { BottomBlurOverlay } from "@/components/bottom-blur-overlay";
 import { Footer } from "@/components/footer";
-import { CursorFollower } from "@/components/cursor-follower";
 import { FadeInSection } from "@/components/fade-in-section";
 import { ScrollToTop } from "@/components/scroll-to-top";
-import { SiteHeader } from "@/components/site-header";
 
 export default function Home() {
   return (
     <>
       <ScrollToTop />
-      <SiteHeader />
       <FadeInSection delay={0}>
         <HeroSection />
       </FadeInSection>
@@ -36,7 +33,6 @@ export default function Home() {
         <Footer />
       </FadeInSection>
       <BottomBlurOverlay />
-      <CursorFollower />
     </>
   );
 }

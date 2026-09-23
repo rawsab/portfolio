@@ -7,11 +7,9 @@ import matter from 'gray-matter';
 import { notFound } from 'next/navigation';
 import { Footer } from '@/components/footer';
 import MDXContentWrapper from '@/components/mdx-content-wrapper';
-import { CursorFollower } from '@/components/cursor-follower';
 import { projects } from '@/data/projects';
 import { FadeInSection } from '@/components/fade-in-section';
 import { ScrollToTop } from '@/components/scroll-to-top';
-import { SiteHeader } from '@/components/site-header';
 
 // Function to extract headers from MDX content
 function extractHeaders(content: string) {
@@ -208,7 +206,6 @@ export default async function CaseStudy({ params }: CaseStudyProps) {
   return (
     <div className="min-h-screen bg-black text-zinc-300">
       <ScrollToTop />
-      <SiteHeader brandHref="/" />
 
       <main className="max-w-site mx-auto px-8 py-8">
         {/* Hero Section */}
@@ -361,7 +358,6 @@ export default async function CaseStudy({ params }: CaseStudyProps) {
       <FadeInSection delay={0.4}>
         <Footer />
       </FadeInSection>
-      <CursorFollower />
     </div>
   );
 }

@@ -17,9 +17,9 @@ export const experiences: Experience[] = [
     icon: "/icons/hubspot_icon.webp",
     iconAlt: "HubSpot",
     description:
-      "Currently working on Brand Identity product backend.",
+      "Built integrations that bring HubSpot's brand context and marketing capabilities into AI tools like ChatGPT, Claude, and Gemini.",
     link: "https://www.hubspot.com/",
-    technologies: ["Java", "DropWizard", "Apache Kafka", "AWS SQS", "MySQL", "MCP", "AI Agents"],
+    technologies: ["Java", "DropWizard", "Maven", "Apache Kafka", "AWS SQS", "MySQL", "MCP", "AI Agents"],
   },
   {
     period: "JAN-APR 2026",

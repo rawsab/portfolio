@@ -20,10 +20,19 @@ export function ExperienceSection() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isArrowHovered, setIsArrowHovered] = useState(false);
   const [highlightPos, setHighlightPos] = useState<HighlightPosition | null>(null);
+  const [isTapToggle, setIsTapToggle] = useState(false);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const visibleCount = 3;
   const remainingCount = experiences.length - visibleCount;
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 639px), (hover: none)");
+    const update = () => setIsTapToggle(media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
 
   const updateHighlightPosition = (index: number) => {
     const element = itemRefs.current[index];
@@ -41,7 +50,7 @@ export function ExperienceSection() {
   };
 
   const handleMouseEnter = (index: number) => {
-    if (isScrollJumpHoverLocked()) return;
+    if (isTapToggle || isScrollJumpHoverLocked()) return;
     setHoveredIndex(index);
     // Use requestAnimationFrame to ensure DOM is updated
     requestAnimationFrame(() => {
@@ -49,24 +58,42 @@ export function ExperienceSection() {
     });
   };
 
-  // Update position when hoveredIndex changes
-  useEffect(() => {
-    if (hoveredIndex !== null) {
-      const syncHighlight = () => {
-        requestAnimationFrame(() => {
-          updateHighlightPosition(hoveredIndex);
-        });
-      };
+  const handleItemClick = (index: number, event: React.MouseEvent) => {
+    if (!isTapToggle) return;
+    if ((event.target as HTMLElement).closest("a")) return;
 
-      syncHighlight();
-      const timeouts = [60, 140, 220].map((delay) =>
-        setTimeout(syncHighlight, delay)
-      );
-
-      return () => {
-        timeouts.forEach(clearTimeout);
-      };
+    if (hoveredIndex === index) {
+      setHoveredIndex(null);
+      setHighlightPos(null);
+      return;
     }
+
+    setHoveredIndex(index);
+    requestAnimationFrame(() => {
+      updateHighlightPosition(index);
+    });
+  };
+
+  // Keep the grey highlight aligned while technologies expand or collapse.
+  useEffect(() => {
+    if (hoveredIndex === null) return;
+
+    const container = containerRef.current;
+    const element = itemRefs.current[hoveredIndex];
+    if (!container) return;
+
+    const syncHighlight = () => {
+      requestAnimationFrame(() => {
+        updateHighlightPosition(hoveredIndex);
+      });
+    };
+
+    syncHighlight();
+    const observer = new ResizeObserver(syncHighlight);
+    observer.observe(container);
+    if (element) observer.observe(element);
+
+    return () => observer.disconnect();
   }, [hoveredIndex, isExpanded]);
 
   const handleToggleExpanded = () => {
@@ -80,6 +107,7 @@ export function ExperienceSection() {
   };
 
   const handleMouseLeave = () => {
+    if (isTapToggle) return;
     setHoveredIndex(null);
     setHighlightPos(null);
   };
@@ -90,7 +118,7 @@ export function ExperienceSection() {
       <Divider label="experience" className="mb-8" />
         <div className="space-y-2">
           <p className="text-base text-[#8F8F8F] leading-normal">
-            Throughout my past internships, I&apos;ve worked on secure backend systems, real-time data flows, and AI-integrated features. Here&apos;s a brief overview:
+            Throughout my past internships, I&apos;ve worked on complex backend systems, real-time data flows, and AI integration. Here&apos;s a brief overview:
           </p>
         </div>
 
@@ -103,14 +131,15 @@ export function ExperienceSection() {
               }}
               onMouseEnter={() => handleMouseEnter(index)}
               onMouseLeave={handleMouseLeave}
-              className="flex flex-col gap-4 sm:flex-row sm:gap-8 relative z-10"
+              onClick={(event) => handleItemClick(index, event)}
+              className={`flex flex-col gap-4 sm:flex-row sm:gap-8 relative z-10${isTapToggle ? " cursor-pointer" : ""}`}
             >
               <div className="text-sm font-mono tracking-tight text-zinc-600 sm:w-28 shrink-0 mt-1 -mb-2">
                 {exp.period}
               </div>
               <div className="flex-1 space-y-2 mb-2">
                 <div className="text-base text-zinc-300">
-                  {exp.role} at{" "}
+                  {exp.role} <span className="opacity-80">at</span>{" "}
                   <a
                     href={exp.link}
                     target="_blank"
@@ -145,7 +174,7 @@ export function ExperienceSection() {
                         {exp.technologies.map((tech) => (
                           <span
                             key={`${exp.company}-${tech}`}
-                            className="inline-flex items-center rounded-full border border-zinc-700/70 bg-zinc-800/60 px-2.5 py-1 text-xs font-mono text-zinc-300"
+                            className="inline-flex items-center rounded-full border border-white/5 bg-white/5 px-2.5 py-1 text-xs font-normal tracking-tight text-zinc-300/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),inset_0_0_8px_rgba(255,255,255,0.025)] [backdrop-filter:blur(8px)_saturate(1.5)] [-webkit-backdrop-filter:blur(8px)_saturate(1.5)]"
                           >
                             {tech}
                           </span>
@@ -177,14 +206,15 @@ export function ExperienceSection() {
                       }}
                       onMouseEnter={() => handleMouseEnter(actualIndex)}
                       onMouseLeave={handleMouseLeave}
-                      className="flex flex-col gap-4 sm:flex-row sm:gap-8 relative z-10"
+                      onClick={(event) => handleItemClick(actualIndex, event)}
+                      className={`flex flex-col gap-4 sm:flex-row sm:gap-8 relative z-10${isTapToggle ? " cursor-pointer" : ""}`}
                     >
                       <div className="text-sm font-mono tracking-tight text-zinc-600 sm:w-28 shrink-0 mt-1 -mb-2">
                         {exp.period}
                       </div>
                       <div className="flex-1 space-y-2 mb-2">
                         <div className="text-base text-zinc-300">
-                          {exp.role} at{" "}
+                          {exp.role} <span className="opacity-80">at</span>{" "}
                           <a
                             href={exp.link}
                             target="_blank"
@@ -219,7 +249,7 @@ export function ExperienceSection() {
                                 {exp.technologies.map((tech) => (
                                   <span
                                     key={`${exp.company}-${tech}`}
-                                    className="inline-flex items-center rounded-full border border-zinc-700/70 bg-zinc-800/60 px-2.5 py-1 text-xs font-mono text-zinc-300"
+                                    className="inline-flex items-center rounded-full border border-white/5 bg-white/5 px-2.5 py-1 text-xs font-normal tracking-tight text-zinc-300/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),inset_0_0_8px_rgba(255,255,255,0.025)] [backdrop-filter:blur(8px)_saturate(1.5)] [-webkit-backdrop-filter:blur(8px)_saturate(1.5)]"
                                   >
                                     {tech}
                                   </span>
@@ -289,7 +319,7 @@ export function ExperienceSection() {
             </div>
           )}
 
-          <div className="absolute inset-0 pointer-events-none hidden sm:block">
+          <div className="absolute inset-0 pointer-events-none">
             <AnimatePresence>
               {hoveredIndex !== null && highlightPos && (
                 <motion.div
