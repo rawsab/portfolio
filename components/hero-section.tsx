@@ -7,8 +7,8 @@ export function HeroSection() {
         <Image
           src="/background.webp"
           alt=""
-          width={5000}
-          height={3502}
+          width={2560}
+          height={1794}
           priority
           sizes="100vw"
           className="absolute left-0 h-auto w-full max-w-none top-[calc(var(--banner-y)*100cqw/1280px)]"
@@ -74,26 +74,24 @@ export function HeroSection() {
                 HubSpot
               </span>
             </a>
-            <span className="hidden sm:inline">
-              {" and "}
-              <a
-                href="https://www.palitronica.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline whitespace-nowrap cursor-pointer group"
-              >
-                <Image
-                  src="/icons/pal_icon.webp"
-                  alt="Palitronica"
-                  width={16}
-                  height={16}
-                  className="inline h-4.5 w-4.5 translate-y-0.5 ml-1 mr-1.5 align-baseline"
-                />
-                <span className="text-white bg-[linear-gradient(currentColor,currentColor)] bg-no-repeat bg-position-[0_100%] bg-size-[0%_1px] transition-[background-size] duration-250 ease-out group-hover:bg-size-[100%_1px]">
-                  Palitronica (YC W22)
-                </span>
-              </a>
-            </span>
+            {" and "}
+            <a
+              href="https://www.palitronica.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline whitespace-nowrap cursor-pointer group"
+            >
+              <Image
+                src="/icons/pal_icon.webp"
+                alt="Palitronica"
+                width={16}
+                height={16}
+                className="inline h-4.5 w-4.5 translate-y-0.5 ml-1 mr-1.5 align-baseline"
+              />
+              <span className="text-white bg-[linear-gradient(currentColor,currentColor)] bg-no-repeat bg-position-[0_100%] bg-size-[0%_1px] transition-[background-size] duration-250 ease-out group-hover:bg-size-[100%_1px]">
+                Palitronica (YC W22)
+              </span>
+            </a>
             .
           </p>
         </div>
