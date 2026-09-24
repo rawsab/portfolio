@@ -13,9 +13,7 @@ export default function Home() {
   return (
     <>
       <ScrollToTop />
-      <FadeInSection delay={0}>
-        <HeroSection />
-      </FadeInSection>
+      <HeroSection />
       <FadeInSection delay={0.05}>
         <ExperienceSection />
       </FadeInSection>

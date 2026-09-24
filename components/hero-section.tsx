@@ -1,9 +1,40 @@
+"use client";
+
 import Image from "next/image";
+import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+
+const bannerFrameClass =
+  "absolute left-0 w-full max-w-none top-[calc(var(--banner-y)*100cqw/1280px)]";
 
 export function HeroSection() {
+  const [bannerLoaded, setBannerLoaded] = useState(false);
+  const bannerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const img = bannerRef.current?.querySelector("img");
+    if (img?.complete && img.naturalWidth > 0) {
+      setBannerLoaded(true);
+    }
+  }, []);
+
   return (
     <section className="text-zinc-300">
-      <div className="@container relative w-full overflow-hidden h-40 [--banner-y:-160px]">
+      <motion.div
+        ref={bannerRef}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        className="@container relative w-full overflow-hidden h-40 [--banner-y:-160px]"
+      >
+        <div
+          aria-hidden
+          className={`${bannerFrameClass} aspect-[2560/1794]`}
+          style={{
+            backgroundImage:
+              "linear-gradient(to bottom, #2C343A 0%, #394756 8%, #45637B 18%, #111D22 30%, #403B31 38%, #897253 45%, #46594F 55%, #202327 72%, #2E3932 87%, #455537 100%)",
+          }}
+        />
         <Image
           src="/background.webp"
           alt=""
@@ -11,7 +42,8 @@ export function HeroSection() {
           height={1794}
           priority
           sizes="100vw"
-          className="absolute left-0 h-auto w-full max-w-none top-[calc(var(--banner-y)*100cqw/1280px)]"
+          onLoad={() => setBannerLoaded(true)}
+          className={`${bannerFrameClass} h-auto transition-opacity duration-700 ease-out ${bannerLoaded ? "opacity-100" : "opacity-0"}`}
         />
         <div
           aria-hidden
@@ -21,8 +53,13 @@ export function HeroSection() {
           }}
           // 0 - 20 - 40 - 60 - 80 - 120 - 160
         />
-      </div>
-      <div className="relative z-20 px-8 -mt-6 pb-6 max-w-site mx-auto w-full">
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        className="relative z-20 px-8 -mt-6 pb-6 max-w-site mx-auto w-full"
+      >
         <div className="w-full flex flex-col space-y-4">
           <h1 className="text-left text-base font-medium tracking-tight text-[white]">
             Hi, I&apos;m <a
@@ -95,7 +132,7 @@ export function HeroSection() {
             .
           </p>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
