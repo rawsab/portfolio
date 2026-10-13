@@ -13,6 +13,18 @@ export interface Testimonial {
 export const testimonials: Testimonial[] = [
   {
     quote:
+      "Rawsab ramped up quickly and was able to contribute significantly to our Brand Identity work. He made a meaningful impact in a short time, consistently taking on challenging problems, developing simple yet effective solutions, and executing independently. I strongly recommend Rawsab and would gladly work with him again.",
+    author: {
+      name: "Chintan Shah",
+      title: "Tech Lead II",
+      company: "HubSpot",
+      profileImage: "/testimonial_img/chintan_shah.webp",
+      companyIcon: "/icons/hubspot_icon.webp",
+      linkedin: "https://www.linkedin.com/in/chintan-shah/",
+    },
+  },
+  {
+    quote:
       "Rawsab has made an exceptional contribution to the development of our ML framework during his co-op term. He consistently demonstrated a high level of organization and ownership in approaching tasks, carefully processing requirements and delivering thoughtful, high-quality implementations. \n\nBeyond execution, he proactively introduced new ideas and played a key role in identifying and resolving multiple issues, improving both stability and usability of our systems. He was also highly effective in code reviews, providing clear, constructive feedback that improved the team's overall quality. His ability to go beyond assigned tasks, contribute strategically, and deliver impactful results clearly distinguishes his performance as outstanding. \n\nThroughout his co-op term, he consistently demonstrated exceptional technical ability, strong ownership, and a proactive mindset. He quickly understood complex requirements within our ML infrastructure and translated them into well-structured, scalable solutions. His contributions went beyond assigned tasks; he actively identified gaps, proposed improvements, and followed through with high-quality implementations. \n\nI strongly recommend him for any future roles in MLOps or software engineering. He has demonstrated the ability to work effectively in complex, production-level environments and consistently deliver impactful results. With continued experience, he has strong potential to grow into a highly capable engineer and technical leader.",
     author: {
       name: "Mostafa Hassan",
