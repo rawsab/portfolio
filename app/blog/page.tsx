@@ -1,18 +1,9 @@
-import { notFound } from "next/navigation";
-
 import { BottomBlurOverlay } from "@/components/bottom-blur-overlay";
 import { FadeInSection } from "@/components/fade-in-section";
 import { Footer } from "@/components/footer";
 import { ScrollToTop } from "@/components/scroll-to-top";
 
-/** Flip to true when the blog should be public again. */
-const BLOG_ENABLED = false;
-
 export default function BlogPage() {
-  if (!BLOG_ENABLED) {
-    notFound();
-  }
-
   return (
     <>
       <ScrollToTop />
