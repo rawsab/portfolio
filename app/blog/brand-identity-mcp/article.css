@@ -1,0 +1,337 @@
+/*
+ * Brand Identity & MCP article.
+ * Tokens mirror the site's zinc palette, #8F8F8F body copy, and white/10 rules.
+ * Semantic hues stay low-chroma so diagrams read as part of the monochrome site;
+ * every hue is paired with a text label.
+ */
+.bi-article {
+  --bi-surface: #18181b;
+  --bi-surface-deep: #0c0c0e;
+  --bi-line: #27272a;
+  --bi-line-strong: #3f3f46;
+  --bi-text: #e4e4e7;
+  --bi-text-muted: #8f8f8f;
+  --bi-text-dim: #71717a;
+  --bi-model: oklch(0.76 0.065 250);
+  --bi-code: oklch(0.78 0.06 155);
+  --bi-user: oklch(0.82 0.075 80);
+  --bi-error: oklch(0.74 0.085 20);
+  --bi-neutral: #d4d4d8;
+}
+
+/* Figures break out of the 42rem column when there is room. */
+.bi-figure {
+  --fig-w: min(52rem, calc(100vw - 2rem));
+  width: var(--fig-w);
+  margin: 3rem calc((100% - var(--fig-w)) / 2) 3.5rem;
+}
+.bi-figure[data-width="column"] {
+  --fig-w: min(42rem, calc(100vw - 2rem));
+}
+.bi-figure-canvas {
+  container-type: inline-size;
+}
+
+/* SVG diagrams */
+.bi-diagram {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+@container (max-width: 559px) {
+  .bi-diagram-wrap[data-responsive] .bi-layout-wide {
+    display: none;
+  }
+}
+@container (min-width: 560px) {
+  .bi-layout-narrow {
+    display: none;
+  }
+}
+
+.bi-node,
+.bi-edge,
+.bi-chip {
+  --tone: var(--bi-neutral);
+}
+[data-tone="model"] { --tone: var(--bi-model); }
+[data-tone="code"] { --tone: var(--bi-code); }
+[data-tone="user"] { --tone: var(--bi-user); }
+[data-tone="error"] { --tone: var(--bi-error); }
+
+.bi-node rect {
+  fill: var(--bi-surface);
+  stroke: var(--bi-line-strong);
+  stroke-width: 1;
+  transition: fill 300ms ease-out, stroke 300ms ease-out;
+}
+.bi-node-title {
+  fill: var(--bi-text);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.bi-node-line {
+  fill: var(--bi-text-muted);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 11px;
+}
+.bi-node[data-state="active"] rect {
+  stroke: var(--tone);
+  stroke-width: 1.5;
+  fill: color-mix(in oklab, var(--tone) 18%, var(--bi-surface));
+}
+.bi-node[data-state="visited"] rect {
+  stroke: color-mix(in oklab, var(--tone) 45%, var(--bi-line-strong));
+}
+.bi-node[data-state="muted"] rect {
+  fill: var(--bi-surface-deep);
+  stroke-dasharray: 4 4;
+}
+.bi-node[data-state="muted"] .bi-node-title,
+.bi-node[data-state="muted"] .bi-node-line {
+  fill: var(--bi-text-dim);
+}
+.bi-node[data-state="error"] rect {
+  stroke: var(--bi-error);
+  stroke-dasharray: 4 3;
+  fill: color-mix(in oklab, var(--bi-error) 10%, var(--bi-surface));
+}
+.bi-node[role="button"] {
+  cursor: pointer;
+  outline: none;
+}
+.bi-node[role="button"]:hover rect {
+  stroke: #71717a;
+}
+.bi-node[role="button"][data-state="active"]:hover rect {
+  stroke: var(--tone);
+}
+.bi-node[data-selected] rect {
+  stroke-width: 1.75;
+}
+.bi-node[role="button"]:focus-visible rect {
+  stroke: #fafafa;
+  stroke-width: 2;
+}
+
+.bi-edge polyline {
+  fill: none;
+  stroke: var(--bi-line-strong);
+  stroke-width: 1.3;
+  stroke-linejoin: round;
+  transition: stroke 300ms ease-out;
+}
+.bi-edge[data-dashed] polyline {
+  stroke-dasharray: 5 5;
+}
+.bi-edge[data-state="visited"] polyline {
+  stroke: #71717a;
+}
+.bi-edge[data-state="active"] polyline {
+  stroke: var(--tone);
+}
+.bi-edge[data-state="muted"] polyline {
+  stroke: var(--bi-line);
+}
+.bi-edge[data-state="error"] polyline {
+  stroke: var(--bi-error);
+}
+.bi-arrow-idle { stroke: #52525b; }
+.bi-arrow-active { stroke: #a1a1aa; }
+.bi-edge-label {
+  fill: var(--bi-text-dim);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 10.5px;
+}
+.bi-edge[data-state="active"] .bi-edge-label {
+  fill: var(--bi-text);
+}
+
+.bi-boundary rect {
+  fill: rgb(255 255 255 / 0.012);
+  stroke: var(--bi-line-strong);
+  stroke-dasharray: 5 5;
+}
+.bi-boundary-label {
+  fill: #a1a1aa;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.bi-boundary-sublabel {
+  fill: var(--bi-text-dim);
+  font-size: 11px;
+}
+.bi-rule line {
+  stroke: #52525b;
+  stroke-dasharray: 2 4;
+}
+.bi-rule text {
+  fill: #a1a1aa;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 10.5px;
+  font-weight: 500;
+}
+.bi-note {
+  fill: var(--bi-text-dim);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 10.5px;
+}
+.bi-note[data-tone] {
+  fill: var(--tone);
+}
+
+.bi-packet circle {
+  fill: #fafafa;
+  stroke: var(--bi-surface-deep);
+  stroke-width: 1.5;
+}
+.bi-packet-label-bg {
+  fill: var(--bi-surface-deep);
+  stroke: var(--bi-line-strong);
+}
+.bi-packet-label {
+  fill: var(--bi-text);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 10px;
+}
+
+/* HTML artifacts inside figures */
+.bi-payload {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+  line-height: 1.7;
+  color: var(--bi-text-muted);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.bi-swatch {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: var(--tone);
+}
+.bi-chip {
+  border-color: color-mix(in oklab, var(--tone) 35%, transparent);
+}
+.bi-tone-text {
+  color: var(--tone);
+}
+
+/* Highlights inside simulated documents */
+.bi-mark {
+  border-radius: 0.25rem;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  transition: background-color 200ms ease-out, color 200ms ease-out, box-shadow 200ms ease-out;
+}
+.bi-mark[data-kind="modified"] {
+  background: color-mix(in oklab, var(--bi-model) 13%, transparent);
+  box-shadow: inset 0 -1px 0 color-mix(in oklab, var(--bi-model) 60%, transparent);
+}
+.bi-mark[data-kind="added"] {
+  background: color-mix(in oklab, var(--bi-code) 14%, transparent);
+  box-shadow: inset 0 -1px 0 color-mix(in oklab, var(--bi-code) 60%, transparent);
+}
+.bi-mark[data-kind="removed"] {
+  background: color-mix(in oklab, var(--bi-error) 12%, transparent);
+  color: #a1a1aa;
+  text-decoration: line-through;
+  text-decoration-color: color-mix(in oklab, var(--bi-error) 70%, transparent);
+}
+.bi-mark[data-kind="rejected"] {
+  box-shadow: inset 0 -1px 0 #52525b;
+}
+.bi-mark[data-kind="revising"] {
+  background: color-mix(in oklab, var(--bi-user) 14%, transparent);
+  box-shadow: inset 0 -1px 0 color-mix(in oklab, var(--bi-user) 70%, transparent);
+}
+.bi-mark[data-selected="true"] {
+  background: color-mix(in oklab, var(--bi-user) 18%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--bi-user) 75%, transparent);
+  color: #fafafa;
+}
+.bi-mark-button {
+  cursor: pointer;
+  text-align: inherit;
+  font: inherit;
+  color: inherit;
+  padding: 0 0.1em;
+}
+.bi-mark-button:focus-visible,
+.bi-control:focus-visible,
+.bi-focusable:focus-visible {
+  outline: 2px solid #d4d4d8;
+  outline-offset: 2px;
+}
+
+/* Whitespace markers are presentational and excluded from copied text. */
+.bi-ws {
+  position: relative;
+}
+.bi-ws-space::before {
+  content: "·";
+  position: absolute;
+  inset: 0;
+  text-align: center;
+  color: #52525b;
+  pointer-events: none;
+}
+.bi-ws-marker {
+  user-select: none;
+  -webkit-user-select: none;
+  color: #71717a;
+  font-size: 0.85em;
+  padding: 0 0.15em;
+  margin: 0 0.1em;
+  border-radius: 0.2rem;
+  background: rgb(255 255 255 / 0.05);
+}
+
+.bi-progress-dot {
+  transition: background-color 250ms ease-out, border-color 250ms ease-out;
+}
+
+@keyframes bi-pulse-ring {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--bi-user) 35%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--bi-user) 0%, transparent);
+  }
+}
+.bi-revising {
+  animation: bi-pulse-ring 1.4s ease-in-out infinite;
+}
+.bi-figure[data-paused="true"] .bi-revising {
+  animation-play-state: paused;
+}
+
+/* Table of contents */
+.bi-toc-link[aria-current="location"] {
+  color: #fafafa;
+}
+.bi-toc-link[aria-current="location"] .bi-toc-tick {
+  background: #fafafa;
+  width: 0.75rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bi-packet {
+    display: none;
+  }
+  .bi-revising {
+    animation: none;
+  }
+  .bi-article *,
+  .bi-article *::before,
+  .bi-article *::after {
+    transition-duration: 0ms !important;
+  }
+}
