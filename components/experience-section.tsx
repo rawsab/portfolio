@@ -118,7 +118,7 @@ export function ExperienceSection() {
       <Divider label="experience" className="mb-8" />
         <div className="space-y-2">
           <p className="text-base text-[#8F8F8F] leading-normal">
-            Throughout my past internships, I&apos;ve worked on complex backend systems, real-time data flows, and AI integration. Here&apos;s a brief overview:
+            Throughout my past six internships, I&apos;ve worked on complex backend systems, real-time data flows, and AI integration. Here&apos;s a brief overview:
           </p>
         </div>
 
