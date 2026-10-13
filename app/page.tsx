@@ -1,5 +1,6 @@
 import { HeroSection } from "@/components/hero-section";
 import { ExperienceSection } from "@/components/experience-section";
+import { WritingSection } from "@/components/writing-section";
 // import { ProjectsSection } from "@/components/projects-section";
 import { CaseStudiesSection } from "@/components/case-studies-section";
 // import { TechnologiesSection } from "@/components/technologies-section";
@@ -16,6 +17,9 @@ export default function Home() {
       <HeroSection />
       <FadeInSection delay={0.05}>
         <ExperienceSection />
+      </FadeInSection>
+      <FadeInSection delay={0.1}>
+        <WritingSection />
       </FadeInSection>
       {/* <FadeInSection delay={0.1}>
         <ProjectsSection />
