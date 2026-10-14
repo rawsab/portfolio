@@ -1,6 +1,6 @@
 # Bringing HubSpot Brand Context into AI Tools
 
-During my internship at HubSpot, I worked on Brand Identity and a problem that became more interesting as I moved through the stack: an AI model can write a convincing product announcement while knowing very little about the company it is writing for. Its choices about language, emphasis, and audience depend on the context available when it starts writing.
+During my internship at HubSpot, I worked on the Brand Identity team across several backend and product initiatives, including a problem that became more interesting as I moved through the stack: an AI model can write a convincing product announcement while knowing very little about the company it is writing for. Its choices about language, emphasis, and audience depend on the context available when it starts writing.
 
 A company might prefer direct language, describe its products in a particular way, or adjust its tone for different audiences. [HubSpot's public Brand Identity features](https://knowledge.hubspot.com/branding/generate-your-brand-identity-context-with-ai) capture context such as voice, tone, ideal customer profile, products, and competitive information for use in AI-generated content. That gives writing tools a shared reference for decisions that would otherwise depend on whatever the user happens to include in a prompt.
 
