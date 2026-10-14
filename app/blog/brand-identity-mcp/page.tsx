@@ -28,11 +28,11 @@ const DESCRIPTION =
   "My work explored the Brand Identity side of that connection, from helping a model retrieve relevant context to building an interactive content-review prototype.";
 
 export const metadata: Metadata = {
-  title: "Bringing brand identity into AI tools",
+  title: "Bringing HubSpot Brand Context into AI Tools",
   description: DESCRIPTION,
   alternates: { canonical: PATH },
   openGraph: {
-    title: "Bringing brand identity into AI tools | Rawsab Said",
+    title: "Bringing HubSpot Brand Context into AI Tools | Rawsab Said",
     description: DESCRIPTION,
     type: "article",
     url: `https://rawsab.com${PATH}`,
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Bringing brand identity into AI tools | Rawsab Said",
+    title: "Bringing HubSpot Brand Context into AI Tools | Rawsab Said",
     description: DESCRIPTION,
     images: ["/og_image.png"],
   },
