@@ -59,11 +59,6 @@ const FIGURES: Record<string, ComponentType<FigureProps>> = {
   "figure-7": DiscoverySemantics,
 };
 
-const HUBSPOT_DOC_HREFS = new Set([
-  "https://knowledge.hubspot.com/branding/generate-your-brand-identity-context-with-ai",
-  "https://developers.hubspot.com/docs/apps/developer-platform/build-apps/integrate-with-the-remote-hubspot-mcp-server",
-]);
-
 function renderInline(nodes: InlineNode[]): ReactNode {
   return nodes.map((node, index) => {
     switch (node.type) {
@@ -82,20 +77,6 @@ function renderInline(nodes: InlineNode[]): ReactNode {
           </strong>
         );
       case "link":
-        if (HUBSPOT_DOC_HREFS.has(node.href)) {
-          return (
-            <a
-              key={index}
-              href={node.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bi-focusable my-0.5 inline-flex max-w-full items-center gap-1.5 rounded-full border border-white/5 bg-white/5 py-0.5 pr-2.5 pl-1.5 align-middle text-xs text-zinc-300 no-underline transition-colors duration-200 hover:border-white/10 hover:bg-white/10 hover:text-zinc-100"
-            >
-              <Image src="/icons/hubspot_icon.webp" alt="" width={14} height={14} className="h-3.5 w-3.5 shrink-0" />
-              <span className="min-w-0 truncate">{renderInline(node.children)}</span>
-            </a>
-          );
-        }
         return (
           <a
             key={index}
@@ -211,10 +192,17 @@ export default function BrandIdentityMcpArticle() {
                   <dd className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-sm leading-snug text-zinc-300">
                     {hubspot.role}
                     <span className="text-zinc-400">at</span>
-                    <span className="inline-flex items-center gap-1.5">
+                    <a
+                      href={hubspot.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bi-focusable group inline-flex items-center gap-1.5 rounded-sm"
+                    >
                       <Image src={hubspot.icon} alt="" width={14} height={14} className="h-3.5 w-3.5" />
-                      <span className="text-zinc-200">{hubspot.company}</span>
-                    </span>
+                      <span className="text-zinc-200 bg-[linear-gradient(currentColor,currentColor)] bg-no-repeat bg-position-[0_100%] bg-size-[0%_1px] transition-[background-size] duration-250 ease-out group-hover:bg-size-[100%_1px]">
+                        {hubspot.company}
+                      </span>
+                    </a>
                   </dd>
                 </div>
               )}
