@@ -12,12 +12,14 @@ export interface TocItem {
 
 const ACTIVE_OFFSET = 120;
 
-export function scrollToSection(id: string) {
+export function scrollToSection(id: string, collapseOffset = 0) {
   const target = document.getElementById(id);
   if (!target) return;
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   window.history.replaceState(window.history.state, "", `#${id}`);
-  target.scrollIntoView({ behavior: reduced ? "instant" : "smooth", block: "start" });
+  const scrollMargin = Number.parseFloat(window.getComputedStyle(target).scrollMarginTop) || 0;
+  const top = Math.max(0, target.getBoundingClientRect().top + window.scrollY - scrollMargin - collapseOffset);
+  window.scrollTo({ top, behavior: reduced ? "instant" : "smooth" });
   target.focus({ preventScroll: true });
 }
 
@@ -77,9 +79,38 @@ function TocLinks({ items, active, onNavigate }: { items: TocItem[]; active: str
 
 export function ArticleToc({ items }: { items: TocItem[] }) {
   const active = useActiveSection(items);
-  const [open, setOpen] = useState(false);
-  const mobileRef = useRef<HTMLDivElement>(null);
   const activeItem = items.find((item) => item.id === active) ?? items[0];
+  const [open, setOpen] = useState(false);
+  const [stuck, setStuck] = useState(false);
+  const mobileRef = useRef<HTMLDivElement>(null);
+  const sentinelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const sentinel = sentinelRef.current;
+    if (!sentinel) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      setStuck(entry.boundingClientRect.top < 0);
+    });
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    setOpen(false);
+  }, [stuck]);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const previous = root.style.overflowAnchor;
+    root.style.overflowAnchor = "none";
+    const timer = window.setTimeout(() => {
+      root.style.overflowAnchor = previous;
+    }, 360);
+    return () => {
+      window.clearTimeout(timer);
+      root.style.overflowAnchor = previous;
+    };
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
@@ -103,8 +134,10 @@ export function ArticleToc({ items }: { items: TocItem[] }) {
   const navigate = (event: MouseEvent<HTMLAnchorElement>, id: string) => {
     if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
+    const panel = document.getElementById("bi-toc-mobile-list");
+    const collapseOffset = !stuck && panel?.getClientRects().length ? panel.getBoundingClientRect().height : 0;
     setOpen(false);
-    scrollToSection(id);
+    scrollToSection(id, collapseOffset);
   };
 
   return (
@@ -124,34 +157,56 @@ export function ArticleToc({ items }: { items: TocItem[] }) {
         <TocLinks items={items} active={active} onNavigate={navigate} />
       </nav>
 
-      <div ref={mobileRef} className="sticky top-0 z-30 -mx-8 mb-2 xl:hidden">
-        <nav aria-label="On this page" className="relative border-b border-white/10 bg-black/80 px-8 backdrop-blur-md [-webkit-backdrop-filter:blur(12px)]">
-          <button
-            type="button"
-            aria-expanded={open}
-            aria-controls="bi-toc-mobile-list"
-            onClick={() => setOpen((value) => !value)}
-            className="bi-focusable flex h-11 w-full cursor-pointer items-center gap-3 text-left"
-          >
-            <span className="shrink-0 font-mono text-xs font-medium uppercase text-[#686868]">On this page</span>
-            <span className="min-w-0 flex-1 truncate text-sm text-zinc-300">{activeItem?.text}</span>
-            <ChevronDown className={cn("h-4 w-4 shrink-0 text-zinc-500 transition-transform duration-200", open && "rotate-180")} aria-hidden />
-          </button>
-          <div
-            id="bi-toc-mobile-list"
-            hidden={!open}
-            className="absolute inset-x-0 top-full max-h-[min(70vh,28rem)] overflow-y-auto border-b border-white/10 bg-black/95 px-8 pt-2 pb-4 backdrop-blur-md"
-          >
-            <TocLinks items={items} active={active} onNavigate={navigate} />
-            <Link
-              href="/"
-              className="bi-focusable mt-3 inline-flex items-center gap-1.5 rounded-sm font-mono text-xs text-zinc-500 transition-colors duration-300 hover:text-zinc-300"
+      <div ref={sentinelRef} aria-hidden className="pointer-events-none h-px xl:hidden" />
+      <div ref={mobileRef} className="sticky top-0 z-30 -mx-8 -mt-px mb-2 xl:hidden">
+          <nav aria-label="On this page" className="relative border-b border-white/10 bg-black/80 px-8 backdrop-blur-md [-webkit-backdrop-filter:blur(12px)]">
+            <button
+              type="button"
+              aria-expanded={open}
+              aria-controls="bi-toc-mobile-list"
+              onClick={() => setOpen((value) => !value)}
+              className="bi-focusable flex h-11 w-full cursor-pointer items-center justify-between gap-3 text-left"
             >
-              <ArrowLeft className="h-3 w-3" aria-hidden />
-              HOME
-            </Link>
-          </div>
-        </nav>
+              <span className="relative h-full min-w-0 flex-1">
+                <span
+                  aria-hidden={stuck}
+                  className={cn(
+                    "absolute inset-0 flex items-center transition-[opacity,translate] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
+                    stuck ? "pointer-events-none -translate-y-1 opacity-0" : "translate-y-0 opacity-100",
+                  )}
+                >
+                  <span className="w-full truncate font-mono text-xs font-medium uppercase text-[#686868]">On this page</span>
+                </span>
+                <span
+                  aria-hidden={!stuck}
+                  className={cn(
+                    "absolute inset-0 flex items-center transition-[opacity,translate] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
+                    stuck ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-1 opacity-0",
+                  )}
+                >
+                  <span className="w-full truncate text-sm text-zinc-300">{activeItem?.text}</span>
+                </span>
+              </span>
+              <ChevronDown className={cn("h-4 w-4 shrink-0 text-zinc-500 transition-transform duration-300", open && "rotate-180")} aria-hidden />
+            </button>
+            <div
+              id="bi-toc-mobile-list"
+              data-open={open}
+              inert={!open}
+              aria-hidden={!open}
+              className={cn(
+                "bi-toc-disclosure",
+                stuck && "absolute inset-x-0 top-full bg-black px-8",
+                stuck && open && "border-b border-white/10",
+              )}
+            >
+              <div className="bi-toc-disclosure-clip">
+                <div className={cn("max-h-[min(70vh,28rem)] overflow-y-auto pt-3 pb-4", !stuck && "border-t border-white/10")}>
+                  <TocLinks items={items} active={active} onNavigate={navigate} />
+                </div>
+              </div>
+            </div>
+          </nav>
       </div>
     </>
   );

@@ -321,6 +321,23 @@
   background: #fafafa;
   width: 0.75rem;
 }
+.bi-toc-disclosure {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.bi-toc-disclosure[data-open="true"] {
+  grid-template-rows: 1fr;
+}
+.bi-toc-disclosure-clip {
+  min-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+.bi-toc-disclosure[data-open="true"] > .bi-toc-disclosure-clip {
+  opacity: 1;
+}
 
 @media (prefers-reduced-motion: reduce) {
   .bi-packet {
