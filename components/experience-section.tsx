@@ -276,45 +276,18 @@ export function ExperienceSection() {
                 onMouseLeave={() => setIsArrowHovered(false)}
                 className="flex items-center justify-center w-full group cursor-pointer"
               >
-                <div className="relative flex flex-col items-center">
-                  <motion.div
-                    animate={{ y: isArrowHovered ? -10 : 0 }}
-                    transition={{ duration: 0.15, ease: "easeOut" }}
-                  >
-                    {isExpanded ? (
-                      <ChevronUp
-                        className={`w-5 h-5 transition-colors ${
-                          isArrowHovered ? "text-white" : "text-zinc-500"
-                        }`}
-                      />
-                    ) : (
-                      <ChevronDown
-                        className={`w-5 h-5 transition-colors ${
-                          isArrowHovered ? "text-white" : "text-zinc-500"
-                        }`}
-                      />
-                    )}
-                  </motion.div>
-                  <AnimatePresence>
-                    {isArrowHovered && (
-                      <motion.span
-                        initial={{ opacity: 0, y: -4 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -4 }}
-                        transition={{ duration: 0.15 }}
-                        className="absolute top-2.5 text-xs text-zinc-500 whitespace-nowrap shadow-xl shadow-black/90 pointer-events-none"
-                      >
-                        {isExpanded ? (
-                          "Show less"
-                        ) : (
-                          <>
-                            Show <span className="text-zinc-300">{remainingCount}</span> more
-                          </>
-                        )}
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
-                </div>
+                <span
+                  className={`inline-flex items-center gap-1.5 text-xs whitespace-nowrap transition-colors duration-150 ${
+                    isArrowHovered ? "text-white" : "text-zinc-500"
+                  }`}
+                >
+                  {isExpanded ? (
+                    <ChevronUp className="w-5 h-5" />
+                  ) : (
+                    <ChevronDown className="w-5 h-5" />
+                  )}
+                  {isExpanded ? "Show less" : `Show ${remainingCount} more`}
+                </span>
               </button>
             </div>
           )}
