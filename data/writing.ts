@@ -8,4 +8,8 @@ export const writingPosts: WritingPost[] = [
     title: "Bringing HubSpot Brand Context into AI Tools",
     href: "/blog/brand-identity-mcp",
   },
+  {
+    title: "Building Reliable RF Anomaly Detection at Palitronica",
+    href: "/blog/palitronica-rf-anomaly-detection",
+  },
 ];
