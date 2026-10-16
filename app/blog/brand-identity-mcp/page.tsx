@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ComponentType, Fragment, ReactNode } from "react";
 import { ArrowUp } from "lucide-react";
 
+import { FigureMap, renderBlock } from "@/components/article/article-blocks";
 import { BottomBlurOverlay } from "@/components/bottom-blur-overlay";
 import { FadeInSection } from "@/components/fade-in-section";
 import { Footer } from "@/components/footer";
 import { ArticleToc, TocItem } from "@/components/brand-identity/article-toc";
-import { SectionHeading } from "@/components/brand-identity/section-heading";
 import { ReviewDemoProvider } from "@/components/brand-identity/review-demo-state";
 import { McpContextFlow } from "@/components/brand-identity/figures/mcp-context-flow";
 import { ToolSelectionDemo } from "@/components/brand-identity/figures/tool-selection-demo";
@@ -19,7 +18,7 @@ import { BrandVoiceReviewDemo } from "@/components/brand-identity/figures/brand-
 import { TargetedFeedbackAnchor } from "@/components/brand-identity/figures/targeted-feedback-anchor";
 import { DiscoverySemantics } from "@/components/brand-identity/figures/discovery-semantics";
 import { experiences } from "@/data/experience";
-import { ArticleBlock, InlineNode, readArticle } from "@/lib/article-markdown";
+import { readArticle } from "@/lib/article-markdown";
 import "./article.css";
 
 const ARTICLE_FILE = "brand-identity-mcp.md";
@@ -46,9 +45,7 @@ export const metadata: Metadata = {
   },
 };
 
-type FigureProps = { id: string; number: number; title: string };
-
-const FIGURES: Record<string, ComponentType<FigureProps>> = {
+const FIGURES: FigureMap = {
   "figure-1": McpContextFlow,
   "figure-2": ToolSelectionDemo,
   "figure-3": ReviewPipeline,
@@ -58,84 +55,6 @@ const FIGURES: Record<string, ComponentType<FigureProps>> = {
   "figure-6-continuation": TargetedFeedbackAnchor,
   "figure-7": DiscoverySemantics,
 };
-
-function renderInline(nodes: InlineNode[]): ReactNode {
-  return nodes.map((node, index) => {
-    switch (node.type) {
-      case "text":
-        return <Fragment key={index}>{node.value}</Fragment>;
-      case "code":
-        return (
-          <code key={index} className="rounded border border-zinc-800/50 bg-zinc-900/50 px-1.5 py-0.5 font-mono text-[0.85em] text-zinc-300">
-            {node.value}
-          </code>
-        );
-      case "strong":
-        return (
-          <strong key={index} className="font-normal text-zinc-200">
-            {renderInline(node.children)}
-          </strong>
-        );
-      case "link":
-        return (
-          <a
-            key={index}
-            href={node.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-zinc-300 underline decoration-zinc-600 underline-offset-4 transition-colors duration-200 hover:text-white hover:decoration-zinc-300"
-          >
-            {renderInline(node.children)}
-          </a>
-        );
-    }
-  });
-}
-
-function renderBlock(block: ArticleBlock, index: number) {
-  switch (block.type) {
-    case "heading":
-      return (
-        <SectionHeading key={block.id} id={block.id}>
-          {block.text}
-        </SectionHeading>
-      );
-    case "paragraph":
-      return (
-        <p key={index} className="mb-5 text-base leading-relaxed text-[#8F8F8F]">
-          {renderInline(block.children)}
-        </p>
-      );
-    case "code":
-      return (
-        <pre
-          key={index}
-          className="mb-6 overflow-x-auto rounded-sm border border-zinc-800/50 bg-zinc-900/50 p-4 font-mono text-[0.85rem] leading-relaxed text-[#8F8F8F]"
-        >
-          <code>{block.code}</code>
-        </pre>
-      );
-    case "quote":
-      return (
-        <blockquote key={index} className="mb-5 border-l-2 border-zinc-800 pl-4 text-base text-[#8F8F8F]">
-          {block.children.map((paragraph, i) => (
-            <p key={i}>{renderInline(paragraph)}</p>
-          ))}
-        </blockquote>
-      );
-    case "figure": {
-      const Figure = FIGURES[block.key];
-      if (!Figure) {
-        return (
-          <aside key={block.key} className="my-10 rounded-lg border border-dashed border-zinc-700 p-4 text-sm text-zinc-500">
-            Editorial placeholder: Figure {block.number}, {block.title}.
-          </aside>
-        );
-      }
-      return <Figure key={block.key} id={block.key} number={block.number} title={block.title} />;
-    }
-  }
-}
 
 export default function BrandIdentityMcpArticle() {
   const article = readArticle(ARTICLE_FILE);
@@ -221,7 +140,7 @@ export default function BrandIdentityMcpArticle() {
         <FadeInSection delay={0.2}>
           <ReviewDemoProvider>
             <article id="overview" tabIndex={-1} className="scroll-mt-20 pt-4 outline-none">
-              {article.blocks.map(renderBlock)}
+              {article.blocks.map((block, index) => renderBlock(block, index, FIGURES))}
             </article>
           </ReviewDemoProvider>
         </FadeInSection>

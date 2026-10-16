@@ -1,0 +1,29 @@
+.article-math-inline .katex {
+  font-size: 1.05em;
+  color: #d4d4d8;
+}
+.article-math-block .katex-display {
+  margin: 0.25rem 0;
+}
+.article-math-block .katex {
+  font-size: 1.12em;
+  color: #e4e4e7;
+}
+.article-math-pair {
+  container-type: inline-size;
+}
+.article-math-pair-narrow {
+  display: none;
+}
+@container (max-width: 36rem) {
+  .article-math-pair-wide {
+    display: none;
+  }
+  .article-math-pair-narrow {
+    display: block;
+  }
+  .article-math-pair-narrow .katex-display {
+    margin: 0.35rem 0;
+    overflow: visible;
+  }
+}
