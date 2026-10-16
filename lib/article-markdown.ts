@@ -4,12 +4,15 @@ import path from "node:path";
 export type InlineNode =
   | { type: "text"; value: string }
   | { type: "code"; value: string }
+  | { type: "math"; value: string }
   | { type: "strong"; children: InlineNode[] }
   | { type: "link"; href: string; children: InlineNode[] };
 
 export type ArticleBlock =
   | { type: "heading"; level: 2 | 3; id: string; text: string }
   | { type: "paragraph"; children: InlineNode[] }
+  | { type: "list"; items: InlineNode[][] }
+  | { type: "math"; tex: string }
   | { type: "code"; lang: string; code: string }
   | { type: "figure"; key: string; number: number; title: string; continuation: boolean }
   | { type: "quote"; children: InlineNode[][] };
@@ -27,7 +30,7 @@ export function slugify(text: string) {
     .replace(/^-+|-+$/g, "");
 }
 
-const INLINE_PATTERN = /(`[^`]+`)|(\*\*[^*]+\*\*)|(\[[^\]]+\]\([^)\s]+\))/g;
+const INLINE_PATTERN = /(`[^`]+`)|(\$[^$\n]+?\$)|(\*\*[^*]+\*\*)|(\[[^\]]+\]\([^)\s]+\))/g;
 
 export function parseInline(source: string): InlineNode[] {
   const nodes: InlineNode[] = [];
@@ -41,6 +44,8 @@ export function parseInline(source: string): InlineNode[] {
     if (match[1]) {
       nodes.push({ type: "code", value: token.slice(1, -1) });
     } else if (match[2]) {
+      nodes.push({ type: "math", value: token.slice(1, -1) });
+    } else if (match[3]) {
       nodes.push({ type: "strong", children: parseInline(token.slice(2, -2)) });
     } else {
       const [, label, href] = /^\[([^\]]+)\]\(([^)\s]+)\)$/.exec(token) ?? [];
@@ -88,6 +93,36 @@ export function parseArticleMarkdown(markdown: string): ParsedArticle {
         i++;
       }
       blocks.push({ type: "code", lang, code: code.join("\n") });
+      continue;
+    }
+
+    if (trimmed.startsWith("$$")) {
+      flushParagraph();
+      const tex: string[] = [];
+      if (trimmed.length > 4 && trimmed.endsWith("$$")) {
+        tex.push(trimmed.slice(2, -2));
+      } else {
+        i++;
+        while (i < lines.length && lines[i].trim() !== "$$") {
+          tex.push(lines[i]);
+          i++;
+        }
+      }
+      blocks.push({ type: "math", tex: tex.join("\n").trim() });
+      continue;
+    }
+
+    if (/^[-*]\s+/.test(trimmed)) {
+      flushParagraph();
+      const items: InlineNode[][] = [];
+      while (i < lines.length && /^[-*]\s+/.test(lines[i].trim())) {
+        const text = lines[i].trim().replace(/^[-*]\s+/, "");
+        wordCount += text.split(/\s+/).filter(Boolean).length;
+        items.push(parseInline(text));
+        i++;
+      }
+      i--;
+      blocks.push({ type: "list", items });
       continue;
     }
 
