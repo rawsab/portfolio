@@ -313,7 +313,29 @@
   animation-play-state: paused;
 }
 
-/* Table of contents */
+/* Table of contents.
+   The sticky bar breaks out of the centered 42rem column so wide figures
+   cannot show beside it. Padding keeps the label aligned with the article. */
+.bi-toc-sticky {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+}
+@keyframes bi-toc-enter {
+  from {
+    opacity: 0;
+    translate: 0 1.25rem;
+  }
+  to {
+    opacity: 1;
+    translate: 0;
+  }
+}
+.bi-toc-sticky > nav {
+  animation: bi-toc-enter 0.3s ease-out 0.18s both;
+}
+.bi-toc-sticky-pad {
+  padding-inline: max(2rem, calc(50vw - 21rem + 2rem));
+}
 .bi-toc-link[aria-current="location"] {
   color: #fafafa;
 }
@@ -343,7 +365,8 @@
   .bi-packet {
     display: none;
   }
-  .bi-revising {
+  .bi-revising,
+  .bi-toc-sticky > nav {
     animation: none;
   }
   .bi-article *,

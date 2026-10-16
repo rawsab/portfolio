@@ -158,8 +158,8 @@ export function ArticleToc({ items }: { items: TocItem[] }) {
       </nav>
 
       <div ref={sentinelRef} aria-hidden className="pointer-events-none h-px xl:hidden" />
-      <div ref={mobileRef} className="sticky top-0 z-30 -mx-8 -mt-px mb-2 xl:hidden">
-          <nav aria-label="On this page" className="relative border-b border-white/10 bg-black/80 px-8 backdrop-blur-md [-webkit-backdrop-filter:blur(12px)]">
+      <div ref={mobileRef} className="bi-toc-sticky sticky top-0 z-30 -mt-px mb-2 xl:hidden">
+          <nav aria-label="On this page" className="bi-toc-sticky-pad relative border-b border-white/10 bg-black/80 backdrop-blur-md [-webkit-backdrop-filter:blur(12px)]">
             <button
               type="button"
               aria-expanded={open}
@@ -196,7 +196,7 @@ export function ArticleToc({ items }: { items: TocItem[] }) {
               aria-hidden={!open}
               className={cn(
                 "bi-toc-disclosure",
-                stuck && "absolute inset-x-0 top-full bg-black px-8",
+                stuck && "bi-toc-sticky-pad absolute inset-x-0 top-full bg-black",
                 stuck && open && "border-b border-white/10",
               )}
             >
