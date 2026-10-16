@@ -496,7 +496,7 @@
   fill: var(--bi-line-strong);
 }
 .pal-hero-edge {
-  stroke: var(--bi-line);
+  stroke: color-mix(in oklab, var(--bi-line-strong) 62%, var(--bi-line));
   stroke-width: 0.8;
 }
 .pal-hero-node {
