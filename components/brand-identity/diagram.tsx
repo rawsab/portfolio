@@ -53,6 +53,16 @@ export interface DiagramPacket {
   window?: [number, number];
 }
 
+/** Opt-in label rhythm. Centers each line on the box instead of the default baseline block. */
+export interface NodeText {
+  /** Distance between the center of the title and the center of the first line. */
+  gap?: number;
+  /** Distance between the centers of successive lines. */
+  step?: number;
+  /** Left inset for start-aligned labels. */
+  inset?: number;
+}
+
 interface DiagramProps {
   title: string;
   description: string;
@@ -66,6 +76,7 @@ interface DiagramProps {
   onSelect?: (id: string) => void;
   packets?: DiagramPacket[];
   sequence?: Sequence;
+  nodeText?: NodeText;
 }
 
 export function useSvgId(prefix: string) {
@@ -156,6 +167,7 @@ function DiagramSvg({
   onSelect,
   packets,
   sequence,
+  nodeText,
 }: DiagramProps & { layout: DiagramLayout; variant: "wide" | "narrow" }) {
   const uid = useSvgId(`bi-${variant}`);
   const interactive = Boolean(onSelect);
@@ -242,9 +254,18 @@ function DiagramSvg({
         const canSelect = interactive && (selectable?.(node.id) ?? true);
         const lines = box.lines ?? node.lines ?? [];
         const middle = box.align === "middle";
-        const textX = middle ? box.x + box.w / 2 : box.x + 14;
+        const inset = nodeText?.inset ?? 14;
+        const textX = middle ? box.x + box.w / 2 : box.x + inset;
+        const centered = Boolean(nodeText) && !box.top;
+        const gap = nodeText?.gap ?? 16;
+        const step = nodeText?.step ?? gap;
+        const span = lines.length === 0 ? 0 : gap + (lines.length - 1) * step;
         const blockHeight = 16 + lines.length * 17;
-        const titleY = box.top ? box.y + 22 : box.y + (box.h - blockHeight) / 2 + 14;
+        const titleY = centered
+          ? box.y + box.h / 2 - span / 2
+          : box.top
+            ? box.y + 22
+            : box.y + (box.h - blockHeight) / 2 + 14;
 
         return (
           <g
@@ -265,11 +286,24 @@ function DiagramSvg({
               : {})}
           >
             <rect x={box.x} y={box.y} width={box.w} height={box.h} rx={6} />
-            <text x={textX} y={titleY} textAnchor={middle ? "middle" : "start"} className="bi-node-title">
+            <text
+              x={textX}
+              y={titleY}
+              textAnchor={middle ? "middle" : "start"}
+              dominantBaseline={centered ? "central" : undefined}
+              className="bi-node-title"
+            >
               {node.title}
             </text>
             {lines.map((line, index) => (
-              <text key={line} x={textX} y={titleY + 18 + index * 17} textAnchor={middle ? "middle" : "start"} className="bi-node-line">
+              <text
+                key={line}
+                x={textX}
+                y={centered ? titleY + gap + index * step : titleY + 18 + index * 17}
+                textAnchor={middle ? "middle" : "start"}
+                dominantBaseline={centered ? "central" : undefined}
+                className="bi-node-line"
+              >
                 {line}
               </text>
             ))}
