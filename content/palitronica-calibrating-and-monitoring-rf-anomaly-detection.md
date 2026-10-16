@@ -1,4 +1,4 @@
-# Building Reliable RF Anomaly Detection at Palitronica
+# Building Reliable RF Anomaly Detection
 
 During my internship as a Machine Learning Engineer at Palitronica, I worked across Anvil’s RF-based electronics assurance pipeline. Here, I’ll focus on two projects: calibrating a one-class anomaly-detection model in the inference framework and building historical tracking around an existing RF data-drift calculation. Both dealt with how new measurements are interpreted relative to a reference. Calibration refined the detector’s operating point using labeled examples, while drift tracking made changes in incoming measurement groups visible over time.
 

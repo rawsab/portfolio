@@ -26,7 +26,7 @@ import "./article.css";
 
 const ARTICLE_FILE = "palitronica-calibrating-and-monitoring-rf-anomaly-detection.md";
 const PATH = "/blog/palitronica-rf-anomaly-detection";
-const TITLE = "Building Reliable RF Anomaly Detection at Palitronica";
+const TITLE = "Building Reliable RF Anomaly Detection";
 const DESCRIPTION =
   "Calibrating a one-class RF anomaly detector with labeled validation data, and building reproducible drift tracking around Palitronica’s electronics assurance pipeline.";
 

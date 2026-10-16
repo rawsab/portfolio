@@ -9,7 +9,7 @@ export const writingPosts: WritingPost[] = [
     href: "/blog/brand-identity-mcp",
   },
   {
-    title: "Building Reliable RF Anomaly Detection at Palitronica",
+    title: "Building Reliable RF Anomaly Detection",
     href: "/blog/palitronica-rf-anomaly-detection",
   },
 ];
