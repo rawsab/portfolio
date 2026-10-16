@@ -66,7 +66,7 @@ export default function BrandIdentityMcpArticle() {
   ];
 
   return (
-    <div className="bi-article flex min-h-screen flex-col text-zinc-300">
+    <div id="top" tabIndex={-1} className="bi-article flex min-h-screen flex-col text-zinc-300 outline-none">
       <main className="mx-auto w-full max-w-site flex-1 px-8 pt-8 pb-12">
         <header className="mb-4">
           <FadeInSection delay={0.05}>
@@ -75,7 +75,9 @@ export default function BrandIdentityMcpArticle() {
                 HOME
               </Link>
               <span aria-hidden>&nbsp;›&nbsp;</span>
-              <span>BLOG</span>
+              <Link href="/#writing" className="bi-focusable rounded-sm transition-all duration-300 hover:text-zinc-300">
+                BLOG
+              </Link>
               <span aria-hidden>&nbsp;›&nbsp;</span>
               <span aria-current="page">BRAND IDENTITY &amp; MCP</span>
             </nav>
@@ -146,7 +148,7 @@ export default function BrandIdentityMcpArticle() {
         </FadeInSection>
 
         <div className="mt-16 flex justify-center text-sm">
-          <a href="#overview" className="bi-focusable inline-flex items-center gap-1.5 rounded-sm text-zinc-500 transition-colors duration-300 hover:text-white">
+          <a href="#top" className="bi-focusable inline-flex items-center gap-1.5 rounded-sm text-zinc-500 transition-colors duration-300 hover:text-white">
             Back to top
             <ArrowUp className="h-4 w-4" aria-hidden />
           </a>
