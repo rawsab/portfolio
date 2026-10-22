@@ -76,15 +76,5 @@ export const experiences: Experience[] = [
     link: "https://www.cypienta.com/",
     technologies: ["Python", "Apache Kafka", "PostgreSQL", "Celery"],
   },
-  // {
-  //   period: "MAY-AUG 2021",
-  //   role: "Research Assistant",
-  //   company: "RIT",
-  //   icon: "/icons/rit_icon.webp",
-  //   iconAlt: "RIT",
-  //   description:
-  //     "TBA.",
-  //   link: "https://www.rit.edu/",
-  // },
 ];
 

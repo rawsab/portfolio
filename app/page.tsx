@@ -1,9 +1,6 @@
 import { HeroSection } from "@/components/hero-section";
 import { ExperienceSection } from "@/components/experience-section";
 import { WritingSection } from "@/components/writing-section";
-// import { ProjectsSection } from "@/components/projects-section";
-import { CaseStudiesSection } from "@/components/case-studies-section";
-// import { TechnologiesSection } from "@/components/technologies-section";
 import { TestimonialsSection } from "@/components/testimonials-section";
 import { BottomBlurOverlay } from "@/components/bottom-blur-overlay";
 import { Footer } from "@/components/footer";
@@ -21,13 +18,6 @@ export default function Home() {
       <FadeInSection delay={0.1}>
         <WritingSection />
       </FadeInSection>
-      {/* <FadeInSection delay={0.1}>
-        <ProjectsSection />
-      </FadeInSection> */}
-      {/* <CaseStudiesSection /> */}
-      {/* <FadeInSection delay={0.15}>
-        <TechnologiesSection />
-      </FadeInSection> */}
       <FadeInSection delay={0.2}>
         <TestimonialsSection />
       </FadeInSection>
