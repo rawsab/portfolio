@@ -1,0 +1,350 @@
+.pd-architecture {
+  padding: 1rem;
+  color: var(--bi-text-secondary);
+  font-size: var(--bi-small-text-size);
+  line-height: 1.45;
+}
+
+.pd-arch-group,
+.pd-arch-test {
+  min-width: 0;
+  padding: 0.8rem;
+  border: 1px dashed var(--bi-line-strong);
+  border-radius: 0.375rem;
+}
+
+.pd-arch-group > h3,
+.pd-arch-test > p {
+  margin-bottom: 0.65rem;
+  color: var(--bi-text-secondary);
+}
+
+.pd-arch-chain,
+.pd-arch-training,
+.pd-arch-layer {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.pd-arch-node {
+  display: grid;
+  min-width: 0;
+  align-content: center;
+  gap: 0.25rem;
+  padding: 0.5rem 0.55rem;
+  border: 1px solid var(--bi-line-strong);
+  border-radius: 0.375rem;
+  background: var(--bi-surface);
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.pd-arch-node[data-tone] {
+  border-color: color-mix(in oklab, var(--tone) 45%, var(--bi-line));
+  background: color-mix(in oklab, var(--tone) 8%, var(--bi-surface-deep));
+}
+
+.pd-arch-node > strong,
+.pd-arch-layer-header h4 {
+  color: var(--bi-text);
+  font-size: 0.8rem;
+  font-weight: 550;
+}
+
+.pd-arch-node .article-math-inline {
+  color: var(--bi-text);
+}
+
+.pd-arch-equation {
+  font-size: 0.78rem;
+}
+
+.pd-arch-arrow,
+.pd-arch-source-merge {
+  display: grid;
+  min-width: 0;
+  justify-items: center;
+  align-content: center;
+}
+
+.pd-arch-arrow svg,
+.pd-arch-junction,
+.pd-arch-side-merge,
+.pd-arch-layer-link > svg,
+.pd-arch-mobile-fork {
+  fill: none;
+  stroke: var(--bi-text-dim);
+  stroke-width: 1.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.pd-arch-arrow > span {
+  padding-bottom: 0.32rem;
+  color: var(--bi-text-secondary);
+  font: var(--bi-label-size)/1.4 var(--bi-mono);
+  text-align: center;
+}
+
+.pd-arch-junction {
+  display: block;
+  width: 100%;
+  height: 1.35rem;
+}
+
+.pd-arch-junction path,
+.pd-arch-side-merge path,
+.pd-arch-layer-link > svg path,
+.pd-arch-mobile-fork path {
+  vector-effect: non-scaling-stroke;
+}
+
+.pd-arch-arrowhead {
+  fill: var(--bi-text-dim);
+}
+
+.pd-arch-side-merge {
+  display: none;
+}
+
+.pd-arch-layer-link > svg {
+  display: none;
+}
+
+.pd-arch-sources,
+.pd-arch-directions,
+.pd-arch-feedback {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+
+.pd-arch-directions .pd-arch-node {
+  padding-inline: 0.25rem;
+}
+
+.pd-arch-layer {
+  align-content: start;
+  min-width: 0;
+  padding: 0.5rem;
+  border: 1px solid var(--bi-line);
+  border-radius: 0.375rem;
+}
+
+.pd-arch-layer-header {
+  margin-bottom: 0.55rem;
+  text-align: center;
+}
+
+.pd-arch-layer-header p {
+  font-size: var(--bi-label-size);
+}
+
+.pd-arch-total {
+  margin-top: 0.55rem;
+  font: var(--bi-label-size) var(--bi-mono);
+  text-align: center;
+}
+
+.pd-arch-training-loop {
+  display: grid;
+}
+
+.pd-arch-feedback .pd-arch-arrow:last-child svg {
+  transform: rotate(180deg);
+}
+
+.pd-arch-lifecycle {
+  display: grid;
+  align-items: start;
+  gap: 0.65rem;
+}
+
+.pd-arch-lifecycle-fork {
+  display: none;
+}
+
+.pd-arch-mobile-fork {
+  display: none;
+}
+
+.pd-arch-lifecycle .pd-arch-chain > .bi-figure-label {
+  margin-bottom: 0.45rem;
+}
+
+@container (max-width: 559px) {
+  .pd-arch-lifecycle-fork {
+    display: block;
+    width: 50%;
+  }
+
+  .pd-arch-lifecycle-fork .pd-arch-junction {
+    display: none;
+  }
+
+  .pd-arch-mobile-fork {
+    display: block;
+    width: 100%;
+    height: 1.35rem;
+    overflow: visible;
+  }
+
+  .pd-arch-lifecycle {
+    padding-inline-start: 0.8rem;
+  }
+
+  .pd-arch-lifecycle > * {
+    position: relative;
+  }
+
+  .pd-arch-lifecycle > *::before {
+    position: absolute;
+    top: -1px;
+    inset-inline-start: calc(-0.8rem - 1px);
+    width: 0.8rem;
+    height: 1.2rem;
+    border-inline-start: 1px solid var(--bi-text-dim);
+    border-bottom: 1px solid var(--bi-text-dim);
+    content: "";
+  }
+
+  .pd-arch-lifecycle > *::after {
+    position: absolute;
+    top: 0.99rem;
+    inset-inline-start: -0.32rem;
+    width: 0.32rem;
+    height: 0.32rem;
+    border-top: 1px solid var(--bi-text-dim);
+    border-inline-end: 1px solid var(--bi-text-dim);
+    transform: rotate(45deg);
+    content: "";
+  }
+
+  .pd-arch-test::before {
+    height: calc(100% + 0.65rem + 1px);
+    border-bottom: 0;
+  }
+
+  .pd-arch-test > p::before {
+    position: absolute;
+    top: calc(1.2rem - 2px);
+    inset-inline-start: calc(-0.8rem - 1px);
+    width: 0.8rem;
+    border-top: 1px solid var(--bi-text-dim);
+    content: "";
+  }
+}
+
+@container (min-width: 560px) {
+  .pd-arch-lifecycle {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pd-arch-lifecycle-fork {
+    display: block;
+  }
+
+  .pd-arch-training-loop {
+    grid-template-columns: minmax(0, 1fr) 9rem minmax(0, 1fr);
+  }
+
+  .pd-arch-feedback {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.15rem;
+  }
+
+  .pd-arch-feedback .pd-arch-arrow {
+    grid-template-columns: 1fr 1.6rem;
+    justify-items: center;
+    align-items: center;
+  }
+
+  .pd-arch-feedback .pd-arch-arrow > span {
+    grid-column: 1;
+    grid-row: 1;
+    padding: 0;
+  }
+
+  .pd-arch-feedback .pd-arch-arrow svg {
+    grid-column: 2;
+    grid-row: 1;
+    transform: rotate(-90deg);
+  }
+
+  .pd-arch-feedback .pd-arch-arrow:last-child svg {
+    transform: rotate(90deg);
+  }
+}
+
+@container (min-width: 720px) {
+  .pd-arch-preprocessing {
+    grid-template-columns: minmax(0, 1.1fr) 1.2rem repeat(3, minmax(0, 1fr) 1.2rem) minmax(0, 1fr);
+  }
+
+  .pd-arch-three {
+    grid-template-columns: repeat(2, minmax(0, 1fr) 1.2rem) minmax(0, 1fr);
+  }
+
+  :is(.pd-arch-preprocessing, .pd-arch-three) > .pd-arch-arrow svg {
+    transform: rotate(-90deg);
+  }
+
+  .pd-arch-reverse {
+    direction: rtl;
+  }
+
+  .pd-arch-reverse > * {
+    direction: ltr;
+  }
+
+  .pd-arch-reverse > .pd-arch-arrow svg {
+    transform: rotate(90deg);
+  }
+
+  .pd-arch-layer-link {
+    position: relative;
+  }
+
+  .pd-arch-layer-link > .pd-arch-arrow {
+    display: none;
+  }
+
+  .pd-arch-layer-link > svg {
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .pd-arch-sources {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pd-arch-source-merge {
+    position: relative;
+  }
+
+  .pd-arch-source-merge .pd-arch-junction {
+    display: none;
+  }
+
+  .pd-arch-side-merge {
+    position: absolute;
+    display: block;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .pd-architecture > .pd-arch-arrow[data-edge="right"] {
+    width: 33.333%;
+    margin-inline-start: auto;
+  }
+
+  .pd-architecture > .pd-arch-arrow[data-edge="left"] {
+    width: 33.333%;
+    margin-inline-end: auto;
+  }
+}

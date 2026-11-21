@@ -12,6 +12,14 @@
   --bi-text: #e4e4e7;
   --bi-text-muted: #8f8f8f;
   --bi-text-dim: #71717a;
+  --bi-text-secondary: #a1a1aa;
+  --bi-label-color: #686868;
+  --bi-label-size: 0.7rem;
+  --bi-small-text-size: 0.75rem;
+  --bi-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --bi-axis-tick-size: 10px;
+  --bi-svg-label-size: 10.5px;
+  --bi-scrollbar-track: #070708;
   --bi-model: oklch(0.76 0.065 250);
   --bi-code: oklch(0.78 0.06 155);
   --bi-user: oklch(0.82 0.075 80);
@@ -24,12 +32,70 @@
   --fig-w: min(52rem, calc(100vw - 2rem));
   width: var(--fig-w);
   margin: 3rem calc((100% - var(--fig-w)) / 2) 3.5rem;
+  scrollbar-color: var(--bi-line-strong) var(--bi-scrollbar-track);
 }
 .bi-figure[data-width="column"] {
   --fig-w: min(42rem, calc(100vw - 2rem));
 }
 .bi-figure-canvas {
   container-type: inline-size;
+}
+
+.bi-figure ::-webkit-scrollbar-track,
+.bi-figure ::-webkit-scrollbar-corner {
+  background-color: var(--bi-scrollbar-track);
+}
+
+.bi-figure ::-webkit-scrollbar-thumb {
+  background-color: var(--bi-line-strong);
+  border-radius: 999px;
+}
+
+.bi-figure-label {
+  color: var(--bi-label-color);
+  font-family: var(--bi-mono);
+  font-size: var(--bi-label-size);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+}
+
+.bi-figure-label:not(.normal-case) {
+  text-transform: uppercase;
+}
+
+.bi-figure summary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  list-style: none;
+  cursor: pointer;
+  color: var(--bi-text-secondary);
+  font-size: var(--bi-small-text-size);
+  transition: color 200ms ease-out;
+}
+
+.bi-figure summary:hover,
+.bi-figure summary:focus-visible {
+  color: var(--bi-text);
+}
+
+.bi-figure summary::-webkit-details-marker {
+  display: none;
+}
+
+.bi-figure summary::before {
+  content: "";
+  flex: none;
+  width: 0.4rem;
+  height: 0.4rem;
+  margin-inline: 0.1rem;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(-45deg);
+}
+
+.bi-figure details[open] > summary::before {
+  transform: rotate(45deg);
 }
 
 /* SVG diagrams */

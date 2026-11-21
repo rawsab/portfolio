@@ -357,7 +357,7 @@ export function BrandVoiceReviewDemo({ id, number, title }: { id: string; number
 
       {reviewed && (
         <details className="group border-t border-zinc-800/50 px-5 py-3">
-          <summary className="bi-focusable cursor-pointer rounded-sm text-xs text-zinc-500 transition-colors hover:text-zinc-300">
+          <summary className="bi-focusable rounded-sm">
             Preview the text Copy would produce
           </summary>
           <pre className="bi-payload mt-3 rounded-md border border-zinc-800/50 bg-black/40 p-3">{currentDocumentText(state)}</pre>

@@ -1,0 +1,225 @@
+/*
+ * Structured analytics retrieval article. Builds on the Brand Identity tokens and the
+ * RF article's plot and card styles.
+ * Encoding shared by every figure: Cedar = model hue, Birch = user hue,
+ * TikTok = circle, Instagram = square, out-of-scope = dashed and faded.
+ */
+
+/* Shared marks */
+.sr-mark {
+  fill: color-mix(in oklab, var(--tone) 75%, transparent);
+  stroke: var(--tone);
+  stroke-width: 1.2;
+}
+.sr-chip {
+  border-color: color-mix(in oklab, var(--tone) 40%, transparent);
+  background: color-mix(in oklab, var(--tone) 8%, transparent);
+  color: var(--tone);
+}
+.sr-alert {
+  border-color: color-mix(in oklab, var(--bi-error) 45%, transparent);
+  background: color-mix(in oklab, var(--bi-error) 7%, transparent);
+  color: var(--bi-neutral);
+}
+
+/* Figure 1: phone and OCR overlays */
+.sr-phone {
+  border-color: var(--bi-line-strong);
+  background: var(--bi-surface);
+}
+.sr-ocr {
+  box-shadow: 0 0 0 1px transparent;
+  transition: box-shadow 260ms ease-out, background-color 260ms ease-out, color 260ms ease-out;
+}
+.sr-ocr[data-on] {
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--bi-code) 55%, transparent);
+  background: color-mix(in oklab, var(--bi-code) 6%, transparent);
+}
+.sr-ocr-detected[data-on] {
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--bi-model) 70%, transparent);
+  background: color-mix(in oklab, var(--bi-model) 12%, transparent);
+  color: #fafafa;
+}
+.sr-ocr[data-flagged] {
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--bi-user) 80%, transparent);
+  background: color-mix(in oklab, var(--bi-user) 12%, transparent);
+}
+.sr-smudge {
+  filter: blur(0.4px);
+  letter-spacing: 0.04em;
+}
+.sr-pair {
+  background-image: linear-gradient(90deg, #52525b 50%, transparent 50%);
+  background-size: 5px 1px;
+  opacity: 0;
+  transform: scaleX(0.2);
+  transform-origin: left;
+  transition: opacity 300ms ease-out, transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.sr-pair[data-on] {
+  opacity: 1;
+  transform: scaleX(1);
+}
+.sr-pair[data-flagged] {
+  background-image: linear-gradient(90deg, var(--bi-user) 50%, transparent 50%);
+}
+
+/* Figure 2: synthetic crop */
+.sr-crop-text {
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+.sr-section-box rect {
+  fill: none;
+  stroke: var(--bi-line-strong);
+  stroke-width: 1.2;
+  stroke-dasharray: 4 3;
+}
+.sr-section-box text {
+  fill: var(--bi-line-strong);
+  font-family: var(--bi-mono);
+  font-size: 8.5px;
+}
+
+/* Figure 3: candidate records and results */
+.sr-record-ranked {
+  border-color: #52525b;
+  background: rgb(255 255 255 / 0.03);
+}
+.sr-record-out {
+  opacity: 0.35;
+  border-style: dashed;
+}
+.sr-result[data-wrong] {
+  border-color: color-mix(in oklab, var(--bi-error) 45%, transparent);
+  background: color-mix(in oklab, var(--bi-error) 7%, transparent);
+}
+
+/* Figure 4: hierarchy tree */
+.sr-vector rect {
+  fill: var(--bi-model);
+}
+.sr-tree-title {
+  font-size: 12px;
+}
+.sr-tree-line {
+  font-size: 9.5px;
+}
+.sr-tree-edge {
+  fill: none;
+  stroke: var(--bi-line-strong);
+  stroke-width: 1.2;
+  stroke-dasharray: 3 4;
+  transition: stroke 300ms ease-out;
+}
+.sr-tree-edges[data-context] .sr-tree-edge {
+  stroke: var(--bi-model);
+  stroke-width: 1.4;
+}
+.sr-meta rect {
+  fill: color-mix(in oklab, var(--bi-code) 9%, var(--bi-surface-deep));
+  stroke: color-mix(in oklab, var(--bi-code) 45%, transparent);
+}
+.sr-meta text {
+  fill: var(--bi-code);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 8.5px;
+}
+
+/* Figure 5: schematic neighborhood */
+.sr-ring {
+  fill: none;
+  stroke: var(--bi-line);
+  stroke-dasharray: 2 4;
+}
+.sr-neighbor-line {
+  stroke: #52525b;
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+.sr-point {
+  cursor: pointer;
+  outline: none;
+}
+.sr-point-hit {
+  fill: transparent;
+  stroke: transparent;
+  stroke-width: 1.2;
+  transition: stroke 200ms ease-out;
+}
+.sr-point-mark {
+  fill: color-mix(in oklab, var(--tone) 70%, transparent);
+  stroke: var(--tone);
+  stroke-width: 1.2;
+  transition: opacity 300ms ease-out;
+}
+.sr-point[data-out] .sr-point-mark {
+  fill: transparent;
+  stroke-dasharray: 2 2;
+  opacity: 0.4;
+}
+.sr-point[data-selected] .sr-point-hit,
+.sr-point:focus-visible .sr-point-hit {
+  stroke: #fafafa;
+}
+.sr-point:hover .sr-point-hit {
+  stroke: #71717a;
+}
+.sr-point-rank {
+  fill: #d4d4d8;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 9.5px;
+}
+.sr-query path {
+  stroke: #fafafa;
+  stroke-width: 1.4;
+}
+.sr-query circle {
+  fill: var(--bi-surface-deep);
+  stroke: #fafafa;
+  stroke-width: 1.2;
+}
+
+/* Figure 6: benchmark bars */
+.sr-bar rect {
+  fill: #52525b;
+  transition: fill 250ms ease-out, opacity 250ms ease-out;
+}
+.sr-bar[data-best] rect {
+  fill: var(--bi-model);
+}
+.sr-bar[data-dim] {
+  opacity: 0.3;
+}
+.sr-bar-value {
+  fill: var(--bi-neutral);
+  font-family: var(--bi-mono);
+  font-size: var(--bi-svg-label-size);
+}
+.sr-bar-label {
+  fill: var(--bi-text-dim);
+  font-family: var(--bi-mono);
+  font-size: var(--bi-axis-tick-size);
+}
+.sr-bracket path {
+  fill: none;
+  stroke: var(--bi-user);
+  stroke-width: 1.2;
+}
+.sr-bracket text {
+  fill: var(--bi-user);
+  font-family: var(--bi-mono);
+  font-size: var(--bi-svg-label-size);
+}
+.sr-latency {
+  background: #71717a;
+}
+.sr-latency-fast {
+  background: color-mix(in oklab, var(--bi-user) 70%, #71717a);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sr-pair,
+  .sr-ocr {
+    transition: none;
+  }
+}

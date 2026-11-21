@@ -4,7 +4,7 @@ import { MouseEvent, useEffect, useRef, useState } from "react";
 import { Link2 } from "lucide-react";
 import { scrollToSection } from "./article-toc";
 
-export function SectionHeading({ id, children }: { id: string; children: string }) {
+export function SectionHeading({ id, level = 2, children }: { id: string; level?: 2 | 3; children: string }) {
   const [copied, setCopied] = useState(false);
   const timer = useRef<number | undefined>(undefined);
 
@@ -24,8 +24,18 @@ export function SectionHeading({ id, children }: { id: string; children: string 
     }
   };
 
+  const Tag = level === 3 ? "h3" : "h2";
+
   return (
-    <h2 id={id} tabIndex={-1} className="group mt-16 mb-4 scroll-mt-20 text-xl font-semibold tracking-tight text-white outline-none">
+    <Tag
+      id={id}
+      tabIndex={-1}
+      className={
+        level === 3
+          ? "group mt-10 mb-3 scroll-mt-20 text-base font-semibold tracking-tight text-zinc-100 outline-none"
+          : "group mt-16 mb-4 scroll-mt-20 text-xl font-semibold tracking-tight text-white outline-none"
+      }
+    >
       {children}
       <a
         href={`#${id}`}
@@ -38,6 +48,6 @@ export function SectionHeading({ id, children }: { id: string; children: string 
       <span role="status" className="ml-2 align-middle font-mono text-xs font-normal text-zinc-500">
         {copied ? "Link copied" : ""}
       </span>
-    </h2>
+    </Tag>
   );
 }

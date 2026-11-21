@@ -7,7 +7,7 @@ import type { Sequence } from "./use-sequence";
 
 interface FigureFrameProps {
   id: string;
-  number: number;
+  number?: number;
   title: string;
   caption: ReactNode;
   badge?: string;
@@ -27,7 +27,7 @@ export const FigureFrame = forwardRef<HTMLElement, FigureFrameProps>(function Fi
       <div className="bi-figure-frame rounded-lg border border-zinc-800/50 bg-zinc-900/30">
         <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b border-zinc-800/50 px-4 py-2.5">
           <div className="flex items-center gap-2.5">
-            <span className="font-mono text-xs font-medium uppercase text-[#686868]">Fig. {number}</span>
+            {number !== undefined && <span className="font-mono text-xs font-medium uppercase text-[#686868]">Fig. {number}</span>}
             <span className="inline-flex items-center rounded-full border border-white/5 bg-white/5 px-2 py-0.5 text-[0.7rem] tracking-tight text-zinc-400">
               {badge}
             </span>
@@ -40,7 +40,8 @@ export const FigureFrame = forwardRef<HTMLElement, FigureFrameProps>(function Fi
         {announcement}
       </p>
       <figcaption id={`${id}-caption`} className="mx-auto mt-4 max-w-[38rem] px-4 text-center text-sm leading-normal text-zinc-500">
-        <span className="font-mono text-zinc-400">Figure {number}.</span> <span className="text-zinc-300">{title}.</span>{" "}
+        {number !== undefined && <><span className="font-mono text-zinc-400">Figure {number}.</span>{" "}</>}
+        <span className="text-zinc-300">{title}.</span>{" "}
         {caption}
       </figcaption>
     </figure>
@@ -115,5 +116,5 @@ export function SequenceControls({ sequence, steps, name, onStep, showSteps = tr
 }
 
 export function MonoLabel({ children, className }: { children: ReactNode; className?: string }) {
-  return <span className={cn("font-mono text-[0.7rem] font-medium uppercase tracking-tight text-[#686868]", className)}>{children}</span>;
+  return <span className={cn("bi-figure-label", className)}>{children}</span>;
 }

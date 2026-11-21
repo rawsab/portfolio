@@ -52,9 +52,55 @@ export function renderBlock(block: ArticleBlock, index: number, figures: FigureM
   switch (block.type) {
     case "heading":
       return (
-        <SectionHeading key={block.id} id={block.id}>
+        <SectionHeading key={block.id} id={block.id} level={block.level}>
           {block.text}
         </SectionHeading>
+      );
+    case "rule":
+      return <hr key={index} className="my-12 border-zinc-800/70" />;
+    case "table":
+      return (
+        <div key={index} className="mb-6 overflow-x-auto">
+          <table className="w-full border-collapse text-sm">
+            <thead>
+              <tr className="border-b border-zinc-800">
+                {block.header.map((cell, i) => (
+                  <th
+                    key={i}
+                    scope="col"
+                    style={{ textAlign: block.align[i] }}
+                    className="px-2 pb-2 align-bottom font-mono text-[0.7rem] font-medium tracking-tight text-zinc-500 uppercase first:pl-0 last:pr-0"
+                  >
+                    {renderInline(cell)}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-zinc-800/50">
+              {block.rows.map((row, r) => (
+                <tr key={r}>
+                  {row.map((cell, i) => {
+                    const Cell = i === 0 ? "th" : "td";
+                    return (
+                      <Cell
+                        key={i}
+                        scope={i === 0 ? "row" : undefined}
+                        style={{ textAlign: block.align[i] }}
+                        className={
+                          i === 0
+                            ? "py-2 pr-2 font-normal whitespace-nowrap text-zinc-300"
+                            : "px-2 py-2 font-mono text-[0.8rem] whitespace-nowrap text-[#8F8F8F] tabular-nums last:pr-0"
+                        }
+                      >
+                        {renderInline(cell)}
+                      </Cell>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       );
     case "paragraph":
       return (

@@ -15,7 +15,11 @@ export type ArticleBlock =
   | { type: "math"; tex: string }
   | { type: "code"; lang: string; code: string }
   | { type: "figure"; key: string; number: number; title: string; continuation: boolean }
-  | { type: "quote"; children: InlineNode[][] };
+  | { type: "quote"; children: InlineNode[][] }
+  | { type: "table"; align: TableAlign[]; header: InlineNode[][]; rows: InlineNode[][][] }
+  | { type: "rule" };
+
+export type TableAlign = "left" | "right" | "center";
 
 export interface ParsedArticle {
   title: string;
@@ -59,6 +63,21 @@ export function parseInline(source: string): InlineNode[] {
 }
 
 const FIGURE_PATTERN = /^\*\*\[Figure (\d+) (placeholder|continuation) — (.+)\]\*\*$/;
+const TABLE_DIVIDER = /^\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)*\|?$/;
+
+function tableCells(row: string) {
+  return row
+    .trim()
+    .replace(/^\|/, "")
+    .replace(/\|$/, "")
+    .split("|")
+    .map((cell) => cell.trim());
+}
+
+function tableAlign(cell: string): TableAlign {
+  if (cell.startsWith(":") && cell.endsWith(":")) return "center";
+  return cell.endsWith(":") ? "right" : "left";
+}
 
 /**
  * Parses the subset of Markdown used by long-form articles in `content/`.
@@ -109,6 +128,29 @@ export function parseArticleMarkdown(markdown: string): ParsedArticle {
         }
       }
       blocks.push({ type: "math", tex: tex.join("\n").trim() });
+      continue;
+    }
+
+    if (/^-{3,}$/.test(trimmed)) {
+      flushParagraph();
+      blocks.push({ type: "rule" });
+      continue;
+    }
+
+    if (trimmed.startsWith("|") && TABLE_DIVIDER.test(lines[i + 1]?.trim() ?? "")) {
+      flushParagraph();
+      const header = tableCells(trimmed);
+      const align = tableCells(lines[i + 1]).map(tableAlign);
+      const rows: InlineNode[][][] = [];
+      i += 2;
+      while (i < lines.length && lines[i].trim().startsWith("|")) {
+        const cells = tableCells(lines[i]);
+        wordCount += cells.join(" ").split(/\s+/).filter(Boolean).length;
+        rows.push(cells.map(parseInline));
+        i++;
+      }
+      i--;
+      blocks.push({ type: "table", align, header: header.map(parseInline), rows });
       continue;
     }
 

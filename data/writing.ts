@@ -12,4 +12,12 @@ export const writingPosts: WritingPost[] = [
     title: "Building Reliable RF Anomaly Detection",
     href: "/blog/palitronica-rf-anomaly-detection",
   },
+  {
+    title: "Rethinking Retrieval for Structured Analytics",
+    href: "/blog/structured-analytics-retrieval",
+  },
+  {
+    title: "Training an NLP Model to Detect Phishing URLs",
+    href: "/blog/character-level-phishing-detection",
+  },
 ];

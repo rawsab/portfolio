@@ -6,21 +6,21 @@
 
 /* Axes */
 .pal-axis line {
-  stroke: #3f3f46;
+  stroke: var(--bi-line-strong);
   stroke-width: 1;
 }
 .pal-axis line.pal-grid {
-  stroke: #27272a;
+  stroke: var(--bi-line);
   stroke-dasharray: 2 4;
 }
 .pal-axis text {
   fill: var(--bi-text-dim);
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 10px;
+  font-family: var(--bi-mono);
+  font-size: var(--bi-axis-tick-size);
 }
 .pal-axis text.pal-axis-label {
-  fill: #a1a1aa;
-  font-size: 10.5px;
+  fill: var(--bi-text-secondary);
+  font-size: var(--bi-svg-label-size);
 }
 .pal-lane {
   stroke: #3f3f46;
