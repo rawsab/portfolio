@@ -83,7 +83,7 @@ export default function PhishingDetectionArticle() {
           <FadeInSection delay={0.1} className="pd-entrance">
             <h1 className="text-center text-2xl font-semibold tracking-tight text-balance text-white">{article.title}</h1>
             <p className="mt-2 mb-8 text-center font-mono text-[0.95rem] tracking-tighter text-zinc-500">
-              <time dateTime="2024-01-14">JAN 14, 2024</time> · {minutes} MIN READ
+              <time dateTime="2024-01">JANUARY 2024</time> · {minutes} MIN READ
             </p>
           </FadeInSection>
 
