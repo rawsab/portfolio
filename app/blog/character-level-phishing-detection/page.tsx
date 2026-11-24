@@ -86,6 +86,21 @@ export default function PhishingDetectionArticle() {
               <time dateTime="2024-01-14">JAN 14, 2024</time> · {minutes} MIN READ
             </p>
           </FadeInSection>
+
+          <FadeInSection delay={0.12} className="pd-entrance">
+            <div className="mb-8 overflow-hidden rounded-md border border-zinc-800/50 bg-zinc-900/30">
+              <video
+                className="aspect-video w-full"
+                src="/video/nlp_phishing_detector.mp4"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                aria-label="PhishTank NLP Phishing Detector title animation"
+              />
+            </div>
+          </FadeInSection>
         </header>
 
         <ArticleToc items={toc} />

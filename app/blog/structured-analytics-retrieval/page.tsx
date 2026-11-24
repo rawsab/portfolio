@@ -92,6 +92,21 @@ export default function StructuredAnalyticsRetrievalArticle() {
             </p>
           </FadeInSection>
 
+          <FadeInSection delay={0.12}>
+            <div className="mb-8 overflow-hidden rounded-md border border-zinc-800/50 bg-zinc-900/30">
+              <video
+                className="aspect-video w-full"
+                src="/video/node_app.mp4"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                aria-label="Node logo animation"
+              />
+            </div>
+          </FadeInSection>
+
           <FadeInSection delay={0.15}>
             <dl className="grid gap-6 sm:grid-cols-[minmax(0,11rem)_minmax(0,1fr)] sm:gap-10">
               {node && (
